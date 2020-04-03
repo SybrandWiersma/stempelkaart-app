@@ -97,7 +97,7 @@ input[type="password"], input[type="text"], input[type="email"]{
     color: #ffffff;
     transition: background-color 0.2s;
 }
-.registratie input[type="submit"], input[type="button"], button {
+input[type="submit"], input[type="button"], button {
     width: 75%;
     padding: 15px;
     margin-top: 20px;
