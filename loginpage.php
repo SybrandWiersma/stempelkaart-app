@@ -17,7 +17,7 @@ include("config.php");
         <a href=""><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 </nav>
-<div class="login">
+<div class="wrapper">
     <h1>Login</h1>
     <form action="" method="post">
         <label for="gebruikersnaam">
@@ -29,6 +29,11 @@ include("config.php");
         </label>
         <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord" required> <br>
         <input type="submit" name="send" value="Inloggen">
+
+        <!--<div class="nieuwhier">-->
+        <!--    <h1>Nieuw Hier?</h1>-->
+        <!--    <input type="button" id="btn_under" value="Registreren"/>-->
+        <!--</div>-->
 
 <?php
 if(isset($_POST['send'])){
