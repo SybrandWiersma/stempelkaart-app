@@ -1,9 +1,20 @@
-.navtop {
-    background-color: #2f3947;
-    height: 60px;
-    width: 100%;
-    border: 0;
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans"
+    , "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+body {
+    background-color: #435165;
+}
+.navtop {
+     background-color: #2f3947;
+     height: 60px;
+     width: 100%;
+     border: 0;
+ }
 .navtop div {
     display: flex;
     margin: 0 auto;
@@ -34,22 +45,11 @@
 .navtop div a:hover {
     color: #eaebed;
 }
-
-* {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-body {
-    background-color: #435165;
-}
 .wrapper {
     width: 400px;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
-    margin: 80px auto;
+    margin: 70px auto;
 }
 .nieuwhier {
     width: 250px;
@@ -57,18 +57,18 @@ body {
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
     margin: 40px auto;
 }
-h1 {
+.wrapper h1 {
     text-align: center;
     color: #5b6574;
     font-size: 24px;
-    padding: 5px 0 20px 0;
+    padding: 20px 0 20px 0;
     border-bottom: 1px solid #dee0e4;
 }
 form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 form label {
     display: flex;
@@ -86,19 +86,8 @@ input[type="password"], input[type="text"], input[type="email"]{
     margin-bottom: 20px;
     padding: 0 5px;
 }
-.login input[type="submit"], input[type="button"], button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 20px;
-    background-color: #3274d6;
-    border: 0;
-    cursor: pointer;
-    font-weight: bold;
-    color: #ffffff;
-    transition: background-color 0.2s;
-}
 input[type="submit"], input[type="button"], button {
-    width: 75%;
+    width: 77%;
     padding: 15px;
     margin-top: 20px;
     background-color: #3274d6;
@@ -108,18 +97,7 @@ input[type="submit"], input[type="button"], button {
     color: #ffffff;
     transition: background-color 0.2s;
 }
-input[type="submit"]:hover, input[type="button"]:hover, button:hover, #btn_under:hover {
+input[type="submit"]:hover, input[type="button"]:hover, button:hover{
     background-color: #2868c7;
-    transition: background-color 0.2s;
-}
-
-#btn_under{
-    width: 40%;
-    height: 50px;
-    background-color: #3274d6;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #ffffff;
     transition: background-color 0.2s;
 }
