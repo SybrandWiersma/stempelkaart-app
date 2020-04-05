@@ -11,11 +11,28 @@ include("config.php");
 </head>
 <body>
 <nav class="navtop">
+<?php
+if(!isset($_SESSION['gebruikersnaam'])){
+
+?>
+
     <div>
-        <h1>StempelkaartApp</h1>
+       <h1><a href="index.php">StempelkaartApp</a></h1>
+        <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+        <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
+        <a href="loginpage.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+    </div>
+<?php
+} else {
+?>
+    <div>
+       <h1><a href="">StempelkaartApp</a></h1>
         <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
         <a href=""><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
+<?php
+ }
+ ?>
 </nav>
 <div class="wrapper">
     <h1>Login</h1>
@@ -29,11 +46,17 @@ include("config.php");
         </label>
         <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord" required> <br>
         <input type="submit" name="send" value="Inloggen">
+        <button onclick="Terug()" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
 
         <!--<div class="nieuwhier">-->
         <!--    <h1>Nieuw Hier?</h1>-->
         <!--    <input type="button" id="btn_under" value="Registreren"/>-->
         <!--</div>-->
+        <script>
+            function Terug() {
+                window.history.back();
+            }
+        </script>
 
 <?php
 if(isset($_POST['send'])){

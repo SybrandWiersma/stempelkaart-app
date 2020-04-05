@@ -136,11 +136,31 @@ include("config.php")
 </head>
 <body>
 <nav class="navtop">
+<?php
+
+//check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
+if(!isset($_SESSION['gebruikersnaam'])){
+
+?>
+
     <div>
-        <h1>StempelkaartApp</h1>
+       <h1><a href="index.php">StempelkaartApp</a></h1>
+        <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+        <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
+        <a href="loginpage.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+    </div>
+<?php
+//wanneer gebruiker wel ingelogd is weergeef je de links naar profiel en uitlog knop
+} else {
+?>
+    <div>
+       <h1><a href="">StempelkaartApp</a></h1>
         <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
         <a href=""><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
+<?php
+ }
+ ?>
 </nav>
 <div class="wrapper">
     <h1>Registreren</h1>
@@ -183,6 +203,7 @@ include("config.php")
                 window.history.back();
             }
         </script>
+         	&nbsp;
         <!--        Doet nog niks omdat er nog geen navigatie is-->
     </form>
 </div>

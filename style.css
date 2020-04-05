@@ -33,6 +33,16 @@ body {
     color: #eaebed;
     font-weight: normal;
 }
+.navtop div h1 a {
+    display: inline-flex;
+    align-items: center;
+    flex: 1;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    color: #eaebed;
+    font-weight: normal;
+}
 .navtop div a {
     padding: 0 20px;
     text-decoration: none;
@@ -69,6 +79,7 @@ form {
     flex-wrap: wrap;
     justify-content: center;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 form label {
     display: flex;
