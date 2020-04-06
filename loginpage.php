@@ -1,5 +1,10 @@
 <?php
 include("config.php");
+
+if(isset($_SESSION['gebruikersnaam'])){
+    session_destroy();
+    header('Location: index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,10 +53,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
         <input type="submit" name="send" value="Inloggen">
         <button onclick="Terug()" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
 
-        <!--<div class="nieuwhier">-->
-        <!--    <h1>Nieuw Hier?</h1>-->
-        <!--    <input type="button" id="btn_under" value="Registreren"/>-->
-        <!--</div>-->
+
         <script>
             function Terug() {
                 window.history.back();
@@ -82,7 +84,7 @@ if(isset($_POST['send'])){
 
         if($count_ondernemer > 0){
             $_SESSION['gebruikersnaam'] = $gebruikersnaam;
-            header('Location: home.php');
+            header('Location: landing_ondernemer.php');
         }else{
             if($count_klant > 0){
                         $_SESSION['gebruikersnaam'] = $gebruikersnaam;

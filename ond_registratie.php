@@ -1,5 +1,7 @@
 <?php
 include("config.php")
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +27,8 @@ include("config.php")
 
    $stemp = "images/default.jpg";
 
-   //wachtwoord encoding
-   $hash = password_hash($_POST['wachtwoord'], PASSWORD_DEFAULT, ['cost' => 5]);
+   //wachtwoord encoding werkt nog niet helemaal
+   //$hash = password_hash($_POST['wachtwoord'], PASSWORD_DEFAULT, ['cost' => 12]);
 
    $klopt = true;
 
@@ -125,7 +127,7 @@ include("config.php")
    if($klopt){
      $insertSQL = "INSERT INTO `ondernemers`(`bedrijfsnaam_ond`, `gebr_naam`, `wachtwoord`, `email`, `tel_nr`,`stemp_afb`,`kvk`) VALUES (?,?,?,?,?,?,?)";
      $stmt = $con->prepare($insertSQL);
-     $stmt->bind_param("sssssss",$bedrijfsnaam,$gebr_naam,$hash,$email,$telefoonnummer,$stemp,$kvk);
+     $stmt->bind_param("sssssss",$bedrijfsnaam,$gebr_naam,$wachtwoord,$email,$telefoonnummer,$stemp,$kvk);
      $stmt->execute();
      $stmt->close();
 
