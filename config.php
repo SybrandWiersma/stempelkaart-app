@@ -1,4 +1,3 @@
-﻿
 <?php
 session_start();
 $host = "localhost"; 
@@ -11,5 +10,5 @@ $con = mysqli_connect($host, $user, $password,$dbname);
 if (!$con) {
  die("Verbinding mislukt: " . mysqli_connect_error());
  }
-
 ?>
+
