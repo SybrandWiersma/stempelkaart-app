@@ -51,7 +51,6 @@ $session_value= $_SESSION['gebruikersnaam'];
 <div class="wrapper">
     <h1>QR Scanner</h1>
     <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
-    <script type="text/javascript" src="app.js"></script>
     <div class="preview-container">
     <h1>Scans</h1>
     <ul id="scans">
@@ -65,9 +64,30 @@ $session_value= $_SESSION['gebruikersnaam'];
 
 </div>
 <script>
-    var myvar='<?php echo $session_value?>';
+    let sessionId = '<?php echo $session_value?>';
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    scanner.addListener('scan', function (content, image) {
+        console.log(content);
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let node = document.createElement("LI");
+                let v1 = document.createTextNode(this.responseText);
+                node.appendChild(v1);
+                document.getElementById("scans").appendChild(node);
+            }
+        };
+        xmlhttp.open("POST", "checkscan.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("klant_id="+content+"&ondernemer_gebr_naam="+sessionId);
 
-    alert(myvar);
+    });
+
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        }
+    });
 </script>
 </body>
 </html>

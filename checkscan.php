@@ -1,10 +1,15 @@
 <?php
 include("config.php");
 
-$gebruiker_id = $_REQUEST["scan"];
-$ondernemer_id = $_REQUEST[""];
+$gebruiker_id = $_REQUEST["klant_id"];
+$ondernemer_gebr_naam = $_REQUEST["ondernemer_gebr_naam"];
 
-$query_aantstemps = "SELECT aant_stemps FROM stempelkaart_klant WHERE klant_id = '".$gebruiker_id."' AND stempelkaart_id IN (SELECT stempelkaart_id FROM stempelkaarten WHERE ondernemer_id = '".$ondernemer_id."')";
+$query_ondernemingID = "SELECT ondernemer_id FROM ondernemers WHERE gebr_naam = '".$ondernemer_gebr_naam."';";
+$result_ondernemingID = mysqli_query($con, $query_ondernemingID);
+$row_ondernemingID = mysqli_fetch_array($result_ondernemingID);
+
+
+$query_aantstemps = "SELECT aant_stemps FROM stempelkaart_klant WHERE klant_id = '".$gebruiker_id."' AND stempelkaart_id IN (SELECT stempelkaart_id FROM stempelkaarten WHERE ondernemer_id = '".$row_ondernemingID['ondernemer_id']."')";
 $result_aantstemps = mysqli_query($con,$query_aantstemps);
 $row_aantstemps = mysqli_fetch_array($result_aantstemps);
 
