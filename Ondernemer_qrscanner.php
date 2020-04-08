@@ -12,6 +12,7 @@ if(isset($_GET['x'])){
         header('Location: index.php');
     }
 }
+$session_value= $_SESSION['gebruikersnaam'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,15 +52,22 @@ if(isset($_GET['x'])){
     <h1>QR Scanner</h1>
     <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
     <script type="text/javascript" src="app.js"></script>
+    <div class="preview-container">
+    <h1>Scans</h1>
     <ul id="scans">
-        <li>test</li>
-    </ul>
 
+    </ul>
+    </div>
 
 
 
 
 
 </div>
+<script>
+    var myvar='<?php echo $session_value?>';
+
+    alert(myvar);
+</script>
 </body>
 </html>
