@@ -38,7 +38,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
 } else {
 ?>
     <div>
-        <h1><a href="">StempelkaartApp</a></h1> 
+        <h1><a href="landing_ondernemer.php">StempelkaartApp</a></h1> 
         <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
         <a href="landing_ondernemer.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
@@ -49,11 +49,12 @@ if(!isset($_SESSION['gebruikersnaam'])){
 <div class="wrapper">
     <h1>Ondernemerspagina</h1>
     <form action="">
-       <input type="submit" name="send" value="Taak 1 ">
-       <input type="submit" name="send" value="Taak 2">
-       <input type="submit" name="send" value="Taak 3">
-       <input type="submit" name="send" value="Taak 4">
-       <input type="submit" name="send" value="Taak 5">
+       <input type="button" onclick="location.href='Ondernemer_qrscanner.php';" value="QR Scanner">
+       <input type="button" onclick="location.href='huisstijl.php';" value="Huisstijl aanpassen">
+       <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten weergeven">
+       <input type="button" onclick="location.href='ondernemer_gegevens.php';" value="Gegevens bekijken/wijzigen">
+       <input type="button" onclick="location.href='landing_ondernemer.php?x=uitloggen';" value="Uitloggen">
+    </div>
        </form>
 
         
