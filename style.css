@@ -18,7 +18,9 @@ body {
 .navtop div {
     display: flex;
     margin: 0 auto;
+
     width: 81%;
+
     height: 100%;
 }
 .navtop div h1, .navtop div a {
@@ -56,6 +58,7 @@ body {
     color: #eaebed;
 }
 .wrapper {
+
     width: 32%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -133,10 +136,12 @@ body {
     display: inline;
     float: right;
 }
+
 form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
     padding-top: 8%;
     padding-bottom: 8%;
 }
@@ -151,6 +156,7 @@ input[type="submit"], input[type="button"], button {
     width: 77%;
     padding: 3.5%;
     margin-top: 4%;
+
     background-color: #3274d6;
     border: 0;
     cursor: pointer;
@@ -162,3 +168,4 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover{
     background-color: #2868c7;
     transition: background-color 0.2s;
 }
+
