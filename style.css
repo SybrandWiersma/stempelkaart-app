@@ -18,7 +18,9 @@ body {
 .navtop div {
     display: flex;
     margin: 0 auto;
-    width: 1000px;
+
+    width: 81%;
+
     height: 100%;
 }
 .navtop div h1, .navtop div a {
@@ -56,51 +58,146 @@ body {
     color: #eaebed;
 }
 .wrapper {
-    width: 400px;
+
+    width: 32%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
-    margin: 70px auto;
-}
-.nieuwhier {
-    width: 250px;
-    background-color: #ffffff;
-    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
-    margin: 40px auto;
+    margin: 10% auto;
 }
 .wrapper h1 {
     text-align: center;
     color: #5b6574;
     font-size: 24px;
-    padding: 20px 0 20px 0;
+    padding: 8% 0 8% 0;
     border-bottom: 1px solid #dee0e4;
 }
+.wrapper h2 {
+    text-align: center;
+    color: #4d5563;
+    font-size: 20px;
+    padding: 1% 0 3% 0;
+}
+.wrapper h4 {
+    text-align: center;
+    color: #000000;
+    font-size: 15px;
+    padding: 1% 5% 1% 5%;
+}
+.wrapperStempelkaartInfo {
+    width: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 10% auto;
+    text-align: center;
+}
+.wrapperStempelkaartInfo h1{
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 5% 0 5% 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.wrapperStempelkaartOverzicht {
+    width: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 10% auto;
+    text-align: center;
+}
+.wrapperStempelkaartOverzicht h1{
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 5% 0 5% 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.wrapper_newStempelkaart {
+    width: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 10% auto;
+    text-align: center;
+}
+.wrapper_newStempelkaart h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 8% 0 8% 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.wrapper_newStempelkaart h2 {
+    text-align: center;
+    color: #4d5563;
+    font-size: 20px;
+    padding: 1% 0 3% 0;
+}
+.StempelkaartOverzicht_div{
+    overflow-y: scroll;
+    height: 60vh;
+}
+.StempelsInfo{
+    border: 2px solid #2f3034;
+    border-radius: 5px;
+    margin: 4% 10% 10%;
+    padding: 4%;
+}
+.Stempelkaart{
+    border: 2px solid #2f3034;
+    border-radius: 5px;
+    margin: 4% 15% 10%;
+    padding: 5%;
+    overflow: auto;
+}
+.wrapperQRinfo {
+    width: 32%;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 10% auto;
+}
+.wrapperQRinfo h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 8% 0 8% 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.wrapperQRinfo p {
+   margin-bottom: 10%;
+}
+.wrapperQRinfo input[type="number"]{
+    width: 10%;
+    margin-bottom: 5%;
+}
+#ond_naam{
+    display: inline;
+    float: left;
+}
+#aant_stemp{
+    display: inline;
+    float: right;
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-form label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    background-color: #3274d6;
-    color: #ffffff;
+
+    padding-top: 8%;
+    padding-bottom: 8%;
 }
 input[type="password"], input[type="text"], input[type="email"]{
-    width: 310px;
+    width: 77%;
     height: 50px;
     border: 1px solid #dee0e4;
-    margin-bottom: 20px;
-    padding: 0 5px;
+    margin-bottom: 4%;
+    padding: 0 1%;
 }
 input[type="submit"], input[type="button"], button {
     width: 77%;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 3.5%;
+    margin-top: 4%;
+
     background-color: #3274d6;
     border: 0;
     cursor: pointer;
@@ -112,3 +209,4 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover{
     background-color: #2868c7;
     transition: background-color 0.2s;
 }
+
