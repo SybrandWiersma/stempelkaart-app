@@ -8,8 +8,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
 if(isset($_GET['x'])){
     if($_GET['x'] == "uitloggen"){
-    session_destroy();
-    header('Location: index.php');
+        session_destroy();
+        header('Location: index.php');
     }
 }
 ?>
@@ -20,12 +20,15 @@ if(isset($_GET['x'])){
     <title>Ondernemerspagina</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
 <body>
 <nav class="navtop">
     <?php
     if(!isset($_SESSION['gebruikersnaam'])){
+
         ?>
+
         <div>
             <h1><a href="index.php">StempelkaartApp</a></h1>
             <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
@@ -44,42 +47,19 @@ if(isset($_GET['x'])){
     }
     ?>
 </nav>
-<div class="wrapperStempelkaartOverzicht">
-    <h1>Uw Stempelkaarten</h1>
-    <div class="StempelkaartOverzicht_div">
-        <ul style="list-style-type:none;">
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Snackbar Vette Hap</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 3/8</h2>
-                </div>
-            </li>
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Kapper Knipschaar</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 4/12</h2>
-                </div>
-            </li>
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Schoonheidssalon Marije</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 1/6</h2>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div style="border-bottom: 1px solid #dee0e4"></div>
-    <button onclick="window.location.href='#'">Voeg een stempelkaart toe</button>
-    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button> <br>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+<div class="wrapper">
+    <h1>QR Scanner</h1>
+    <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
+    <script type="text/javascript" src="app.js"></script>
+    <ul id="scans">
+        <li>test</li>
+    </ul>
+
+
+
+
+
+
 </div>
+</body>
+</html>
