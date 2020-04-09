@@ -17,7 +17,7 @@ if(isset($_GET['x'])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ondernemerspagina</title>
+    <title>Stempelkaart informatie</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
