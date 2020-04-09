@@ -6,7 +6,7 @@ include("config.php")
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Stempelkaart Info</title>
+    <title>QR-code Informatie</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
@@ -35,38 +35,18 @@ include("config.php")
     }
     ?>
 </nav>
-<div class="wrapperStempelkaartOverzicht">
-    <h1>Uw Stempelkaarten</h1>
-    <div class="StempelkaartOverzicht_div">
-        <ul style="list-style-type:none;">
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Snackbar Vette Hap</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 3/8</h2>
-                </div>
-            </li>
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Kapper Knipschaar</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 4/12</h2>
-                </div>
-            </li>
-            <li class="Stempelkaart">
-                <div id="ond_naam">
-                    <h2>Schoonheidssalon Marije</h2>
-                </div>
-                <div id="aant_stemp">
-                    <h2> 1/6</h2>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div class="wrapperQRinfo">
+        <h1>QR-Code Informatie</h1>
+        <h4>Naam</h4> <p>Jelmer de Jong</p>
+        <h4>Aantal stempels</h4> <p>4 / 12</p>
+        <h4>Stempels Toevoegen</h4> <input type="number" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
+        <div style="border-bottom: 1px solid #dee0e4"></div>
+
+    <button>Stempel(s) Zetten</button>
+    <button>Kaart Verzilveren</button>
+    <button onclick="window.location.href'#'">Kaart Wijzigen</button>
+    <button style="background-color: red; margin-bottom: 5%">Kaart Verwijderen</button>
     <div style="border-bottom: 1px solid #dee0e4"></div>
-    <button onclick="window.location.href='#'">Voeg een stempelkaart toe</button>
     <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button> <br>
     <script>
         function goBack() {
@@ -74,3 +54,6 @@ include("config.php")
         }
     </script>
 </div>
+
+</body>
+</html>
