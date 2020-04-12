@@ -51,6 +51,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
     <form action="">
        <input type="button" onclick="location.href='Ondernemer_qrscanner.php';" value="QR Scanner">
        <input type="button" onclick="location.href='huisstijl.php';" value="Huisstijl aanpassen">
+       <input type="button" onclick="location.href='kaart_aanmaken.php';" value="Kaart aanmaken">
        <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten weergeven">
        <input type="button" onclick="location.href='ondernemer_gegevens.php';" value="Gegevens bekijken/wijzigen">
        <input type="button" onclick="location.href='landing_ondernemer.php?x=uitloggen';" value="Uitloggen">

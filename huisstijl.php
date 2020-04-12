@@ -12,10 +12,17 @@ if(isset($_GET['x'])){
     header('Location: index.php');
     }
 }
+//query om logo uit de database op te halen
+$sql_logo = "SELECT  `logo` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+$sql_query_logo = mysqli_query($con,$sql_logo);
+$result_logo = mysqli_fetch_object($sql_query_logo);
+
+//query om kleur 1 uit de database op te halen
 $sql_achtergrond = "SELECT  `kleur1` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
 $sql_query_achtergrond = mysqli_query($con,$sql_achtergrond);
 $result_achtergrond = mysqli_fetch_object($sql_query_achtergrond);
 
+//query om kleur 2 uit de database op te halen
 $sql_letter = "SELECT  `kleur2` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
 $sql_query_letter = mysqli_query($con,$sql_letter);
 $result_letter = mysqli_fetch_object($sql_query_letter);
@@ -60,8 +67,10 @@ if(!isset($_SESSION['gebruikersnaam'])){
 <div class="wrapper">
     <h1>Huisstijl aanpassen</h1>
     <center>
+
+      <p>Verander logo: </p>
+    <img src="<?php print $result_logo->logo; ?>"  width="250" heigth="250"><br>
     <form action="huisstijl.php" method="post" enctype="multipart/form-data">
-    Verander logo:<br>
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" name="submit"   value="Wijzig logo">
     </form>
@@ -101,7 +110,9 @@ if ($uploadOk == 0) {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         $update_query = "UPDATE `ondernemers` SET `logo`='".$target_file."' WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
         $sql_update = mysqli_query($con,$update_query);
-        echo "U heeft uw afbeelding ". basename( $_FILES["fileToUpload"]["name"]). " toegevoegd.";
+        header("Refresh:0");
+
+
     } else {
         echo "";
     }
