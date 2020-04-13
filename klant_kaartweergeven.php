@@ -2,7 +2,7 @@
 include("config.php");
 
 // Check of gebruiker ingelogd is of niet
-if(!isset($_SESSION['gebruikersnaam'])){
+if(!isset($_SESSION['klant'])){
     header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
@@ -20,7 +20,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 } else {
 
     //query om klant gegevens uit de database op te halen
-    $sql_id = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$_SESSION['gebruikersnaam']."'";
+    $sql_id = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$_SESSION['klant']."'";
     $sql_query_id = mysqli_query($con,$sql_id);
     $result_id = mysqli_fetch_object($sql_query_id);
 
@@ -58,7 +58,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 <body>
 <nav class="navtop">
 <?php
-if(!isset($_SESSION['gebruikersnaam'])){
+if(!isset($_SESSION['klant'])){
 
 ?>
 

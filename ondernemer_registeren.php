@@ -81,7 +81,7 @@ include("config.php")
 
        if($klopt){
 
-     // Check of telefoonnummer al voorkomt in de database
+     // Check of kvk al voorkomt in de database
      $stmt = $con->prepare("SELECT * FROM ondernemers WHERE kvk = ?");
      $stmt->bind_param("s", $kvk);
      $stmt->execute();
@@ -110,8 +110,23 @@ include("config.php")
 
     if($klopt){
 
-     // Check of gebruikersnaam al voorkomt in de database
+     // Check of gebruikersnaam al voorkomt in de database (ondernemers)
      $stmt = $con->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ?");
+     $stmt->bind_param("s", $gebr_naam);
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $stmt->close();
+     if($result->num_rows > 0){
+       $klopt = false;
+       $error_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+     }
+
+   }
+
+       if($klopt){
+
+     // Check of gebruikersnaam al voorkomt in de database (klanten)
+     $stmt = $con->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
      $stmt->bind_param("s", $gebr_naam);
      $stmt->execute();
      $result = $stmt->get_result();
@@ -147,7 +162,7 @@ include("config.php")
         <div>
             <h1><a href="index.php">StempelkaartApp</a></h1>
             <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-            <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
+            
             <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
         </div>
         <?php
@@ -195,7 +210,7 @@ include("config.php")
         <input type="text" name="bedrijfsnaam" id="bedrijfsnaam" placeholder="Bedrijfsnaam" required> <br>
         <input type="text" name="kvknummer" id="kvknummer" placeholder="KvK-Nummer" required> <br>
         <input type="email" name="email" id="email" placeholder=" E-mail" required> <br>
-        <input type="text" name="telefoonnummer" id="telefoonnummer" placeholder="Telefoonnummer" required> <br>
+        <input type="text" name="telefoonnummer" id="telefoonnummer" maxlength="10" placeholder="Telefoonnummer" required> <br>
         <input type="submit" name="registreer_o"value="Registreren">
         <button onclick="Terug()" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
         <!--        Doet nog niks omdat er nog geen navigatie is-->

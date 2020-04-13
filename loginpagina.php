@@ -76,7 +76,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
             <i class="fas fa-user"></i>
         </label>
         <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam" required> <br>
-        <label for="Wachtwoord">
+        <label for="wachtwoord">
             <i class="fas fa-lock"></i>
         </label>
         <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord" required> <br>
@@ -124,7 +124,7 @@ if(isset($_POST['send'])){
 
                 header('Location:  first_klant.php?x='.$result_klant->klant_id);
 				} else {
-                        $_SESSION['gebruikersnaam'] = $gebruikersnaam;
+                        $_SESSION['klant'] = $gebruikersnaam;
                         header('Location: klant_stempelkaartoverzicht.php');
                         }
             } else {

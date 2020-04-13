@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 12 apr 2020 om 21:05
+-- Gegenereerd op: 13 apr 2020 om 23:03
 -- Serverversie: 5.7.17
 -- PHP-versie: 7.1.3
 
@@ -32,6 +32,7 @@ CREATE TABLE `klanten` (
   `klant_id` int(16) NOT NULL,
   `naam_klant` varchar(16) NOT NULL,
   `wachtwoord` varchar(64) NOT NULL,
+  `gebr_naam` varchar(64) NOT NULL DEFAULT '',
   `email` varchar(64) NOT NULL,
   `tel_nr` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
