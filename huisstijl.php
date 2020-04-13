@@ -17,6 +17,11 @@ $sql_logo = "SELECT  `logo` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['g
 $sql_query_logo = mysqli_query($con,$sql_logo);
 $result_logo = mysqli_fetch_object($sql_query_logo);
 
+//query om stempel uit de database op te halen
+$sql_stemp = "SELECT  `stemp_afb` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+$sql_query_stemp = mysqli_query($con,$sql_stemp);
+$result_stemp = mysqli_fetch_object($sql_query_stemp);
+
 //query om kleur 1 uit de database op te halen
 $sql_achtergrond = "SELECT  `kleur1` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
 $sql_query_achtergrond = mysqli_query($con,$sql_achtergrond);
@@ -57,7 +62,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
 ?>
     <div>
         <h1><a href="landing_ondernemer.php">StempelkaartApp</a></h1> 
-        <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="ondernemer_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
         <a href="landing_ondernemer.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
@@ -109,6 +114,63 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         $update_query = "UPDATE `ondernemers` SET `logo`='".$target_file."' WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+        $sql_update = mysqli_query($con,$update_query);
+        header("Refresh:0");
+
+
+    } else {
+        echo "";
+    }
+}
+
+
+}
+
+    ?>
+
+    <br>
+    <br>
+          <p>Verander stempel: </p>
+    <img src="<?php print $result_stemp->stemp_afb; ?>"  width="50px" heigth="50px"><br>
+    <form action="huisstijl.php" method="post" enctype="multipart/form-data">
+    <input type="file" name="fileToUpload2" id="fileToUpload2">
+    <input type="submit" name="submit2"   value="Wijzig stempel">
+    </form>
+
+    <?php
+    // Check of upload een afbeelding is of niet
+if(isset($_POST["submit2"])) {
+$target_dir = "images/uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload2"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $check = getimagesize($_FILES["fileToUpload2"]["tmp_name"]);
+    if($check !== false) {
+        $uploadOk = 1;
+    } else {
+        echo "U heeft iets anders dan een afbeelding geselecteerd.";
+        $uploadOk = 0;
+    }
+    // Check of bestand al in de database voorkomt
+if (file_exists($target_file)) {
+    echo "Sorry, dit bestand bestaat al in onze database, geef het bestand een andere naam.";
+    $uploadOk = 0;
+}
+
+// Sta alleen enkele typen afbeeldingen toe
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, alleen JPG, JPEG, PNG & GIF bestanden zijn toegestaan.";
+    $uploadOk = 0;
+}
+
+// Check of er iets fout is gegaan
+if ($uploadOk == 0) {
+    echo "";
+// Als er geen fout is teruggegeven, wordt bestand geupload
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload2"]["tmp_name"], $target_file)) {
+        $update_query = "UPDATE `ondernemers` SET `stemp_afb`='".$target_file."' WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
         $sql_update = mysqli_query($con,$update_query);
         header("Refresh:0");
 

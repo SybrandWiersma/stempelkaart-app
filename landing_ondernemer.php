@@ -39,7 +39,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
 ?>
     <div>
         <h1><a href="landing_ondernemer.php">StempelkaartApp</a></h1> 
-        <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="ondernemer_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
         <a href="landing_ondernemer.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
