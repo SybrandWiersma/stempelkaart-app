@@ -30,17 +30,17 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
     <div>
        <h1><a href="index.php">StempelkaartApp</a></h1>
-        <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+        <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
         <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
-        <a href="loginpage.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+        <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
     </div>
 <?php
 } else {
 ?>
     <div>
-        <h1><a href="landing_ondernemer.php">StempelkaartApp</a></h1> 
-        <a href="ondernemer_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
-        <a href="landing_ondernemer.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+        <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
+        <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
  }
@@ -104,7 +104,7 @@ $i = 1;
 		</td>
 		<td width='30%'>
 
-			<a href='kaart_aanpassen.php?p=<?php echo $result_kaart->stempelkaart_id; ?>&o=<?php echo $result_id->ondernemer_id ?>'><?php echo $result_kaart->beloning_label; ?></a>
+			<a href='ondernemer_kaartaanpassen.php?p=<?php echo $result_kaart->stempelkaart_id; ?>&o=<?php echo $result_id->ondernemer_id ?>'><?php echo $result_kaart->beloning_label; ?></a>
 		</td>
 		<td width='30%'>
 			<?php echo $result_kaart->beloning_beschrijving; ?>
@@ -121,8 +121,8 @@ $i = 1;
 
     </table>
            <center>
-            <input type="button" onclick="location.href='kaart_aanmaken.php';" value="Kaart aanmaken">
-    <button onclick="location.href='landing_ondernemer.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
+            <input type="button" onclick="location.href='ondernemer_kaartaanmaken.php';" value="Kaart aanmaken">
+    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
        </center>
 
          <h1></h1>
