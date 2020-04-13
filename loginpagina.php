@@ -23,8 +23,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
     <div>
        <h1><a href="index.php">StempelkaartApp</a></h1>
-        <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-        <a href="loginpage.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+        <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+        <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
     </div>
 <?php
 } else {
@@ -83,7 +83,7 @@ if(isset($_POST['send'])){
 
         if($count_ondernemer > 0){
             $_SESSION['gebruikersnaam'] = $gebruikersnaam;
-            header('Location: landing_ondernemer.php');
+            header('Location: ondernemer_landing.php');
         }else{
             if($count_klant > 0){
                         $_SESSION['gebruikersnaam'] = $gebruikersnaam;

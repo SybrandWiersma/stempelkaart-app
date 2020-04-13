@@ -65,17 +65,17 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
     <div>
        <h1><a href="index.php">StempelkaartApp</a></h1>
-        <a href="ond_registratie.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+        <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
         <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
-        <a href="loginpage.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+        <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
     </div>
 <?php
 } else {
 ?>
     <div>
-        <h1><a href="landing_ondernemer.php">StempelkaartApp</a></h1> 
-        <a href="ondernemer_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
-        <a href="landing_ondernemer.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+        <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
+        <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
  }
@@ -119,7 +119,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
        </form>
        <center>
        <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten weergeven">
-    <button onclick="location.href='landing_ondernemer.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
+    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
        </center>
 
          <h1></h1>
