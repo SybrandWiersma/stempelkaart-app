@@ -223,7 +223,7 @@ input[type="submit"], input[type="button"], button {
     color: #ffffff;
     transition: background-color 0.2s;
 }
-input[type="submit"]:hover, input[type="button"]:hover, button:hover{
+input[type="submit"]:hover, input[type="button"]:hover, button:hover {
     background-color: #2868c7;
     transition: background-color 0.2s;
 }
