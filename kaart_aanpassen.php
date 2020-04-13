@@ -20,7 +20,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 } else {
 
     //query om ondernemers_id uit de database op te halen
-    $sql_id = "SELECT  `ondernemer_id` FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
     $sql_query_id = mysqli_query($con,$sql_id);
     $result_id = mysqli_fetch_object($sql_query_id);
 
@@ -110,11 +110,42 @@ if(!isset($_SESSION['gebruikersnaam'])){
 <div class="wrapper" style="overflow-x:auto;">
 
     <h1>Kaart aanpassen</h1>
-    <table>
+    <center>
+    <h2><?php echo $result_stemp->beloning_label; ?></h2>
+    <img src="<?php print $result_id->logo;?>" width="250px" height="170px">
+    <table class="noBorder">
     <tr>
+    <?php 
 
-    </tr>
+
+
+         for($x = 1; $x<=$result_stemp->beloning_aantstemps; $x+=1){
+            if($x == 6 || $x == 12 || $x == 18 || $x == 24 || $x == 25){
+             ?>
+                 <td width="15%" >
+                     <img src="<?php print $result_id->stemp_afb;?>" width="50px" height="50px">
+                 </td>
+            </tr>
+            <tr>
+            <?php 
+            } else {
+            ?>
+
+    <td width="15%" >
+    <img src="<?php print $result_id->stemp_afb;?>" width="50px" height="50px">
+    </td>
+   
+    <?php
+    
+    }
+    }
+    ?>
+     </tr>
+
+  
+ 
     </table>
+    </center>
 
         <form action="" method="post">
        <p><label for="stemps">Maximaal aantal stempels aanpassen (1-25):</label><br><input type="number" name="stemps" id="stemps"  min="1" max="25" value="<?php print $result_stemp->beloning_aantstemps; ?>" required> <br><br>

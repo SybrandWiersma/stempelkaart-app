@@ -183,6 +183,10 @@ table {
     width: 80%;
     border-collapse: collapse;
 }
+
+.noBorder {
+    border: none !important;
+}
 th, td {
     padding: 15px;
     text-align: left;
@@ -190,9 +194,7 @@ th, td {
 }
 
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+
 form {
     display: flex;
     flex-wrap: wrap;
