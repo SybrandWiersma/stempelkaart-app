@@ -155,13 +155,11 @@ if(!isset($_SESSION['gebruikersnaam'])){
     if($_GET['z'] == "toon"){
     ?>
     <button onclick="location.href='klant_kaartweergeven.php?p=<?php print $_GET['p'];?>&o=<?php print $_GET['o'];?>';" id="btn_under"> Verberg QR</button>
-    <img src="https://chart.googleapis.com/chart?cht=qr&chl=<?$result_id->klant_id?>&choe=UTF-8&chs=400x400">
+    <img src="https://chart.googleapis.com/chart?cht=qr&chl=klantid%3D<?php print $result_id->klant_id?>%26kaartid%3D<?php print $result_stemp->stempelkaart_id?>&choe=UTF-8&chs=400x400">
     <?php
     }
     }
     ?>
-    </center>
-           <center>
     <button onclick="location.href='klant_stempelkaartoverzicht.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
        </center>
 
