@@ -2,12 +2,9 @@
 include("config.php");
 
 // Haalt de data op die meegestuurd is met de request
-$qr_informatie = $_REQUEST["qr_informatie"];
 $ondernemer_gebr_naam = $_REQUEST["ondernemer_gebr_naam"];
-
-parse_str($qr_informatie, $array);
-$klant_id = $array['klantid'];
-$kaart_id = $array['kaartid'];
+$klant_id = $_REQUEST['klantid'];
+$kaart_id = $_REQUEST['kaartid'];
 
 
 // Zoekt ondernemer op in database met gebruikersnaam van ondernemer
@@ -16,7 +13,7 @@ $result_ondernemingID = mysqli_query($con, $query_ondernemingID);
 $row_ondernemingID = mysqli_fetch_array($result_ondernemingID);
 
 // Zoekt het stempelkaart id op en het aantal stempels die de klant heeft verzameld
-$query_aantstemps = "SELECT aant_stemps, stempelkaart_id FROM stempelkaart_klant WHERE klant_id = '".$gebruiker_id."' AND stempelkaart_id IN (SELECT stempelkaart_id FROM stempelkaarten WHERE ondernemer_id = '".$row_ondernemingID['ondernemer_id']."')";
+$query_aantstemps = "SELECT aant_stemps, stempelkaart_id FROM stempelkaart_klant WHERE klant_id = '".$klant_id."' AND stempelkaart_id = '".$kaart_id."';";
 $result_aantstemps = mysqli_query($con,$query_aantstemps);
 $row_aantstemps = mysqli_fetch_array($result_aantstemps);
 
@@ -26,7 +23,7 @@ $result_maxstemps = mysqli_query($con, $query_maxstemps);
 $row_maxstemps = mysqli_fetch_array($result_maxstemps);
 
 // Zoekt de gebruikersdata op van een gebruiker
-$query_gebruikerdata = "SELECT * FROM klanten WHERE klant_id = '".$gebruiker_id."';";
+$query_gebruikerdata = "SELECT * FROM klanten WHERE klant_id = '".$klant_id."';";
 $result_gebruikerdata = mysqli_query($con,$query_gebruikerdata);
 $row_gebruikerdata = mysqli_fetch_array($result_gebruikerdata);
 
