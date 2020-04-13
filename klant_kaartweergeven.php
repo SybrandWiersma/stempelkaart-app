@@ -72,9 +72,9 @@ if(!isset($_SESSION['klant'])){
 } else {
 ?>
     <div>
-        <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
-        <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
-        <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+        <h1><a href="klant_stempelkaartoverzicht.php">StempelkaartApp</a></h1>
+        <a href="klant_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="klant_kaartweergeven.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
  }

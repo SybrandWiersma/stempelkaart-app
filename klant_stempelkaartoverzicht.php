@@ -45,7 +45,7 @@ if(!isset($_SESSION['klant'])){
 ?>
     <div>
         <h1><a href="">StempelkaartApp</a></h1> 
-        <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
+        <a href="klant_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
         <a href="klant_stempelkaartoverzicht.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
