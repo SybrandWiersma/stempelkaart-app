@@ -13,6 +13,18 @@ if(isset($_SESSION['gebruikersnaam'])){
     <title>Loginpage</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        
+    <?php
+    $message = "";
+
+    if(isset($_GET['p'])){
+        if($_GET['p'] == "aangepast"){
+      $message = "U heeft uw automatische wachtwoord al aangepast, log in met uw gegevens";
+      } else if($_GET['p'] == "gelukt"){
+      $message = "U heeft uw automatische wachtwoord aangepast, log in met uw gegevens";
+      }
+     }
+    ?>
 </head>
 <body>
 <nav class="navtop">
@@ -41,6 +53,25 @@ if(!isset($_SESSION['gebruikersnaam'])){
 <div class="wrapper">
     <h1>Login</h1>
     <form action="" method="post">
+    <?php
+    if(!empty($message)){
+    echo $message;
+    }
+
+    if(isset($_GET['x'])){
+
+   //query om gegevens klant uit de database op te halen
+    $sql_klant = "SELECT  * FROM `klanten` WHERE `klant_id`='".$_GET['x']."'";
+    $sql_query_klant = mysqli_query($con,$sql_klant);
+    $result_klant = mysqli_fetch_object($sql_query_klant);
+
+    
+
+     if($result_klant->wachtwoord == "12345"){
+     header('Location:  first_klant.php?x='.$_GET['x']);
+     }
+     }
+    ?>
         <label for="gebruikersnaam">
             <i class="fas fa-user"></i>
         </label>
@@ -71,7 +102,7 @@ if(isset($_POST['send'])){
         $result_ondernemer = mysqli_query($con,$sql_query_ondernemer);
         $row_ondernemer = mysqli_fetch_array($result_ondernemer);
 
-        $sql_query_klant = "select count(*) as cntUser_klant from klanten where gebr_naam='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
+        $sql_query_klant = "select count(*) as cntUser_klant from klanten where naam_klant='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
         $result_klant = mysqli_query($con,$sql_query_klant);
         $row_klant = mysqli_fetch_array($result_klant);
 
@@ -86,8 +117,16 @@ if(isset($_POST['send'])){
             header('Location: ondernemer_landing.php');
         }else{
             if($count_klant > 0){
+                if($wachtwoord == "12345"){
+                    $sql_klant = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$gebruikersnaam."'";
+                    $sql_query_klant = mysqli_query($con,$sql_klant);
+                    $result_klant = mysqli_fetch_object($sql_query_klant);
+
+                header('Location:  first_klant.php?x='.$result_klant->klant_id);
+				} else {
                         $_SESSION['gebruikersnaam'] = $gebruikersnaam;
-                        header('Location: home.php');
+                        header('Location: klant_stempelkaartoverzicht.php');
+                        }
             } else {
 
             echo "De combinatie van gebruikersnaam en wachtwoord kwamen niet overeen!";
