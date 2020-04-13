@@ -184,7 +184,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 
        </form>
        <center>
-        <button onclick="location.href='ondernemer_klantkoppelen    .php?k=<?php print $_GET['p']; ?>&o=<?php print $_GET['o']; ?>';" id="btn_under">Koppel klant aan kaart!</button>
+        <button onclick="location.href='ondernemer_klantkoppelen.php?k=<?php print $_GET['p']; ?>&o=<?php print $_GET['o']; ?>';" id="btn_under">Koppel klant aan kaart!</button>
         </center>
 
 
