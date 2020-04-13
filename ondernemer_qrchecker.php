@@ -1,9 +1,14 @@
 <?php
 include("config.php");
 
-// Haalt de data op die meegestuurd is met de x
-$gebruiker_id = $_REQUEST["klant_id"];
+// Haalt de data op die meegestuurd is met de request
+$qr_informatie = $_REQUEST["qr_informatie"];
 $ondernemer_gebr_naam = $_REQUEST["ondernemer_gebr_naam"];
+
+parse_str($qr_informatie, $array);
+$klant_id = $array['klantid'];
+$kaart_id = $array['kaartid'];
+
 
 // Zoekt ondernemer op in database met gebruikersnaam van ondernemer
 $query_ondernemingID = "SELECT ondernemer_id FROM ondernemers WHERE gebr_naam = '".$ondernemer_gebr_naam."';";
@@ -26,7 +31,7 @@ $result_gebruikerdata = mysqli_query($con,$query_gebruikerdata);
 $row_gebruikerdata = mysqli_fetch_array($result_gebruikerdata);
 
 
-if(isset($row_gebruikerdata))
+if(isset($row_aantstemps))
 {
     // Stuurt een list item op met de data en styling die worden gevraagd
     echo "<li style=\"list-style: none; border: 1px solid black; border-radius: 5px; margin-right: 10%; margin-top: 10%; padding: 4%\"><strong>" . $row_gebruikerdata['naam_klant'] . "<br> " . $row_aantstemps['aant_stemps'] . " / " . $row_maxstemps['beloning_aantstemps'] . " </strong> stempels <br><br> <button style='border-radius: 5px; width: auto; background-color: #5cc30c' onclick=\"location.href='ondernemer_qrcode_gescand.php?kaartid=".$row_aantstemps['stempelkaart_id']."&klantid=".$row_gebruikerdata['klant_id']."'\">Ga naar kaart</button> </li> ";
