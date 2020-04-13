@@ -85,7 +85,7 @@ $session_value= $_SESSION['gebruikersnaam'];
         };
         xmlhttp.open("POST", "ondernemer_qrchecker.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send("klant_id="+content+"&ondernemer_gebr_naam="+sessionId);
+        xmlhttp.send(content+"&ondernemer_gebr_naam="+sessionId);
 
     });
 

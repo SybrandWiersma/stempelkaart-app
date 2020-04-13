@@ -41,9 +41,8 @@ include("config.php")
         <h1>QR-Code Informatie</h1>
         <h4>Naam</h4> <p>Jelmer de Jong</p>
         <h4>Aantal stempels</h4> <p>4 / 12</p>
-        <h4>Stempels Toevoegen</h4> <input type="number" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
+        <h4>Stempels Toevoegen</h4> <input type="number" value="1" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
         <div style="border-bottom: 1px solid #dee0e4"></div>
-
     <button>Stempel(s) Zetten</button>
     <button>Kaart Verzilveren</button>
     <button onclick="window.location.href'#'">Kaart Wijzigen</button>
