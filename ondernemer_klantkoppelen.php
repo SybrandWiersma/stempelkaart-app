@@ -12,7 +12,8 @@ if(isset($_GET['x'])){
     header('Location: index.php');
     }
 }
-
+    require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
+    use Twilio\Rest\Client;
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if(!isset($_GET['k']) && !isset($_GET['o'])){
@@ -186,6 +187,34 @@ if(!isset($_GET['k']) && !isset($_GET['o'])){
      $stmtkaart->execute();
      $stmtkaart->close();
 
+         // Your Account SID and Auth Token from twilio.com/console
+    $account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
+    $auth_token = '5883a1bdd6f0ab7d28733bd6ee576cd5';
+    // In production, these should be environment variables. E.g.:
+    // $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
+    // A Twilio number you own with SMS capabilities
+
+    //query om ondernemers_id uit de database op te halen
+    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+    $sql_query_id = mysqli_query($con,$sql_id);
+    $result_id = mysqli_fetch_object($sql_query_id);
+
+    $link = "http://127.0.0.1/loginpagina.php";
+
+    $bericht =  "".$result_id->bedrijfsnaam_ond." heeft een stempelkaart voor u aangemaakt, log in om hem te kijken op uw persoonlijke profiel: ".$link."";
+    $countryCode = 31;
+    $newnumber = preg_replace('/^0?/', '+'.$countryCode, $telefoonnummer);
+    $twilio_number = "+15868001420";
+    $client = new Client($account_sid, $auth_token);
+    $client->messages->create(
+    // Where to send a text message (your cell phone?)
+    $newnumber,
+    array(
+        'from' => $twilio_number,
+        'body' => $bericht
+    )
+);
+
 
 
      echo "<button style='padding: 20px;background-color: #5cb85c;color: white;cursor: help'>
@@ -222,6 +251,34 @@ if(!isset($_GET['k']) && !isset($_GET['o'])){
      $stmtkaart->bind_param("sss",$result_klant->klant_id,$result_stemp->stempelkaart_id,$stemps);
      $stmtkaart->execute();
      $stmtkaart->close();
+
+         // Your Account SID and Auth Token from twilio.com/console
+    $account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
+    $auth_token = '5883a1bdd6f0ab7d28733bd6ee576cd5';
+    // In production, these should be environment variables. E.g.:
+    // $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
+    // A Twilio number you own with SMS capabilities
+
+    //query om ondernemers_id uit de database op te halen
+    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+    $sql_query_id = mysqli_query($con,$sql_id);
+    $result_id = mysqli_fetch_object($sql_query_id);
+
+    $link = "http://127.0.0.1/loginpagina.php";
+
+    $bericht =  "".$result_id->bedrijfsnaam_ond." heeft u gekoppeld aan een stempelkaart, log in om hem te kijken op uw persoonlijke profiel: ".$link."";
+    $countryCode = 31;
+    $newnumber = preg_replace('/^0?/', '+'.$countryCode, $telefoonnummer);
+    $twilio_number = "+15868001420";
+    $client = new Client($account_sid, $auth_token);
+    $client->messages->create(
+    // Where to send a text message (your cell phone?)
+    $newnumber,
+    array(
+        'from' => $twilio_number,
+        'body' => $bericht
+    )
+);
      echo "<button style='padding: 20px;background-color: #5cb85c;color: white;cursor: help'>
             <strong>Uw klant is gekoppeld aan de stempelkaart!</strong></button>";
      }
