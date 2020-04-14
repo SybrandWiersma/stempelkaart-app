@@ -103,7 +103,7 @@ if(isset($_POST['send'])){
         $result_ondernemer = mysqli_query($con,$sql_query_ondernemer);
         $row_ondernemer = mysqli_fetch_array($result_ondernemer);
 
-        $sql_query_klant = "select count(*) as cntUser_klant from klanten where naam_klant='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
+        $sql_query_klant = "select count(*) as cntUser_klant from klanten where gebr_naam='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
         $result_klant = mysqli_query($con,$sql_query_klant);
         $row_klant = mysqli_fetch_array($result_klant);
 
@@ -119,7 +119,7 @@ if(isset($_POST['send'])){
         }else{
             if($count_klant > 0){
                 if($wachtwoord == "12345"){
-                    $sql_klant = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$gebruikersnaam."'";
+                    $sql_klant = "SELECT  * FROM `klanten` WHERE `gebr_naam`='".$gebruikersnaam."'";
                     $sql_query_klant = mysqli_query($con,$sql_klant);
                     $result_klant = mysqli_fetch_object($sql_query_klant);
 
