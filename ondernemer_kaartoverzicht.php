@@ -48,7 +48,7 @@ if(isset($_GET['x'])){
     }
     ?>
 </nav>
-<div class="wrapperStempelkaartOverzicht" style="overflow-x:auto;">
+<div class="wrapperStempelkaartOverzicht" style="overflow-x:auto; width: 65%">
 
     <h1>Kaart overzicht</h1>
     <?php
@@ -60,21 +60,21 @@ if(isset($_GET['x'])){
     }
     }
     ?>
-    <table cellspacing='1' align='center' style="margin: 5%; width: 100%; table-layout: fixed">
+    <table cellspacing='1' align='center' style="margin: 5%; width: 90%; table-layout: fixed;">
     <tr>
-		<td width='10%'>
+		<th width=5%'>
 			#
-		</td>
-		<td width='20%'>
+		</th>
+		<th width='10%'>
 
 			Naam + beloning
-		</td>
-		<td width='20%'>
+		</th>
+		<th width='15%'>
 			Beschrijving
-		</td>
-		<td width='15%'>
+		</th>
+		<th width='7%'>
 			Aantal <br> gekoppelde <br> klanten
-		</td>
+		</th>
     </tr>
 
 <?php
@@ -106,7 +106,7 @@ $i = 1;
 		</td>
 		<td width='30%'>
 
-			<a href='ondernemer_kaartaanpassen.php?p=<?php echo $result_kaart->stempelkaart_id; ?>&o=<?php echo $result_id->ondernemer_id ?>'><?php echo $result_kaart->beloning_label; ?></a>
+            <a class="buttonnaam" style="background-color: #5cb85c" href='ondernemer_kaartaanpassen.php?p=<?php echo $result_kaart->stempelkaart_id; ?>&o=<?php echo $result_id->ondernemer_id ?>'><?php echo $result_kaart->beloning_label; ?></a>
 		</td>
 		<td width='30%'>
 			<?php echo $result_kaart->beloning_beschrijving; ?>
