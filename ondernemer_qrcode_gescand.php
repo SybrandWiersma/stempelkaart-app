@@ -1,8 +1,8 @@
 <?php
 include("config.php");
 
-    require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
-    use Twilio\Rest\Client;
+  //  require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
+  //  use Twilio\Rest\Client;
 
 // Check of gebruiker ingelogd is of niet
 if (!isset($_SESSION['gebruikersnaam'])) {
@@ -71,33 +71,31 @@ if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
     $stmt->close();
 
     // Your Account SID and Auth Token from twilio.com/console
-    $account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
-    $auth_token = '007f7767c94f548993dc8ff4a2bc522f';
-    // In production, these should be environment variables. E.g.:
-    // $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
-    // A Twilio number you own with SMS capabilities
+    //$account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
+   // $auth_token = '007f7767c94f548993dc8ff4a2bc522f';
+
 
     //query om ondernemers_id uit de database op te halen
-    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
-    $sql_query_id = mysqli_query($con,$sql_id);
-    $result_id = mysqli_fetch_object($sql_query_id);
+    //$sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+    //$sql_query_id = mysqli_query($con,$sql_id);
+    //$result_id = mysqli_fetch_object($sql_query_id);
 
 
-    $link = "http://127.0.0.1/loginpagina.php";
+    //$link = "http://127.0.0.1/loginpagina.php";
 
-    $bericht =  "".$result_id->bedrijfsnaam_ond." heeft ".$aantal_toevoegen." stempels gezet, log in om hem te kijken op uw persoonlijke profiel: ".$link."";
-    $countryCode = 31;
-    $newnumber = preg_replace('/^0?/', '+'.$countryCode, $telefoonnummer);
-    $twilio_number = "+15868001420";
-    $client = new Client($account_sid, $auth_token);
-    $client->messages->create(
+    //$bericht =  "".$result_id->bedrijfsnaam_ond." heeft ".$aantal_toevoegen." stempels gezet, log in om hem te kijken op uw persoonlijke profiel: ".$link."";
+    //$countryCode = 31;
+   // $newnumber = preg_replace('/^0?/', '+'.$countryCode, $telefoonnummer);
+    //$twilio_number = "+15868001420";
+    //$client = new Client($account_sid, $auth_token);
+   // $client->messages->create(
     // Where to send a text message (your cell phone?)
-    $newnumber,
-    array(
-        'from' => $twilio_number,
-        'body' => $bericht
-    )
-);
+   // $newnumber,
+    //array(
+       // 'from' => $twilio_number,
+        //'body' => $bericht
+   // )
+//);
 
     // Update de stempel waarden zodat deze goed word weergeven op de pagina
     $result_aantstemps = mysqli_query($con, $query_aantstemps);
