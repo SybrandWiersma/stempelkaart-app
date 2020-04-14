@@ -85,13 +85,13 @@ if(isset($_GET['x'])){
 </nav>
 <div class="wrapper">
     <h1>Kaart aanmaken</h1>
-    <form action="" method="post">
+    <form action="" method="post" style="margin-bottom: 35%">
        <p><label for="stemps">Maximaal aantal stempels (1-25):</label> <br><br>
            <input type="number" name="stemps" id="stemps"  min="1" max="25" value="1" required> <br><br>
        <label for="label">Naam stempelkaart:</label> <br><br>
            <input type="text" name="label" id="label" placeholder="Naam" required>
        <label for="label">Beschrijving beloning:</label> <br><br>
-           <input type="text" name="beschrijving" id="beschrijving" placeholder="Beschrijving" required max="400"  >
+           <textarea name="beschrijving" id="beschrijving" required max="400" placeholder="Beschrijving"></textarea><br>
        <input type="submit" name="aanmaken" style="background-color: #5cb85c" value="Maak kaart aan!">
 
 
