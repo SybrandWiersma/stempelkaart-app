@@ -81,23 +81,15 @@ $row_aantstemps = mysqli_fetch_array($result_aantstemps);
         <h1>QR-Code Informatie</h1>
         <h4>Naam</h4> <p><?php echo $row_klantdata['naam_klant']?></p>
         <h4>Aantal stempels</h4> <p><?php echo $row_aantstemps['aant_stemps']." / ".$row_kaartdata['beloning_aantstemps']?></p>
-        <h4>Stempels Toevoegen</h4> <input type="number" id="stempel_waarde" value="1" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
+        <h4>Stempels Toevoegen</h4> <input type="number" id="stempel_waarde" value="1" min="1" max="<?php echo $row_kaartdata['beloning_aantstemps']?>"> <!--max moet resterend aantal stempels zijn!-->
         <div style="border-bottom: 1px solid #dee0e4"></div>
-    <button type="submit" value="">Stempel(s) Zetten</button>
+    <button <?php if ($row_aantstemps['aant_stemps'] == $row_kaartdata['beloning_aantstemps'])echo "style =\"background-color:#4d5563; opacity:50%\" disabled"?> id="test" type="submit" value="test">Stempel(s) Zetten</button>
     <button <?php if($row_aantstemps['aant_stemps'] != $row_kaartdata['beloning_aantstemps']) echo "style =\"background-color:#4d5563; opacity:50%\" disabled";?>>Kaart Verzilveren</button>
     <button onclick="window.location.href'#'">Kaart Wijzigen</button>
     <button style="background-color: red; margin-bottom: 5%">Kaart Verwijderen</button>
     <div style="border-bottom: 1px solid #dee0e4"></div>
     <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button> <br>
     <script>
-        function ZetStempel(){
-            let aantaltoevoegen = document.getElementById('stempel_waarde');
-            let xmlhttprequest = new XMLHttpRequest();
-            xmlhttprequest.open
-        }
-
-
-
         function goBack() {
             window.history.back();
         }
