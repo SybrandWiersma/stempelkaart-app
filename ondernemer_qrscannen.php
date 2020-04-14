@@ -65,8 +65,6 @@ $session_value= $_SESSION['gebruikersnaam'];
     <h1></h1>
 
 
-
-
 </div>
 <script>
     let sessionId = '<?php echo $session_value?>';
