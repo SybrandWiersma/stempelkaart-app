@@ -52,7 +52,9 @@ if(isset($_GET['x'])){
     <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
     <script type="text/javascript" src="app.js"></script>
     <ul id="scans">
-        <li>test</li>
+        <li style="list-style: none; border: 1px solid black; border-radius: 5px; margin-right: 10%;
+         margin-top: 10%; padding: 4%"
+        ><strong>Frederic<br> 5 / 12 </strong> stempels <br><br> <button style="border-radius: 5px; width: auto; background-color: #5cc30c" onclick="#">Ga naar kaart</button> </li>
     </ul>
 
 
@@ -60,7 +62,7 @@ if(isset($_GET['x'])){
 
 
     <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
-    <h1></h1>
+    <h2></h2>
 </div>
 </body>
 </html>

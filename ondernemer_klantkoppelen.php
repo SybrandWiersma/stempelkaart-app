@@ -46,7 +46,7 @@ if(!isset($_GET['k']) && !isset($_GET['o'])){
 
 
 </head>
-<body>
+<body class="ondernemer_klantkoppelen">
 <nav class="navtop">
 <?php
 if(!isset($_SESSION['gebruikersnaam'])){
@@ -80,10 +80,9 @@ if(!isset($_SESSION['gebruikersnaam'])){
         if(!isset($_POST['koppel']) && !isset($_POST['koppelen1']) && !isset($_POST['koppelen2'])){
         ?>
         <form action="" method="post">
-           <label for="telefoonnummer">Vul hier het telefoonnummer van de klant in:</label> <br><input type="text" name="telefoonnummer" maxlength="10" id="telefoonnummer" placeholder="Telefoonnummer" required> <br>
-
-
-                   <input type="submit" name="koppel" value="Koppelen!">
+           <label for="telefoonnummer">Vul hier het telefoonnummer van de klant in:</label> <br>
+            <input type="number" name="telefoonnummer" maxlength="10" id="telefoonnummer" placeholder="Telefoonnummer" required> <br>
+            <input type="submit" style="background-color: #5cb85c" name="koppel" value="Koppelen!">
         </form>
 <?php
 }
@@ -93,13 +92,15 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
    // Check of het veld ingevuld is
    if($telefoonnummer == ''){
-     echo "<center>Het is verplicht om een telefoonnummer in te vullen!</center>";
+     echo "<button style='padding: 20px;background-color: #f44336;color: white;cursor: help'>
+            <strong>Het is verplicht om een telefoonnummer in te vullen!</strong></button>\"";
    }
 
    // Check of er een ongeldig Telefoonnummer ingevuld is
    if (!preg_match('/^[0-9]{10}+$/', $telefoonnummer)) {
 
-     echo "<center>Vul een geldig telefoonnummer in (bijvoorbeeld: 0612345678).</center>";
+     echo "<button style='padding: 20px;background-color: #f44336;color: white;cursor: help'>
+            <strong>Vul een geldig telefoonnummer in (bijvoorbeeld: 0612345678).</strong></button>";
    }
 
     $stmt = $con->prepare("SELECT * FROM klanten WHERE tel_nr = ?");
@@ -117,22 +118,28 @@ if(!isset($_SESSION['gebruikersnaam'])){
    
 
 ?>
-        <form action="" method="post">
+         <form action="" method="post">
 
-    <label for="naam">Telefoonnummer van de klant:</label> <br><input type="text" name="telefoonnummer" id="telefoonnummer" value="<?php print $telefoonnummer; ?>" readonly> <br>
-    <label for="naam">Controleer de naam van de klant:</label> <br><input type="text" name="naam" id="naam" value="<?php print $result_klant->naam_klant; ?>" readonly> <br>
-    <label for="email">Controleer het E-mailadres van de klant:</label> <br><input type="text" name="email" id="email" value="<?php print $result_klant->email; ?>" readonly> <br>
-    <input type="submit" name="koppelen2" value="Koppelen!">
+    <label for="naam">Telefoonnummer van de klant:</label> <br>
+            <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="telefoonnummer" id="telefoonnummer" value="<?php print $telefoonnummer; ?>" readonly> <br>
+    <label for="naam">Controleer de naam van de klant:</label> <br>
+            <input type="text" style="margin-top: 3.5%;margin-bottom: 7%;" name="naam" id="naam" value="<?php print $result_klant->naam_klant; ?>" readonly> <br>
+    <label for="email">Controleer het E-mailadres van de klant:</label> <br>
+            <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="email" id="email" value="<?php print $result_klant->email; ?>" readonly> <br>
+    <input type="submit" style="background-color: #5cb85c" name="koppelen2" value="Koppelen!">
     </form>       
 <?php
 } else {
 ?>
         <form action="" method="post">
 
-    <label for="naam">Telefoonnummer van de klant:</label> <br><input type="text" name="telefoonnummer" id="telefoonnummer" value="<?php print $telefoonnummer; ?>" readonly> <br>
-    <label for="naam">Vul hier de naam van de klant in:</label> <br><input type="text" name="naam" id="naam" placeholder="Naam van de klant" required> <br>
-    <label for="email">Vul hier het E-mailadres van de klant in:</label> <br><input type="text" name="email"  id="email" placeholder="E-mailadres van de klant" required> <br>
-    <input type="submit" name="koppelen1" value="Koppelen!">
+    <label for="naam" style="margin-top: 3.5%">Telefoonnummer van de klant:</label> <br>
+            <input type="number" style="margin-top: 3.5%; margin-bottom: 7%;" name="telefoonnummer" id="telefoonnummer" value="<?php print $telefoonnummer; ?>" readonly> <br>
+    <label for="naam">Vul hier de naam van de klant in:</label> <br>
+            <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="naam" id="naam" placeholder="Naam van de klant" required> <br>
+    <label for="email">Vul hier het E-mailadres van de klant in:</label> <br>
+            <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;"name="email"  id="email" placeholder="E-mailadres van de klant" required> <br>
+    <input type="submit" style="background-color: #5cb85c" name="koppelen1" value="Koppelen!">
     </form>
 
 <?php 
@@ -147,7 +154,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
     // Check of alle velden ingevuld zijn
     if($naam == '' || $email == '' ){
 
-    echo "Het is verplicht om alle velden in te vullen!";
+    echo "<button style='padding: 20px;background-color: #f44336;color: white;cursor: help'>
+            <strong>Het is verplicht om alle velden in te vullen!</strong></button>\"";
     } else {
 
     //acount aanmaken voor klant
@@ -172,7 +180,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
 
 
-     echo "<center>Er is een persoonlijk account aangemaakt voor uw klant en deze is automatisch gekoppeld aan uw stempelkaart! </center>";
+     echo "<button style='padding: 20px;background-color: #5cb85c;color: white;cursor: help'>
+            <strong>Er is een persoonlijk account aangemaakt voor uw klant en deze is automatisch gekoppeld aan uw stempelkaart!</strong></button>";
 
 	}
 
@@ -194,7 +203,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
      $result = $stmt->get_result();
      $stmt->close();
      if($result->num_rows > 0){
-       echo "<center>Deze stempelkaart heeft al een koppeling met de klant</center>";
+       echo "<button style='padding: 20px;background-color: #f44336;color: white;cursor: help'>
+            <strong>Deze stempelkaart heeft al een koppeling met de klant!</strong></button>";
      } else {
 
      //account gebonden kaart aanmaken voor klant
@@ -203,7 +213,8 @@ if(!isset($_SESSION['gebruikersnaam'])){
      $stmtkaart->bind_param("ss",$result_klant->klant_id,$result_stemp->stempelkaart_id);
      $stmtkaart->execute();
      $stmtkaart->close();
-     echo "<center>Uw klant is gekoppeld aan de stempelkaart!</center>";
+     echo "<button style='padding: 20px;background-color: #5cb85c;color: white;cursor: help'>
+            <strong>Uw klant is gekoppeld aan de stempelkaart!</strong></button>";
      }
      }
 ?>

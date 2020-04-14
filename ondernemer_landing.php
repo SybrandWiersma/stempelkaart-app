@@ -50,11 +50,11 @@ if(!isset($_SESSION['gebruikersnaam'])){
     <h1>Ondernemerspagina</h1>
     <form action="">
        <input type="button" onclick="location.href='ondernemer_qrscannen.php';" value="QR Scanner">
-       <input type="button" onclick="location.href='ondernemer_huisstijlaanpassen.php';" value="Huisstijl aanpassen">
-       <input type="button" onclick="location.href='ondernemer_kaartaanmaken.php';" value="Kaart aanmaken">
-       <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten weergeven">
-       <input type="button" onclick="location.href='ondernemer_gegevensbekijken.php';" value="Gegevens bekijken/wijzigen">
-       <input type="button" onclick="location.href='ondernemer_landing.php?x=uitloggen';" value="Uitloggen">
+       <input type="button" onclick="location.href='ondernemer_huisstijlaanpassen.php';" value="Huisstijl Aanpassen">
+       <input type="button" onclick="location.href='ondernemer_kaartaanmaken.php';" value="Kaart Aanmaken">
+       <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten Weergeven">
+       <input type="button" onclick="location.href='ondernemer_gegevensbekijken.php';" value="Gegevens Bekijken/Wijzigen">
+       <input type="button" style="background-color: #d9534f" onclick="location.href='ondernemer_landing.php?x=uitloggen';" value="Uitloggen">
     </div>
        </form>
 

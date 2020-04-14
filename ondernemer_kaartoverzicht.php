@@ -46,7 +46,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
  }
  ?>
 </nav>
-<div class="wrapper" style="overflow-x:auto;">
+<div class="wrapperStempelkaartOverzicht" style="overflow-x:auto;">
 
     <h1>Kaart overzicht</h1>
     <?php
@@ -58,20 +58,20 @@ if(!isset($_SESSION['gebruikersnaam'])){
     }
     }
     ?>
-    <table cellspacing='1' align='center'>
+    <table cellspacing='1' align='center' style="margin: 5%; width: 100%; table-layout: fixed">
     <tr>
 		<td width='10%'>
 			#
 		</td>
-		<td width='30%'>
+		<td width='20%'>
 
 			Naam + beloning
 		</td>
-		<td width='30%'>
+		<td width='20%'>
 			Beschrijving
 		</td>
-		<td width='10%'>
-			Gekoppelde # klanten
+		<td width='15%'>
+			Aantal <br> gekoppelde <br> klanten
 		</td>
     </tr>
 

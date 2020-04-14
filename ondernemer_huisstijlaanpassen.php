@@ -76,7 +76,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
     <img src="<?php print $result_logo->logo; ?>"  width="250" heigth="250"><br>
     <form action="ondernemer_huisstijlaanpassen.php" method="post" enctype="multipart/form-data">
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" name="submit"   value="Wijzig logo">
+    <input type="submit" name="submit" value="Wijzig logo">
     </form>
 
     <?php
@@ -127,7 +127,6 @@ if ($uploadOk == 0) {
 
     ?>
 
-    <br>
     <br>
           <p>Verander stempel: </p>
     <img src="<?php print $result_stemp->stemp_afb; ?>"  width="50px" heigth="50px"><br>
@@ -185,13 +184,15 @@ if ($uploadOk == 0) {
     ?>
 
     <br>
-    <br>
 
 
-    Verander letter kleur:
+    <p>Verander tekstkleur:</p>
     <form action="ondernemer_huisstijlaanpassen.php" method="post" enctype="multipart/form-data">
-    <div><input type="color" name="letter"value="<?php print $result_achtergrond->kleur1 ?>"> <input type="submit" class="kleinebutton" name="send"  value="Wijzig kleur"></div>
-   </form>
+        <div>
+            <input type="color" name="letter"value="<?php print $result_achtergrond->kleur1 ?>">
+            <input type="submit" class="kleinebutton" name="send" value="Wijzig kleur">
+        </div>
+    </form>
 
    <?php
    if(isset($_POST["send"])) {
@@ -201,10 +202,12 @@ if ($uploadOk == 0) {
    
    }
    ?>
-   <br><br>
-    Verander achtergrond kleur:  
+
+    <br>
+
+    <p>Verander achtergrondkleur:</p>
    <form action="ondernemer_huisstijlaanpassen.php" method="post" enctype="multipart/form-data">
-   <div><input type="color" name="back" value="<?php print $result_letter->kleur2 ?>"> <input type="submit" class="kleinebutton" name="send2" value="Wijzig kleur"></div>
+       <div><input type="color" name="back" value="<?php print $result_letter->kleur2 ?>"> <input type="submit" class="kleinebutton" name="send2" value="Wijzig kleur"></div>
    </form>
 
       <?php
@@ -218,7 +221,7 @@ if ($uploadOk == 0) {
    <br>
           <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
 
-        <h1></h1>
+        <h2></h2>
 
     </div>
 

@@ -107,13 +107,13 @@ if(!isset($_SESSION['gebruikersnaam'])){
  }
  ?>
 </nav>
-<div class="wrapper" style="overflow-x:auto;">
+<div class="wrapperStempelkaartOverzicht" style="overflow-x:auto;">
 
     <h1>Kaart aanpassen</h1>
     <center>
     <h2><?php echo $result_stemp->beloning_label; ?></h2>
     <img src="<?php print $result_id->logo;?>" width="250px" height="170px">
-    <table class="noBorder">
+    <table class="noBorder" style="border-collapse: separate; border-spacing: 10px; margin-bottom: 1%">
     <tr>
     <?php 
 
@@ -122,7 +122,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
          for($x = 1; $x<=$result_stemp->beloning_aantstemps; $x+=1){
             if($x == 6 || $x == 12 || $x == 18 || $x == 24 || $x == 25){
              ?>
-                 <td width="15%" >
+                 <td width="15%" style="border-radius: 5px">
                      <img src="<?php print $result_id->stemp_afb;?>" width="50px" height="50px">
                  </td>
             </tr>
@@ -131,7 +131,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
             } else {
             ?>
 
-    <td width="15%" >
+    <td width="15%" style="border-radius: 5px">
     <img src="<?php print $result_id->stemp_afb;?>" width="50px" height="50px">
     </td>
    
@@ -147,11 +147,14 @@ if(!isset($_SESSION['gebruikersnaam'])){
     </table>
     </center>
 
-        <form action="" method="post">
-       <p><label for="stemps">Maximaal aantal stempels aanpassen (1-25):</label><br><input type="number" name="stemps" id="stemps"  min="1" max="25" value="<?php print $result_stemp->beloning_aantstemps; ?>" required> <br><br>
-       <label for="label">Naam stempelkaart aanpassen:</label><input type="text" name="label" id="label" value="<?php print $result_stemp->beloning_label; ?>" required> <br>
-       <label for="label">Beschrijving beloning aanpassen:</label><input type="text" name="beschrijving" id="beschrijving" value="<?php print $result_stemp->beloning_beschrijving; ?>" required max="400"> <br>
-        <input type="submit" name="aanpassen" value="Pas kaart aan!">
+        <form action="" method="post" style="margin-bottom: 25%">
+       <p><label for="stemps">Maximaal aantal stempels aanpassen (1-25):</label><br>
+           <input type="number" style="margin-top: 3.5%; margin-bottom: 3%;" name="stemps" id="stemps"  min="1" max="25" value="<?php print $result_stemp->beloning_aantstemps; ?>" required> <br><br>
+       <label for="label">Naam stempelkaart aanpassen:</label>
+           <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="label" id="label" value="<?php print $result_stemp->beloning_label; ?>" required> <br>
+       <label for="label">Beschrijving beloning aanpassen:</label><br><br>
+           <textarea name="beschrijving" id="beschrijving" required max="400"><?php print $result_stemp->beloning_beschrijving; ?></textarea> <br>
+        <input type="submit" style="background-color: #5cb85c" name="aanpassen" value="Pas kaart aan">
         
             <?php 
             // Foutmelding
@@ -182,22 +185,22 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
        </form>
        <center>
-        <button onclick="location.href='ondernemer_klantkoppelen.php?k=<?php print $_GET['p']; ?>&o=<?php print $_GET['o']; ?>';" id="btn_under">Koppel klant aan kaart!</button>
+        <button onclick="location.href='ondernemer_klantkoppelen.php?k=<?php print $_GET['p']; ?>&o=<?php print $_GET['o']; ?>';" id="btn_under">Kaart aan klant koppelen</button>
         </center>
 
 
        <form action="" method="post">
-        <input type="submit" style="background-color:red;" name="delete" value="Verwijder kaart!">
+        <input type="submit" style="background-color:red;" name="delete" value="Verwijder kaart">
         </form>
 
            <center>
         <button onclick="location.href='ondernemer_kaartoverzicht.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
        </center>
 
-         <h1></h1>
+         <h2></h2>
     </div>
-        
-        
+
+
         
 
 

@@ -58,7 +58,7 @@ body {
     color: #eaebed;
 }
 .wrapper {
-
+    border-radius: 5px;
     width: 32%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -85,6 +85,7 @@ body {
     padding: 1% 5% 1% 5%;
 }
 .wrapperStempelkaartInfo {
+    border-radius: 5px;
     width: 50%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -99,6 +100,7 @@ body {
     border-bottom: 1px solid #dee0e4;
 }
 .wrapperStempelkaartOverzicht {
+    border-radius: 5px;
     width: 50%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -113,6 +115,7 @@ body {
     border-bottom: 1px solid #dee0e4;
 }
 .wrapper_newStempelkaart {
+    border-radius: 5px;
     width: 50%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -150,6 +153,7 @@ body {
     overflow: auto;
 }
 .wrapperQRinfo {
+    border-radius: 5px;
     width: 32%;
     text-align: center;
     background-color: #ffffff;
@@ -178,13 +182,11 @@ body {
     display: inline;
     float: right;
 }
-
 table {
     border: 1px solid black;
     width: 80%;
     border-collapse: collapse;
 }
-
 .noBorder {
     border: none !important;
 }
@@ -193,15 +195,11 @@ th, td {
     text-align: left;
     border: 1px solid black;
 }
-
-
-
 form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
-    padding-top: 8%;
+    padding-top: 0.5%;
     padding-bottom: 8%;
 }
 input[type="password"], input[type="text"], input[type="email"]{
@@ -215,16 +213,41 @@ input[type="submit"], input[type="button"], button {
     width: 77%;
     padding: 3.5%;
     margin-top: 4%;
-
+    border-radius: 5px;
     background-color: #3274d6;
     border: 0;
     cursor: pointer;
     font-weight: bold;
     color: #ffffff;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, all 0.2s;
 }
 input[type="submit"]:hover, input[type="button"]:hover, button:hover{
     background-color: #2868c7;
     transition: background-color 0.2s;
 }
-
+.ondernemer_klantkoppelen input[type="number"] {
+    width: 77%;
+    padding: 0 1%;
+    margin-top: 4%;
+    height: 50px;
+    border: 1px solid #dee0e4;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+textarea{
+    resize: none;
+    margin-top: -1.5%;
+    height: 60%;
+    width: 77%;
+    padding: 2%;
+}
+table td{
+    word-break: break-all;
+}
