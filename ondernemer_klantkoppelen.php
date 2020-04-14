@@ -48,28 +48,30 @@ if(!isset($_GET['k']) && !isset($_GET['o'])){
 </head>
 <body class="ondernemer_klantkoppelen">
 <nav class="navtop">
-<?php
-if(!isset($_SESSION['gebruikersnaam'])){
+    <?php
+    //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
+    if(!isset($_SESSION['gebruikersnaam'])){
 
-?>
+        ?>
 
-    <div>
-       <h1><a href="index.php">StempelkaartApp</a></h1>
-        <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-        <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
-        <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
-    </div>
-<?php
-} else {
-?>
-    <div>
-        <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
-        <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
-        <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
-    </div>
-<?php
- }
- ?>
+        <div>
+            <h1><a href="index.php">StempelkaartApp</a></h1>
+            <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
+            <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
+            <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
+        </div>
+        <?php
+        //wanneer gebruiker wel ingelogd is weergeef je de links naar profiel en uitlog knop
+    } else {
+        ?>
+        <div>
+            <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
+            <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
+            <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+        </div>
+        <?php
+    }
+    ?>
 </nav>
 <div class="wrapper" style="overflow-x:auto;">
 
@@ -118,6 +120,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
    
 
 ?>
+
          <form action="" method="post">
 
     <label for="naam">Telefoonnummer van de klant:</label> <br>
@@ -126,12 +129,15 @@ if(!isset($_SESSION['gebruikersnaam'])){
             <input type="text" style="margin-top: 3.5%;margin-bottom: 7%;" name="naam" id="naam" value="<?php print $result_klant->naam_klant; ?>" readonly> <br>
     <label for="email">Controleer het E-mailadres van de klant:</label> <br>
             <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="email" id="email" value="<?php print $result_klant->email; ?>" readonly> <br>
-    <input type="submit" style="background-color: #5cb85c" name="koppelen2" value="Koppelen!">
+    <label for="stemps">Stempel(s) zetten (1-<?php print $result_stemp->beloning_aantstemps;?>):</label><br><input style="margin-top: 3.5%; margin-bottom: 7%;" type="number" name="stemps" id="stemps"  min="1" max="<?php print $result_stemp->beloning_aantstemps;?>" value="1" required>
+    <input type="submit" name="koppelen2" value="Koppelen!">
+
     </form>       
 <?php
 } else {
 ?>
         <form action="" method="post">
+
 
     <label for="naam" style="margin-top: 3.5%">Telefoonnummer van de klant:</label> <br>
             <input type="number" style="margin-top: 3.5%; margin-bottom: 7%;" name="telefoonnummer" id="telefoonnummer" value="<?php print $telefoonnummer; ?>" readonly> <br>
@@ -139,6 +145,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
             <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;" name="naam" id="naam" placeholder="Naam van de klant" required> <br>
     <label for="email">Vul hier het E-mailadres van de klant in:</label> <br>
             <input type="text" style="margin-top: 3.5%; margin-bottom: 7%;"name="email"  id="email" placeholder="E-mailadres van de klant" required> <br>
+    <label for="stemps">Stempel(s) zetten (1-<?php print $result_stemp->beloning_aantstemps;?>):</label><br><input type="number"  style="margin-top: 3.5%; margin-bottom: 7%;" name="stemps" id="stemps"  min="1" max="<?php print $result_stemp->beloning_aantstemps;?>" value="1" required>
     <input type="submit" style="background-color: #5cb85c" name="koppelen1" value="Koppelen!">
     </form>
 
@@ -149,6 +156,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
     $telefoonnummer = trim($_POST['telefoonnummer']);
     $naam = trim($_POST['naam']);
     $email = trim($_POST['email']);
+    $stemps = trim($_POST['stemps']);
     $wachtwoord = "12345";
 
     // Check of alle velden ingevuld zijn
@@ -172,9 +180,9 @@ if(!isset($_SESSION['gebruikersnaam'])){
 
 
      //account gebonden kaart aanmaken voor klant
-     $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`) VALUES (?,?)";
+     $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`,`aant_stemps`) VALUES (?,?,?)";
      $stmtkaart = $con->prepare($insertSQLkaart);
-     $stmtkaart->bind_param("ss",$result_klant->klant_id,$result_stemp->stempelkaart_id);
+     $stmtkaart->bind_param("sss",$result_klant->klant_id,$result_stemp->stempelkaart_id,$stemps);
      $stmtkaart->execute();
      $stmtkaart->close();
 
@@ -191,6 +199,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
     $telefoonnummer = trim($_POST['telefoonnummer']);
     $naam = trim($_POST['naam']);
     $email = trim($_POST['email']);
+    $stemps = trim($_POST['stemps']);
     $wachtwoord = "12345";
 
     $sql_klant = "SELECT  * FROM `klanten` WHERE `tel_nr`='".$telefoonnummer."'";
@@ -208,9 +217,9 @@ if(!isset($_SESSION['gebruikersnaam'])){
      } else {
 
      //account gebonden kaart aanmaken voor klant
-     $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`) VALUES (?,?)";
+     $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`, `aant_stemps`) VALUES (?,?,?)";
      $stmtkaart = $con->prepare($insertSQLkaart);
-     $stmtkaart->bind_param("ss",$result_klant->klant_id,$result_stemp->stempelkaart_id);
+     $stmtkaart->bind_param("sss",$result_klant->klant_id,$result_stemp->stempelkaart_id,$stemps);
      $stmtkaart->execute();
      $stmtkaart->close();
      echo "<button style='padding: 20px;background-color: #5cb85c;color: white;cursor: help'>

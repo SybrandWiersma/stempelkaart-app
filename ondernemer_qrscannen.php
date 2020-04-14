@@ -12,6 +12,8 @@ if(isset($_GET['x'])){
         header('Location: index.php');
     }
 }
+// Gebruikersnaam opslaan in variabele zodat js hem kan gebruiken
+$session_value= $_SESSION['gebruikersnaam'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +27,7 @@ if(isset($_GET['x'])){
 <body>
 <nav class="navtop">
     <?php
+    //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
     if(!isset($_SESSION['gebruikersnaam'])){
 
         ?>
@@ -36,11 +39,12 @@ if(isset($_GET['x'])){
             <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
         </div>
         <?php
+        //wanneer gebruiker wel ingelogd is weergeef je de links naar profiel en uitlog knop
     } else {
         ?>
         <div>
-            <h1><a href="">StempelkaartApp</a></h1>
-            <a href=""><i class="fas fa-user-circle"></i>Profiel</a>
+            <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
+            <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
             <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
         </div>
         <?php
@@ -50,19 +54,44 @@ if(isset($_GET['x'])){
 <div class="wrapper">
     <h1>QR Scanner</h1>
     <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
-    <script type="text/javascript" src="app.js"></script>
-    <ul id="scans">
-        <li style="list-style: none; border: 1px solid black; border-radius: 5px; margin-right: 10%;
-         margin-top: 10%; padding: 4%"
-        ><strong>Frederic<br> 5 / 12 </strong> stempels <br><br> <button style="border-radius: 5px; width: auto; background-color: #5cc30c" onclick="#">Ga naar kaart</button> </li>
-    </ul>
+    <div class="preview-container">
+        <h1>Scans</h1>
+        <ul id="scans">
+        </ul>
+    </div>
 
-
-
-
-
+    <br/>
     <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
-    <h2></h2>
+    <h1></h1>
+
+
 </div>
+<script>
+    let sessionId = '<?php echo $session_value?>';
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+
+    scanner.addListener('scan', function (content, image) {
+        console.log(content);
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let parser = new DOMParser();
+                let v1 = parser.parseFromString(this.responseText, "text/html");
+                let v2 = v1.getElementsByTagName('li');
+                document.getElementById("scans").appendChild(v2[0]);
+            }
+        };
+        xmlhttp.open("POST", "ondernemer_qrchecker.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(content+"&ondernemer_gebr_naam="+sessionId);
+
+    });
+
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        }
+    });
+</script>
 </body>
 </html>

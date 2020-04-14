@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 05 apr 2020 om 11:44
+-- Gegenereerd op: 13 apr 2020 om 23:03
 -- Serverversie: 5.7.17
--- PHP-versie: 5.6.30
+-- PHP-versie: 7.1.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,8 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `klanten` (
   `klant_id` int(16) NOT NULL,
   `naam_klant` varchar(16) NOT NULL,
-  `gebr_naam` varchar(16) NOT NULL,
   `wachtwoord` varchar(64) NOT NULL,
+  `gebr_naam` varchar(64) NOT NULL DEFAULT '',
   `email` varchar(64) NOT NULL,
   `tel_nr` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -53,8 +53,8 @@ CREATE TABLE `ondernemers` (
   `stemp_afb` varchar(32) NOT NULL,
   `kvk` varchar(16) NOT NULL,
   `logo` varchar(64) NOT NULL DEFAULT 'images/default-logo.jpg',
-  `kleur1` varchar(7) NOT NULL DEFAULT 'ffffff',
-  `kleur2` varchar(7) NOT NULL DEFAULT '000000'
+  `kleur1` varchar(7) NOT NULL DEFAULT '#000000',
+  `kleur2` varchar(7) NOT NULL DEFAULT '#ffffff'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -78,9 +78,10 @@ CREATE TABLE `stempelkaarten` (
 --
 
 CREATE TABLE `stempelkaart_klant` (
+  `id` int(16) NOT NULL,
   `klant_id` int(16) NOT NULL,
   `stempelkaart_id` int(16) NOT NULL,
-  `aant_stemps` int(16) NOT NULL
+  `aant_stemps` int(16) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -91,7 +92,7 @@ CREATE TABLE `stempelkaart_klant` (
 -- Indexen voor tabel `klanten`
 --
 ALTER TABLE `klanten`
-  ADD KEY `klant_id` (`klant_id`);
+  ADD PRIMARY KEY (`klant_id`);
 
 --
 -- Indexen voor tabel `ondernemers`
@@ -110,7 +111,8 @@ ALTER TABLE `stempelkaarten`
 -- Indexen voor tabel `stempelkaart_klant`
 --
 ALTER TABLE `stempelkaart_klant`
-  ADD PRIMARY KEY (`klant_id`),
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `klant_id` (`klant_id`),
   ADD KEY `stempelkaart_id` (`stempelkaart_id`);
 
 --
@@ -136,7 +138,7 @@ ALTER TABLE `stempelkaarten`
 -- AUTO_INCREMENT voor een tabel `stempelkaart_klant`
 --
 ALTER TABLE `stempelkaart_klant`
-  MODIFY `klant_id` int(16) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT;
 --
 -- Beperkingen voor geëxporteerde tabellen
 --

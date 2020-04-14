@@ -2,7 +2,7 @@
 include("config.php");
 
 // Check of gebruiker ingelogd is of niet
-if(!isset($_SESSION['gebruikersnaam'])){
+if(!isset($_SESSION['klant'])){
     header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
@@ -19,15 +19,15 @@ if(isset($_GET['x'])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ondernemer Gegevens</title>
+    <title>Uw Gegevens</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 
      <?php 
     $error_message = "";$success_message = "";$ww_message = "";
 
-    //query om ondernemers gegevens uit de database op te halen
-    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+    //query om klant gegevens uit de database op te halen
+    $sql_id = "SELECT  * FROM `klanten` WHERE `gebr_naam`='".$_SESSION['klant']."'";
     $sql_query_id = mysqli_query($con,$sql_id);
     $result_id = mysqli_fetch_object($sql_query_id);
 
@@ -69,7 +69,7 @@ if(isset($_GET['x'])){
 
      // Als alles klopt, query uitvoeren om in de database te plaatsen.
     if($test){
-     $insertSQL = "UPDATE `ondernemers` SET `wachtwoord`='".$wachtwoord_n."' WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+     $insertSQL = "UPDATE `klanten` SET `wachtwoord`='".$wachtwoord_n."' WHERE `gebr_naam`='".$_SESSION['klant']."'";
      $stmt = $con->prepare($insertSQL);
      $stmt->execute();
      $stmt->close();
@@ -84,10 +84,9 @@ if(isset($_GET['x'])){
 
    $gebr_naam = trim($_POST['gebruikersnaam']);
 
-   $bedrijfsnaam = trim($_POST['bedrijfsnaam']);
    $email = trim($_POST['email']);
    $telefoonnummer = trim($_POST['telefoonnummer']);
-   $kvk = trim($_POST['kvknummer']);
+
 
 
 
@@ -99,7 +98,7 @@ if(isset($_GET['x'])){
    $klopt = true;
 
    // Check of alle velden ingevuld zijn
-   if($gebr_naam == '' ||  $bedrijfsnaam == '' || $email == '' || $telefoonnummer == '' || $kvk == ''){
+   if($gebr_naam == '' ||  $email == '' || $telefoonnummer == ''){
      $klopt = false;
      $error_message = "Het is verplicht om alle velden in te vullen!";
    }
@@ -125,7 +124,7 @@ if(isset($_GET['x'])){
    if($klopt){
 
      // Check of telefoonnummer al voorkomt in de database
-     $stmt = $con->prepare("SELECT * FROM ondernemers WHERE tel_nr = ?");
+     $stmt = $con->prepare("SELECT * FROM klanten WHERE tel_nr = ?");
      $stmt->bind_param("s", $telefoonnummer);
      $stmt->execute();
      $result = $stmt->get_result();
@@ -137,24 +136,11 @@ if(isset($_GET['x'])){
 
     }
 
-       if($klopt){
 
-     // Check of telefoonnummer al voorkomt in de database
-     $stmt = $con->prepare("SELECT * FROM ondernemers WHERE kvk = ?");
-     $stmt->bind_param("s", $kvk);
-     $stmt->execute();
-     $result = $stmt->get_result();
-     $stmt->close();
-     if($kvk != $result_id->kvk && $result->num_rows > 0){
-       $klopt = false;
-       $error_message = "Dit KvK-nummer is al bekend in ons systeem.</br>";
-     }
-
-    }
         if($klopt){
 
      // Check of email al voorkomt in de database
-     $stmt = $con->prepare("SELECT * FROM ondernemers WHERE email = ?");
+     $stmt = $con->prepare("SELECT * FROM klanten WHERE email = ?");
      $stmt->bind_param("s", $email);
      $stmt->execute();
      $result = $stmt->get_result();
@@ -171,7 +157,7 @@ if(isset($_GET['x'])){
 
    // Als alles klopt, query uitvoeren om in de database te plaatsen.
    if($klopt){
-     $insertSQL = "UPDATE `ondernemers` SET `bedrijfsnaam_ond`='".$bedrijfsnaam."', `email`='".$email."', `tel_nr`='".$telefoonnummer."',`kvk`='".$kvk."' WHERE `gebr_naam`='".$_SESSION['gebruikersnaam']."'";
+     $insertSQL = "UPDATE `klanten` SET `email`='".$email."', `tel_nr`='".$telefoonnummer."' WHERE `gebr_naam`='".$_SESSION['klant']."'";
      $stmt = $con->prepare($insertSQL);
      $stmt->execute();
      $stmt->close();
@@ -185,7 +171,7 @@ if(isset($_GET['x'])){
 <nav class="navtop">
     <?php
     //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if(!isset($_SESSION['klant'])){
 
         ?>
 
@@ -200,9 +186,9 @@ if(isset($_GET['x'])){
     } else {
         ?>
         <div>
-            <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
-            <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
-            <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+            <h1><a href="klant_stempelkaartoverzicht.php">StempelkaartApp</a></h1>
+            <a href="klant_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
+            <a href="klant_gegevens.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
         </div>
         <?php
     }
@@ -259,8 +245,6 @@ if(isset($_GET['x'])){
             ?>
         <p><label for="gebruikersnaam">Gebruikersnaam:</label><br><input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="<?php print $result_id->gebr_naam;?>"  readonly> <br>
 
-        <label for="bedrijfsnaam">Bedrijfsnaam:</label><br><input type="text" name="bedrijfsnaam" id="bedrijfsnaam" value="<?php print $result_id->bedrijfsnaam_ond;?>" required> <br>
-        <label for="kvk">KvK nummer:</label><br><input type="text" name="kvknummer" id="kvknummer" value="<?php print $result_id->kvk;?>" required> <br>
         <label for="email">E-mailadres:</label><br><input type="email" name="email" id="email" value="<?php print $result_id->email;?>" required> <br>
         <label for="telefoonnummer">Telefoonnummer:</label><br><input type="text" name="telefoonnummer" id="telefoonnummer" value="<?php print $result_id->tel_nr;?>" required> <br>
         <input type="submit" name="aanpassen"value="Aanpassen!"></p>
@@ -274,7 +258,7 @@ if(isset($_GET['x'])){
 
         <input type="submit" name="ww" value="Aanpassen!">
     </form>
-        <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
+        <button onclick="location.href='klant_stempelkaartoverzicht.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
 
          <h1></h1>
 </div>

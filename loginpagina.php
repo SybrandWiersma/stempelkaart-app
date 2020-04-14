@@ -76,7 +76,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
             <i class="fas fa-user"></i>
         </label>
         <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam" required> <br>
-        <label for="Wachtwoord">
+        <label for="wachtwoord">
             <i class="fas fa-lock"></i>
         </label>
         <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord" required> <br>
@@ -102,7 +102,7 @@ if(isset($_POST['send'])){
         $result_ondernemer = mysqli_query($con,$sql_query_ondernemer);
         $row_ondernemer = mysqli_fetch_array($result_ondernemer);
 
-        $sql_query_klant = "select count(*) as cntUser_klant from klanten where naam_klant='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
+        $sql_query_klant = "select count(*) as cntUser_klant from klanten where gebr_naam='".$gebruikersnaam."' and wachtwoord='".$wachtwoord."'";
         $result_klant = mysqli_query($con,$sql_query_klant);
         $row_klant = mysqli_fetch_array($result_klant);
 
@@ -118,13 +118,13 @@ if(isset($_POST['send'])){
         }else{
             if($count_klant > 0){
                 if($wachtwoord == "12345"){
-                    $sql_klant = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$gebruikersnaam."'";
+                    $sql_klant = "SELECT  * FROM `klanten` WHERE `gebr_naam`='".$gebruikersnaam."'";
                     $sql_query_klant = mysqli_query($con,$sql_klant);
                     $result_klant = mysqli_fetch_object($sql_query_klant);
 
                 header('Location:  first_klant.php?x='.$result_klant->klant_id);
 				} else {
-                        $_SESSION['gebruikersnaam'] = $gebruikersnaam;
+                        $_SESSION['klant'] = $gebruikersnaam;
                         header('Location: klant_stempelkaartoverzicht.php');
                         }
             } else {

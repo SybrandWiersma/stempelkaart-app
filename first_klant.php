@@ -37,6 +37,7 @@ if(!isset($_GET['x'])){
     $wachtwoord_o = 12345;
     $wachtwoord_n = trim($_POST['wachtwoord_n']);
     $wachtwoord_h = trim($_POST['wachtwoord_h']);
+    $gebruikersnaam = trim($_POST['naam']);
 
     $test = true;
 
@@ -64,9 +65,39 @@ if(!isset($_GET['x'])){
      $ww_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
         }
 
+     if($test){
+
+     // Check of gebruikersnaam al voorkomt in de database (ondernemers)
+     $stmt = $con->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ?");
+     $stmt->bind_param("s", $gebruikersnaam);
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $stmt->close();
+     if($result->num_rows > 0){
+       $test = false;
+       $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+     }
+
+   }
+
+   if($test){
+
+     // Check of gebruikersnaam al voorkomt in de database (klanten)
+     $stmt = $con->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
+     $stmt->bind_param("s", $gebruikersnaam);
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $stmt->close();
+     if($result->num_rows > 0){
+       $test = false;
+       $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+     }
+
+   }
+
      // Als alles klopt, query uitvoeren om in de database te plaatsen.
     if($test){
-     $insertSQL = "UPDATE `klanten` SET `wachtwoord`='".$wachtwoord_n."' WHERE `klant_id`='".$_GET['x']."'";
+     $insertSQL = "UPDATE `klanten` SET `wachtwoord`='".$wachtwoord_n."', `gebr_naam`='".$gebruikersnaam."' WHERE `klant_id`='".$_GET['x']."'";
      $stmt = $con->prepare($insertSQL);
      $stmt->execute();
      $stmt->close();
@@ -87,7 +118,7 @@ if(!isset($_GET['x'])){
 </nav>
 <div class="wrapper">
     <h1>Wachtwoord aanmaken</h1>
-        <p><strong> De eerste keer dat u inlogt moet u een nieuw wachtwoord aanmaken! </strong></p>
+        <p><strong> De eerste keer dat u inlogt moet u een nieuw wachtwoord en gebruikersnaam aanmaken! </strong></p>
     <form action="" method="post">
 
                          <?php 
@@ -105,7 +136,7 @@ if(!isset($_GET['x'])){
 
 
     <form action="" method="post">
-         <label for="naam">Uw automatische ingevulde inlognaam:</label><br><input type="text" name="naam" id="naam" placeholder="<?php print $result_klant->naam_klant;?>" readonly> <br>
+         <label for="naam">Uw gebruikersnaam:</label><br><input type="text" name="naam" id="naam" placeholder="Gebruikersnaam" required> <br>
          <label for="wachtwoord_n">Nieuwe wachtwoord:</label><br><input type="password" name="wachtwoord_n" id="wachtwoord" placeholder="Nieuwe wachtwoord" required> <br>
          <label for="wachtwoord_h">Herhaal nieuwe wachtwoord:</label><br><input type="password" name="wachtwoord_h" id="wachtwoord_h" placeholder="Herhaal nieuwe wachtwoord" required> <br>
 
