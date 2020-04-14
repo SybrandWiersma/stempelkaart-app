@@ -13,6 +13,9 @@ if (isset($_GET['x'])) {
     }
 }
 
+    require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
+    use Twilio\Rest\Client;
+
 
 // Haalt de ondernemer id uit de database met de gebruikersnaam uit de sessie
 $query_ondernemingID = "SELECT ondernemer_id FROM ondernemers WHERE gebr_naam = '".$_SESSION['gebruikersnaam']."';";
