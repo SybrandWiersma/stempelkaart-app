@@ -89,6 +89,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
                 window.history.back();
             }
         </script>
+        <h1></h1>
 
 <?php
 if(isset($_POST['send'])){

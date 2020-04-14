@@ -195,13 +195,7 @@ th, td {
     text-align: left;
     border: 1px solid black;
 }
-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-top: 0.5%;
-    padding-bottom: 8%;
-}
+
 input[type="password"], input[type="text"], input[type="email"]{
     width: 77%;
     height: 50px;

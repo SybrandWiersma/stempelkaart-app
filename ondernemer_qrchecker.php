@@ -3,8 +3,8 @@ include("config.php");
 
 // Haalt de data op die meegestuurd is met de request
 $ondernemer_gebr_naam = $_REQUEST["ondernemer_gebr_naam"];
-$klant_id = $_REQUEST['klantid'];
-$kaart_id = $_REQUEST['kaartid'];
+$klant_id = $_POST['klantid'];
+$kaart_id = $_POST['kaartid'];
 
 
 // Zoekt ondernemer op in database met gebruikersnaam van ondernemer

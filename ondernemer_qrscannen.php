@@ -12,6 +12,7 @@ if(isset($_GET['x'])){
         header('Location: index.php');
     }
 }
+
 // Gebruikersnaam opslaan in variabele zodat js hem kan gebruiken
 $session_value= $_SESSION['gebruikersnaam'];
 ?>
