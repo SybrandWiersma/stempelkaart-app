@@ -29,9 +29,16 @@ $result_check_koppeling = mysqli_query($con, $query_check_koppeling);
 if(mysqli_num_rows($result_check_koppeling) == 0){
     header('Location: 404.php');
 }
+$row_kaartdata = mysqli_fetch_array($result_check_koppeling);
+
+$query_klantdata = "SELECT * FROM klanten WHERE klant_id ='".$klant_id."';";
+$result_klantdata = mysqli_query($con, $query_klantdata);
+$row_klantdata = mysqli_fetch_array($result_klantdata);
 
 
-
+$query_aantstemps = "SELECT * FROM stempelkaart_klant WHERE klant_id ='".$klant_id."'AND stempelkaart_id = '".$kaart_id."';";
+$result_aantstemps = mysqli_query($con, $query_aantstemps);
+$row_aantstemps = mysqli_fetch_array($result_aantstemps);
 
 ?>
 <!DOCTYPE html>
@@ -70,19 +77,27 @@ if(mysqli_num_rows($result_check_koppeling) == 0){
     ?>
 </nav>
 <div class="wrapperQRinfo">
-    <form action="ondernemer_qrcode_gescand.php?kaartid=<?echo$kaart_id?>&klantid=<?echo$klant_id?>">
-        <h1>QR-Code Informati</h1>
-        <h4>Naam</h4> <p><?echo$klant_naam?></p>
-        <h4>Aantal stempels</h4> <p>4 / 12</p>
-        <h4>Stempels Toevoegen</h4> <input type="number" value="1" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
+    <form action="ondernemer_qrcode_gescand.php?kaartid=<?php echo$kaart_id?>&klantid=<?php echo$klant_id?>" method="post">
+        <h1>QR-Code Informatie</h1>
+        <h4>Naam</h4> <p><?php echo $row_klantdata['naam_klant']?></p>
+        <h4>Aantal stempels</h4> <p><?php echo $row_aantstemps['aant_stemps']." / ".$row_kaartdata['beloning_aantstemps']?></p>
+        <h4>Stempels Toevoegen</h4> <input type="number" id="stempel_waarde" value="1" min="1" max="12"> <!--max moet resterend aantal stempels zijn!-->
         <div style="border-bottom: 1px solid #dee0e4"></div>
-    <button>Stempel(s) Zetten</button>
-    <button>Kaart Verzilveren</button>
+    <button type="submit" value="">Stempel(s) Zetten</button>
+    <button <?php if($row_aantstemps['aant_stemps'] != $row_kaartdata['beloning_aantstemps']) echo "style =\"background-color:#4d5563; opacity:50%\" disabled";?>>Kaart Verzilveren</button>
     <button onclick="window.location.href'#'">Kaart Wijzigen</button>
     <button style="background-color: red; margin-bottom: 5%">Kaart Verwijderen</button>
     <div style="border-bottom: 1px solid #dee0e4"></div>
     <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button> <br>
     <script>
+        function ZetStempel(){
+            let aantaltoevoegen = document.getElementById('stempel_waarde');
+            let xmlhttprequest = new XMLHttpRequest();
+            xmlhttprequest.open
+        }
+
+
+
         function goBack() {
             window.history.back();
         }
