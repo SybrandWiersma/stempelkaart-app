@@ -20,7 +20,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 } else {
 
     //query om klant gegevens uit de database op te halen
-    $sql_id = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$_SESSION['klant']."'";
+    $sql_id = "SELECT  * FROM `klanten` WHERE `gebr_naam`='".$_SESSION['klant']."'";
     $sql_query_id = mysqli_query($con,$sql_id);
     $result_id = mysqli_fetch_object($sql_query_id);
 
@@ -74,7 +74,7 @@ if(!isset($_SESSION['klant'])){
     <div>
         <h1><a href="klant_stempelkaartoverzicht.php">StempelkaartApp</a></h1>
         <a href="klant_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
-        <a href="klant_kaartweergeven.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+        <a href="klant_stempelkaartoverzicht.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
     </div>
 <?php
  }

@@ -60,7 +60,7 @@ if(!isset($_SESSION['klant'])){
 
             $message = "";
            //query om gegevens klant uit de database op te halen
-             $sql_klant = "SELECT  * FROM `klanten` WHERE `naam_klant`='".$_SESSION['klant']."'";
+             $sql_klant = "SELECT  * FROM `klanten` WHERE `gebr_naam`='".$_SESSION['klant']."'";
              $sql_query_klant = mysqli_query($con,$sql_klant);
              $result_klant = mysqli_fetch_object($sql_query_klant);
 
