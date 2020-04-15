@@ -83,10 +83,12 @@ if(!isset($_SESSION['klant'])){
 <div class="wrapper" style="overflow-x:auto;">
 
     <h1><?php echo $result_stemp->beloning_label; ?></h1>
-    <center>
+    <center><font color="<?php print $result_ond->kleur1; ?>">
+    <?php echo $result_stemp->beloning_beschrijving; ?><br>
+    </font>
   
     <img src="<?php print $result_ond->logo;?>" width="250px" height="170px">
-    <table class="noBorder">
+    <table bgcolor="<?php print $result_ond->kleur2;?>" class="noBorder" >
     <tr>
     <?php 
     
