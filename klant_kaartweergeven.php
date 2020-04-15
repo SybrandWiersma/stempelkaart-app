@@ -3,20 +3,20 @@ include("config.php");
 
 // Check of gebruiker ingelogd is of niet
 if(!isset($_SESSION['klant'])){
-    echo "<script type='text/javascript'> document.location = 'index.php' </script>";
+    header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
 if(isset($_GET['x'])){
     if($_GET['x'] == "uitloggen"){
     session_destroy();
-        echo "<script type='text/javascript'> document.location = 'index.php' </script>";
+    header('Location: index.php');
     }
 }
 
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if(!isset($_GET['p']) && !isset($_GET['o'])){
-    echo "<script type='text/javascript'> document.location = '404.php' </script>";
+        header('Location: 404.php');
 } else {
 
     //query om klant gegevens uit de database op te halen
@@ -41,7 +41,7 @@ if(!isset($_GET['p']) && !isset($_GET['o'])){
 
     //als de meegegeven o niet overeenkomt met het ondernemers id van de ingelogde persoon kom je op 404
     if($_GET['o'] != $result_id->klant_id){
-        echo "<script type='text/javascript'> document.location = '404.php' </script>";
+                header('Location: 404.php');
 	} else {
     
 

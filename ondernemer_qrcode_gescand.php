@@ -6,13 +6,13 @@ include("config.php");
 
 // Check of gebruiker ingelogd is of niet
 if (!isset($_SESSION['gebruikersnaam'])) {
-    echo "<script type='text/javascript'> document.location = 'index.php' </script>";
+    header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
 if (isset($_GET['x'])) {
     if ($_GET['x'] == "uitloggen") {
         session_destroy();
-        echo "<script type='text/javascript'> document.location = 'index.php' </script>";
+        header('Location: index.php');
     }
 }
 
@@ -31,14 +31,14 @@ $kaart_id = $_GET['kaartid'];
 
 // Als er niets is mee gegeven word de error pagina weergeven
 if(!isset($klant_id) && !isset($kaart_id)){
-    echo "<script type='text/javascript'> document.location = '404.php' </script>";
+    header('Location: 404.php');
 }
 
 // Checkt of de klant een kaart heeft bij de ondernemer zodat een ondernemer niet bij klanten van andere ondernemers kan
 $query_check_koppeling = "SELECT * FROM stempelkaarten WHERE ondernemer_id ='".$ondernemer_id."' AND stempelkaart_id ='".$kaart_id."';";
 $result_check_koppeling = mysqli_query($con, $query_check_koppeling);
 if(mysqli_num_rows($result_check_koppeling) == 0){
-    echo "<script type='text/javascript'> document.location = '404.php' </script>";
+    header('Location: 404.php');
 }
 $row_kaartdata = mysqli_fetch_array($result_check_koppeling);
 
@@ -57,7 +57,7 @@ if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
 
     // Checkt of het aantal toe te voegen stempels niet groter is dan het aantal dat je kan toevoegen
     if ($_POST['stempel_aantal'] > ($row_kaartdata['beloning_aantstemps'] - $row_aantstemps['aant_stemps'])|| $_POST['stempel_aantal'] <= 0) {
-        echo "<script type='text/javascript'> document.location = '404.php' </script>";
+        header('Location: 404.php');
     }
 
     // berekent het nieuwe stempel aantal
@@ -109,7 +109,7 @@ if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
 if (isset($_POST['kaartverzilveren'])){
     // Checkt of de kaart daadwerkelijk vol is
     if (!($row_aantstemps['aant_stemps'] == $row_kaartdata['beloning_aantstemps'])){
-        echo "<script type='text/javascript'> document.location = '404.php' </script>";
+        header('Location: 404.php');
     }
     // Verzilvert de kaart in de database dus zet stempelaantal op 0
     $stempelkaart_verzilveren_query = "UPDATE stempelkaart_klant SET aant_stemps = 0 WHERE klant_id = ? AND stempelkaart_id = ?";
@@ -138,7 +138,7 @@ if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])){
     $result_check_geselecteerd = mysqli_query($con, $query_check_geselecteerd);
 
     if(mysqli_num_rows($result_check_geselecteerd) == 0){
-        echo "<script type='text/javascript'> document.location = '404.php' </script>";
+        header('Location: 404.php');
     }
 
     // Haalt de gegevens op van de te veranderen kaart
@@ -163,8 +163,7 @@ if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])){
     $stmt->close();
 
     // Herlaad de pagina met de nieuwe kaart zodat de juiste gegevens worden weergeven
-
-    echo "<script type='text/javascript'> document.location = 'ondernemer_qrcode_gescand.php?kaartid=".$_POST['geselecteerde_kaart']."&klantid=".$klant_id."'</script>";
+    header('Location: ondernemer_qrcode_gescand.php?kaartid='.$_POST["geselecteerde_kaart"].'&klantid='.$klant_id);
 }
 
 

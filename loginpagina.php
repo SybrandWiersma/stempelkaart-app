@@ -1,10 +1,9 @@
 <?php
 include("config.php");
-ob_start();
 
 if(isset($_SESSION['gebruikersnaam'])){
     session_destroy();
-    echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
+    header('Location: index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -69,7 +68,7 @@ if(!isset($_SESSION['gebruikersnaam'])){
     
 
      if($result_klant->wachtwoord == "12345"){
-         echo "<script type='text/javascript'> document.location = 'first_klant.php?x=".$_GET['x']." </script>";
+     header('Location:  first_klant.php?x='.$_GET['x']);
      }
      }
     ?>
@@ -116,7 +115,7 @@ if(isset($_POST['send'])){
 
         if($count_ondernemer > 0){
             $_SESSION['gebruikersnaam'] = $gebruikersnaam;
-            echo "<script type='text/javascript'> document.location = 'ondernemer_landing.php'; </script>";
+            header('Location: ondernemer_landing.php');
         }else{
             if($count_klant > 0){
                 if($wachtwoord == "12345"){
@@ -124,11 +123,9 @@ if(isset($_POST['send'])){
                     $sql_query_klant = mysqli_query($con,$sql_klant);
                     $result_klant = mysqli_fetch_object($sql_query_klant);
 
-                    echo "<script type='text/javascript'> document.location = 'first_klant.php?x=".$result_klant->klant_id.";' </script>";
-                // header('Location:  first_klant.php?x='.$result_klant->klant_id);
+                header('Location:  first_klant.php?x='.$result_klant->klant_id);
 				} else {
                         $_SESSION['klant'] = $gebruikersnaam;
-                        echo "<script type='text/javascript'> document.location = 'klant_stempelkaartoverzicht.php' </script>";
                         header('Location: klant_stempelkaartoverzicht.php');
                         }
             } else {

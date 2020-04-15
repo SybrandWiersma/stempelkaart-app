@@ -5,7 +5,7 @@ include("config.php");
 if(isset($_GET['x'])){
     if($_GET['x'] == "uitloggen"){
     session_destroy();
-        echo "<script type='text/javascript'> document.location = 'index.php' </script>";
+    header('Location: index.php');
     }
 }
 ?>
