@@ -4,7 +4,7 @@ include("config.php");
 
 // Check of er fraude is in het bereiken van deze pagina
 if(!isset($_GET['x'])){
-    header('Location: 404.php');
+    echo "<script type='text/javascript'> document.location = '404.php' </script>";
 } else {
 
    //query om gegevens klant uit de database op te halen
@@ -14,8 +14,8 @@ if(!isset($_GET['x'])){
     
     //indien klant al een ander wachtwoord aangemaakt heeft, wordt deze automatisch doorgestuurd naar login pagina voor klanten
     if($result_klant->wachtwoord != 12345){
-    header('Location: loginpagina.php?p=aangepast');
-    
+
+        echo "<script type='text/javascript'> document.location = 'loginpagina.php?p=aangepast' </script>";
 	} else {
 
 
@@ -102,8 +102,7 @@ if(!isset($_GET['x'])){
      $stmt->execute();
      $stmt->close();
 
-     header('Location: loginpagina.php?p=gelukt&x='.$_GET['x']);
-     
+     echo "<script type='text/javascript'> document.location = 'loginpagina.php?p=gelukt&x=".$_GET['x']." </script>";
    }
 }
 

@@ -3,13 +3,13 @@ include("config.php");
 
 // Check of gebruiker ingelogd is of niet
 if(!isset($_SESSION['gebruikersnaam'])){
-    header('Location: index.php');
+    echo "<script type='text/javascript'> document.location = 'index.php' </script>";
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
 if(isset($_GET['x'])){
     if($_GET['x'] == "uitloggen"){
     session_destroy();
-    header('Location: index.php');
+        echo "<script type='text/javascript'> document.location = 'index.php' </script>";
     }
 }
 ?>
