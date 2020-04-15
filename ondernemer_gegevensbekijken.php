@@ -99,7 +99,7 @@ if(isset($_GET['x'])){
    $klopt = true;
 
    // Check of alle velden ingevuld zijn
-   if($gebr_naam == '' ||  $bedrijfsnaam == '' || $email == '' || $telefoonnummer == '' || $kvk == ''){
+   if( $bedrijfsnaam == '' || $email == '' || $telefoonnummer == '' || $kvk == ''){
      $klopt = false;
      $error_message = "Het is verplicht om alle velden in te vullen!";
    }
