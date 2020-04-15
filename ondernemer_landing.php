@@ -57,15 +57,17 @@ if(isset($_GET['x'])){
        <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten Weergeven">
        <input type="button" onclick="location.href='ondernemer_gegevensbekijken.php';" value="Gegevens Bekijken/Wijzigen">
        <input type="button" style="background-color: #d9534f" onclick="location.href='ondernemer_landing.php?x=uitloggen';" value="Uitloggen">
+        <h1></h1>
     </div>
        </form>
 
         
-        
+
         
 
 
 
 </div>
+
 </body>
 </html>

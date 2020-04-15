@@ -212,15 +212,13 @@ include("config.php")
         <input type="email" name="email" id="email" placeholder=" E-mail" required> <br>
         <input type="text" name="telefoonnummer" id="telefoonnummer" maxlength="10" placeholder="Telefoonnummer" required> <br>
         <input type="submit" name="registreer_o"value="Registreren">
-        <button onclick="Terug()" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
-        <!--        Doet nog niks omdat er nog geen navigatie is-->
+        <button onclick="Terug()" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button><br>
         <script>
             function Terug() {
                 window.history.back();
             }
         </script>
          	&nbsp;
-        <!--        Doet nog niks omdat er nog geen navigatie is-->
     </form>
 </div>
 

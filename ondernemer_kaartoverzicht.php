@@ -60,7 +60,7 @@ if(isset($_GET['x'])){
     }
     }
     ?>
-    <table cellspacing='1' align='center' style="margin: 5%; width: 90%; table-layout: fixed;">
+    <table cellspacing='1' class="Kaartoverzicht" align='center' style="margin: 5%; width: 90%; table-layout: fixed;">
     <tr>
 		<th width=5%'>
 			#

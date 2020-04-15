@@ -242,20 +242,20 @@ textarea{
     width: 77%;
     padding: 2%;
 }
-td{
+.Kaartoverzicht td{
     word-break: break-all;
 }
-td, th {
+.Kaartoverzicht td, th {
     border: 1px solid #ddd;
     padding: 8px;
 }
-tr:nth-child(even){
+.Kaartoverzicht tr:nth-child(even){
     background-color: #e9e9e9;
 }
-tr:hover{
+.Kaartoverzicht tr:hover{
     background-color: #ddd;
 }
-table th {
+.Kaartoverzicht table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -265,7 +265,7 @@ table th {
 .buttonnaam {
     width: 77%;
     padding: 3.5%;
-    margin-top: 4%;
+    margin: 4%;
     border-radius: 5px;
     background-color: #3274d6;
     border: 0;

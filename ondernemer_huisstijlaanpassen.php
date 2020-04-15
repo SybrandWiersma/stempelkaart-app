@@ -191,8 +191,8 @@ if ($uploadOk == 0) {
     <p>Verander tekstkleur:</p>
     <form action="ondernemer_huisstijlaanpassen.php" method="post" enctype="multipart/form-data">
         <div>
-            <input type="color" name="letter"value="<?php print $result_achtergrond->kleur1 ?>">
-            <input type="submit" class="kleinebutton" name="send" value="Wijzig kleur">
+            <input type="color" name="letter"value="<?php print $result_achtergrond->kleur1 ?>"><br>
+            <input type="submit" name="send" value="Wijzig kleur">
         </div>
     </form>
 
@@ -209,7 +209,8 @@ if ($uploadOk == 0) {
 
     <p>Verander achtergrondkleur:</p>
    <form action="ondernemer_huisstijlaanpassen.php" method="post" enctype="multipart/form-data">
-       <div><input type="color" name="back" value="<?php print $result_letter->kleur2 ?>"> <input type="submit" class="kleinebutton" name="send2" value="Wijzig kleur"></div>
+       <div><input type="color" name="back" value="<?php print $result_letter->kleur2 ?>"><br>
+           <input type="submit" name="send2" value="Wijzig kleur"></div>
    </form>
 
       <?php

@@ -267,9 +267,12 @@ if(isset($_GET['x'])){
 
     </form>
     <form action="" method="post">
-         <label for="wachtwoord_o">Uw oude wachtwoord:</label><br><input type="password" name="wachtwoord_o" id="wachtwoord" placeholder="Oude wachtwoord" required> <br>
-         <label for="wachtwoord_n">Nieuwe wachtwoord:</label><br><input type="password" name="wachtwoord_n" id="wachtwoord" placeholder="Nieuwe wachtwoord" required> <br>
-         <label for="wachtwoord_h">Herhaal nieuwe wachtwoord:</label><br><input type="password" name="wachtwoord_h" id="wachtwoord_h" placeholder="Herhaal nieuwe wachtwoord" required> <br>
+         <label for="wachtwoord_o">Uw oude wachtwoord:</label><br>
+        <input type="password" name="wachtwoord_o" id="wachtwoord" placeholder="Oude wachtwoord" required> <br>
+         <label for="wachtwoord_n">Nieuwe wachtwoord:</label><br>
+        <input type="password" name="wachtwoord_n" id="wachtwoord" placeholder="Nieuwe wachtwoord" required> <br>
+         <label for="wachtwoord_h">Herhaal nieuwe wachtwoord:</label><br>
+        <input type="password" name="wachtwoord_h" id="wachtwoord_h" placeholder="Herhaal nieuwe wachtwoord" required> <br>
 
 
         <input type="submit" name="ww" value="Aanpassen!">
