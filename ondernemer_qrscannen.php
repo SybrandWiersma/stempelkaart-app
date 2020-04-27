@@ -2,19 +2,19 @@
 include("config.php");
 
 // Check of gebruiker ingelogd is of niet
-if(!isset($_SESSION['gebruikersnaam'])){
+if (!isset($_SESSION['gebruikersnaam'])) {
     header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
-if(isset($_GET['x'])){
-    if($_GET['x'] == "uitloggen"){
+if (isset($_GET['x'])) {
+    if ($_GET['x'] == "uitloggen") {
         session_destroy();
         header('Location: index.php');
     }
 }
 
 // Gebruikersnaam opslaan in variabele zodat js hem kan gebruiken
-$session_value= $_SESSION['gebruikersnaam'];
+$session_value = $_SESSION['gebruikersnaam'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +29,7 @@ $session_value= $_SESSION['gebruikersnaam'];
 <nav class="navtop">
     <?php
     //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if (!isset($_SESSION['gebruikersnaam'])) {
 
         ?>
 
@@ -54,7 +54,9 @@ $session_value= $_SESSION['gebruikersnaam'];
 </nav>
 <div class="wrapper">
     <h1>QR Scanner</h1>
-    <div class="preview-container"><video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video></div>
+    <div class="preview-container">
+        <video style="align-content: center; width: 100%; padding: 5px;" id="preview"></video>
+    </div>
     <div class="preview-container">
         <h1>Scans</h1>
         <ul id="scans">
@@ -62,19 +64,20 @@ $session_value= $_SESSION['gebruikersnaam'];
     </div>
 
     <br/>
-    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
+    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug
+    </button>
     <h1></h1>
 
 
 </div>
 <script>
     let sessionId = '<?php echo $session_value?>';
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let scanner = new Instascan.Scanner({video: document.getElementById('preview')});
 
     scanner.addListener('scan', function (content, image) {
         console.log(content);
         let xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let parser = new DOMParser();
                 let v1 = parser.parseFromString(this.responseText, "text/html");
@@ -84,7 +87,7 @@ $session_value= $_SESSION['gebruikersnaam'];
         };
         xmlhttp.open("POST", "ondernemer_qrchecker.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send(content+"&ondernemer_gebr_naam="+sessionId);
+        xmlhttp.send(content + "&ondernemer_gebr_naam=" + sessionId);
 
     });
 

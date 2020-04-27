@@ -2,14 +2,14 @@
 include("config.php");
 
 // Check of gebruiker ingelogd is of niet
-if(!isset($_SESSION['gebruikersnaam'])){
+if (!isset($_SESSION['gebruikersnaam'])) {
     header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
-if(isset($_GET['x'])){
-    if($_GET['x'] == "uitloggen"){
-    session_destroy();
-    header('Location: index.php');
+if (isset($_GET['x'])) {
+    if ($_GET['x'] == "uitloggen") {
+        session_destroy();
+        header('Location: index.php');
     }
 }
 ?>
@@ -25,7 +25,7 @@ if(isset($_GET['x'])){
 <nav class="navtop">
     <?php
     //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if (!isset($_SESSION['gebruikersnaam'])) {
 
         ?>
 
@@ -51,20 +51,17 @@ if(isset($_GET['x'])){
 <div class="wrapper">
     <h1>Ondernemerspagina</h1>
     <form action="">
-       <input type="button" onclick="location.href='ondernemer_qrscannen.php';" value="QR Scanner">
-       <input type="button" onclick="location.href='ondernemer_huisstijlaanpassen.php';" value="Huisstijl Aanpassen">
-       <input type="button" onclick="location.href='ondernemer_kaartaanmaken.php';" value="Kaart Aanmaken">
-       <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten Weergeven">
-       <input type="button" onclick="location.href='ondernemer_gegevensbekijken.php';" value="Gegevens Bekijken/Wijzigen">
-       <input type="button" style="background-color: #d9534f" onclick="location.href='ondernemer_landing.php?x=uitloggen';" value="Uitloggen">
+        <input type="button" onclick="location.href='ondernemer_qrscannen.php';" value="QR Scanner">
+        <input type="button" onclick="location.href='ondernemer_huisstijlaanpassen.php';" value="Huisstijl Aanpassen">
+        <input type="button" onclick="location.href='ondernemer_kaartaanmaken.php';" value="Kaart Aanmaken">
+        <input type="button" onclick="location.href='ondernemer_kaartoverzicht.php';" value="Kaarten Weergeven">
+        <input type="button" onclick="location.href='ondernemer_gegevensbekijken.php';"
+               value="Gegevens Bekijken/Wijzigen">
+        <input type="button" style="background-color: #d9534f"
+               onclick="location.href='ondernemer_landing.php?x=uitloggen';" value="Uitloggen">
         <h1></h1>
-    </div>
-       </form>
-
-        
-
-        
-
+</div>
+</form>
 
 
 </div>

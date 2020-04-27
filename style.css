@@ -1,20 +1,22 @@
 * {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans"
-    , "droid sans", "helvetica neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 body {
     background-color: #435165;
 }
+
 .navtop {
-     background-color: #2f3947;
-     height: 60px;
-     width: 100%;
-     border: 0;
- }
+    background-color: #2f3947;
+    height: 60px;
+    width: 100%;
+    border: 0;
+}
+
 .navtop div {
     display: flex;
     margin: 0 auto;
@@ -23,10 +25,12 @@ body {
 
     height: 100%;
 }
+
 .navtop div h1, .navtop div a {
     display: inline-flex;
     align-items: center;
 }
+
 .navtop div h1 {
     flex: 1;
     font-size: 24px;
@@ -35,6 +39,7 @@ body {
     color: #eaebed;
     font-weight: normal;
 }
+
 .navtop div h1 a {
     display: inline-flex;
     align-items: center;
@@ -45,26 +50,31 @@ body {
     color: #eaebed;
     font-weight: normal;
 }
+
 .navtop div a {
     padding: 0 20px;
     text-decoration: none;
     color: #c1c4c8;
     font-weight: bold;
 }
+
 .navtop div a i {
     padding: 2px 8px 0 0;
 }
+
 .navtop div a:hover {
     color: #eaebed;
 }
+
 .wrapper {
     border-radius: 5px;
     width: 32%;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
     margin: 10% auto;
-    text-align:center;
+    text-align: center;
 }
+
 .wrapper h1 {
     text-align: center;
     color: #5b6574;
@@ -72,18 +82,21 @@ body {
     padding: 8% 0 8% 0;
     border-bottom: 1px solid #dee0e4;
 }
+
 .wrapper h2 {
     text-align: center;
     color: #4d5563;
     font-size: 20px;
     padding: 1% 0 3% 0;
 }
+
 .wrapper h4 {
     text-align: center;
     color: #000000;
     font-size: 15px;
     padding: 1% 5% 1% 5%;
 }
+
 .wrapperStempelkaartInfo {
     border-radius: 5px;
     width: 50%;
@@ -92,13 +105,15 @@ body {
     margin: 10% auto;
     text-align: center;
 }
-.wrapperStempelkaartInfo h1{
+
+.wrapperStempelkaartInfo h1 {
     text-align: center;
     color: #5b6574;
     font-size: 24px;
     padding: 5% 0 5% 0;
     border-bottom: 1px solid #dee0e4;
 }
+
 .wrapperStempelkaartOverzicht {
     border-radius: 5px;
     width: 50%;
@@ -107,13 +122,15 @@ body {
     margin: 10% auto;
     text-align: center;
 }
-.wrapperStempelkaartOverzicht h1{
+
+.wrapperStempelkaartOverzicht h1 {
     text-align: center;
     color: #5b6574;
     font-size: 24px;
     padding: 5% 0 5% 0;
     border-bottom: 1px solid #dee0e4;
 }
+
 .wrapper_newStempelkaart {
     border-radius: 5px;
     width: 50%;
@@ -122,6 +139,7 @@ body {
     margin: 10% auto;
     text-align: center;
 }
+
 .wrapper_newStempelkaart h1 {
     text-align: center;
     color: #5b6574;
@@ -129,29 +147,34 @@ body {
     padding: 8% 0 8% 0;
     border-bottom: 1px solid #dee0e4;
 }
+
 .wrapper_newStempelkaart h2 {
     text-align: center;
     color: #4d5563;
     font-size: 20px;
     padding: 1% 0 3% 0;
 }
-.StempelkaartOverzicht_div{
+
+.StempelkaartOverzicht_div {
     overflow-y: scroll;
     height: 60vh;
 }
-.StempelsInfo{
+
+.StempelsInfo {
     border: 2px solid #2f3034;
     border-radius: 5px;
     margin: 4% 10% 10%;
     padding: 4%;
 }
-.Stempelkaart{
+
+.Stempelkaart {
     border: 2px solid #2f3034;
     border-radius: 5px;
     margin: 4% 15% 10%;
     padding: 5%;
     overflow: auto;
 }
+
 .wrapperQRinfo {
     border-radius: 5px;
     width: 32%;
@@ -160,6 +183,7 @@ body {
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
     margin: 10% auto;
 }
+
 .wrapperQRinfo h1 {
     text-align: center;
     color: #5b6574;
@@ -167,42 +191,50 @@ body {
     padding: 8% 0 8% 0;
     border-bottom: 1px solid #dee0e4;
 }
+
 .wrapperQRinfo p {
-   margin-bottom: 10%;
+    margin-bottom: 10%;
 }
-.wrapperQRinfo input[type="number"]{
+
+.wrapperQRinfo input[type="number"] {
     width: 10%;
     margin-bottom: 5%;
 }
-#ond_naam{
+
+#ond_naam {
     display: inline;
     float: left;
 }
-#aant_stemp{
+
+#aant_stemp {
     display: inline;
     float: right;
 }
+
 table {
     border: 1px solid black;
     width: 80%;
     border-collapse: collapse;
 }
+
 .noBorder {
     border: none !important;
 }
+
 th, td {
     padding: 15px;
     text-align: left;
     border: 1px solid black;
 }
 
-input[type="password"], input[type="text"], input[type="email"]{
+input[type="password"], input[type="text"], input[type="email"] {
     width: 77%;
     height: 50px;
     border: 1px solid #dee0e4;
     margin-bottom: 4%;
     padding: 0 1%;
 }
+
 input[type="submit"], input[type="button"], button {
     width: 77%;
     padding: 3.5%;
@@ -215,10 +247,12 @@ input[type="submit"], input[type="button"], button {
     color: #ffffff;
     transition: background-color 0.2s, all 0.2s;
 }
+
 input[type="submit"]:hover, input[type="button"]:hover, button:hover {
     background-color: #2868c7;
     transition: background-color 0.2s;
 }
+
 .ondernemer_klantkoppelen input[type="number"] {
     width: 77%;
     padding: 0 1%;
@@ -226,35 +260,43 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover {
     height: 50px;
     border: 1px solid #dee0e4;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
 }
-textarea{
+
+textarea {
     resize: none;
     margin-top: -1.5%;
     height: 60%;
     width: 77%;
     padding: 2%;
 }
-.Kaartoverzicht td{
+
+.Kaartoverzicht td {
     word-break: break-all;
 }
+
 .Kaartoverzicht td, th {
     border: 1px solid #ddd;
     padding: 8px;
 }
-.Kaartoverzicht tr:nth-child(even){
+
+.Kaartoverzicht tr:nth-child(even) {
     background-color: #e9e9e9;
 }
-.Kaartoverzicht tr:hover{
+
+.Kaartoverzicht tr:hover {
     background-color: #ddd;
 }
+
 .Kaartoverzicht table th {
     padding-top: 12px;
     padding-bottom: 12px;
@@ -262,6 +304,7 @@ textarea{
     background-color: #3274d6;
     color: white;
 }
+
 .buttonnaam {
     width: 77%;
     padding: 3.5%;
@@ -274,6 +317,7 @@ textarea{
     color: #ffffff;
     transition: background-color 0.2s, all 0.2s;
 }
+
 .buttonnaam:hover {
     background-color: #2868c7;
     transition: background-color 0.2s;

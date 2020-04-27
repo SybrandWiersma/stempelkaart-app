@@ -13,7 +13,7 @@ include("config.php")
 <body>
 <nav class="navtop">
     <?php
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if (!isset($_SESSION['gebruikersnaam'])) {
 
         ?>
 
@@ -38,8 +38,12 @@ include("config.php")
 <div class="wrapper">
     <h1>Snackbar Vette Hap</h1>
     <h2>QR-Code</h2>
-    <div style="border: 2px solid #2f3034; margin: 4% 30% 4% 30%; padding: 4%; height: 120px">"hier qr code zonder border"</div>
-    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%; margin-left: 30%"><i class="fas fa-chevron-left"></i> Terug</button>
+    <div style="border: 2px solid #2f3034; margin: 4% 30% 4% 30%; padding: 4%; height: 120px">"hier qr code zonder
+        border"
+    </div>
+    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%; margin-left: 30%"><i
+                class="fas fa-chevron-left"></i> Terug
+    </button>
     <script>
         function goBack() {
             window.history.back();

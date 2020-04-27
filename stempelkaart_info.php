@@ -2,14 +2,14 @@
 include("config.php");
 
 // Check of gebruiker ingelogd is of niet
-if(!isset($_SESSION['gebruikersnaam'])){
+if (!isset($_SESSION['gebruikersnaam'])) {
     header('Location: index.php');
 }
 // Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
-if(isset($_GET['x'])){
-    if($_GET['x'] == "uitloggen"){
-    session_destroy();
-    header('Location: index.php');
+if (isset($_GET['x'])) {
+    if ($_GET['x'] == "uitloggen") {
+        session_destroy();
+        header('Location: index.php');
     }
 }
 ?>
@@ -25,7 +25,7 @@ if(isset($_GET['x'])){
 <nav class="navtop">
     <?php
     //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if (!isset($_SESSION['gebruikersnaam'])) {
 
         ?>
 
@@ -54,15 +54,20 @@ if(isset($_GET['x'])){
     <div class="StempelsInfo">
 
     </div>
-    <button onclick="window.location.href='.html'" style="width: 40%">QR-Code</button><br>
-    <button onclick="window.location.href='beloning.html'" style="width: 40%">Beloning Bekijken</button><br>
-    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug naar Kaarten</button> <br>
+    <button onclick="window.location.href='.html'" style="width: 40%">QR-Code</button>
+    <br>
+    <button onclick="window.location.href='beloning.html'" style="width: 40%">Beloning Bekijken</button>
+    <br>
+    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug naar
+        Kaarten
+    </button>
+    <br>
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
-     <button style="width: 25%; background-color: red; margin-bottom: 5%">Verwijderen</button>
+    <button style="width: 25%; background-color: red; margin-bottom: 5%">Verwijderen</button>
 </div>
 </body>
 </html>

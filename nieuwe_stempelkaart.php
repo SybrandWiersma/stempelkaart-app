@@ -13,7 +13,7 @@ include("config.php")
 <body>
 <nav class="navtop">
     <?php
-    if(!isset($_SESSION['gebruikersnaam'])){
+    if (!isset($_SESSION['gebruikersnaam'])) {
 
         ?>
 
@@ -50,7 +50,8 @@ include("config.php")
     </div>
     <div style="border-bottom: 1px solid #dee0e4"></div>
     <button onclick="window.location.href'#'">Kaart toevoegen</button>
-    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button> <br>
+    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button>
+    <br>
     <script>
         function goBack() {
             window.history.back();
