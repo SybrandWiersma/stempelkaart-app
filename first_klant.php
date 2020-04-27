@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-
+require("header_klant.php");
 
 // Check of er fraude is in het bereiken van deze pagina
 if (!isset($_GET['x'])) {
@@ -19,101 +19,86 @@ if (!isset($_GET['x'])) {
     } else {
 
 
-        ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>Wachtwoord aanpassen</title>
-            <link rel="stylesheet" href="style.css" type="text/css">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-
-            <?php
-            $ww_message = "";
+        $ww_message = "";
 
 
-            if (isset($_POST['ww'])) {
-                $wachtwoord_o = 12345;
-                $wachtwoord_n = trim($_POST['wachtwoord_n']);
-                $wachtwoord_h = trim($_POST['wachtwoord_h']);
-                $gebruikersnaam = trim($_POST['naam']);
+        if (isset($_POST['ww'])) {
+            $wachtwoord_o = 12345;
+            $wachtwoord_n = trim($_POST['wachtwoord_n']);
+            $wachtwoord_h = trim($_POST['wachtwoord_h']);
+            $gebruikersnaam = trim($_POST['naam']);
 
-                $test = true;
+            $test = true;
 
-                if ($wachtwoord_n == '' || $wachtwoord_h == '') {
-                    $test = false;
-                    $ww_message = "Het is verplicht om alle velden in te vullen!";
-                }
-
-
-                // Check of oude wachtwoord klopt
-                if ($test && ($wachtwoord_o == $wachtwoord_n)) {
-                    $test = false;
-                    $ww_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
-                }
-
-                // Check of de wachtwoorden exact hetzelfde zijn
-                if ($test && ($wachtwoord_n != $wachtwoord_h)) {
-                    $test = false;
-                    $ww_message = "Nieuwe wachtwoorden komen niet overeen";
-                }
-
-                // Check of wachtwoord te kort is
-                if ($test && strlen($wachtwoord_n) < 5) {
-                    $test = false;
-                    $ww_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
-                }
-
-                if ($test) {
-
-                    // Check of gebruikersnaam al voorkomt in de database (ondernemers)
-                    $stmt = $con->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ?");
-                    $stmt->bind_param("s", $gebruikersnaam);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $stmt->close();
-                    if ($result->num_rows > 0) {
-                        $test = false;
-                        $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
-                    }
-
-                }
-
-                if ($test) {
-
-                    // Check of gebruikersnaam al voorkomt in de database (klanten)
-                    $stmt = $con->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
-                    $stmt->bind_param("s", $gebruikersnaam);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $stmt->close();
-                    if ($result->num_rows > 0) {
-                        $test = false;
-                        $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
-                    }
-
-                }
-
-                // Als alles klopt, query uitvoeren om in de database te plaatsen.
-                if ($test) {
-                    $insertSQL = "UPDATE `klanten` SET `wachtwoord`='" . $wachtwoord_n . "', `gebr_naam`='" . $gebruikersnaam . "' WHERE `klant_id`='" . $_GET['x'] . "'";
-                    $stmt = $con->prepare($insertSQL);
-                    $stmt->execute();
-                    $stmt->close();
-
-                    header('Location: loginpagina.php?p=gelukt&x=' . $_GET['x']);
-
-                }
+            if ($wachtwoord_n == '' || $wachtwoord_h == '') {
+                $test = false;
+                $ww_message = "Het is verplicht om alle velden in te vullen!";
             }
 
 
-            ?>
-        </head>
-        <body>
-        <nav class="navtop">
+            // Check of oude wachtwoord klopt
+            if ($test && ($wachtwoord_o == $wachtwoord_n)) {
+                $test = false;
+                $ww_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
+            }
+
+            // Check of de wachtwoorden exact hetzelfde zijn
+            if ($test && ($wachtwoord_n != $wachtwoord_h)) {
+                $test = false;
+                $ww_message = "Nieuwe wachtwoorden komen niet overeen";
+            }
+
+            // Check of wachtwoord te kort is
+            if ($test && strlen($wachtwoord_n) < 5) {
+                $test = false;
+                $ww_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
+            }
+
+            if ($test) {
+
+                // Check of gebruikersnaam al voorkomt in de database (ondernemers)
+                $stmt = $con->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ?");
+                $stmt->bind_param("s", $gebruikersnaam);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
+                if ($result->num_rows > 0) {
+                    $test = false;
+                    $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+                }
+
+            }
+
+            if ($test) {
+
+                // Check of gebruikersnaam al voorkomt in de database (klanten)
+                $stmt = $con->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
+                $stmt->bind_param("s", $gebruikersnaam);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
+                if ($result->num_rows > 0) {
+                    $test = false;
+                    $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+                }
+
+            }
+
+            // Als alles klopt, query uitvoeren om in de database te plaatsen.
+            if ($test) {
+                $insertSQL = "UPDATE `klanten` SET `wachtwoord`='" . $wachtwoord_n . "', `gebr_naam`='" . $gebruikersnaam . "' WHERE `klant_id`='" . $_GET['x'] . "'";
+                $stmt = $con->prepare($insertSQL);
+                $stmt->execute();
+                $stmt->close();
+
+                header('Location: loginpagina.php?p=gelukt&x=' . $_GET['x']);
+
+            }
+        }
 
 
-        </nav>
+        ?>
+
         <div class="wrapper">
             <h1>Wachtwoord aanmaken</h1>
             <p><strong> De eerste keer dat u inlogt moet u een nieuw wachtwoord en gebruikersnaam aanmaken! </strong>
