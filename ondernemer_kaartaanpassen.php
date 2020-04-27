@@ -1,18 +1,6 @@
 <?php
 include("config.php");
-
-// Check of gebruiker ingelogd is of niet
-if (!isset($_SESSION['gebruikersnaam'])) {
-    header('Location: index.php');
-}
-// Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
-if (isset($_GET['x'])) {
-    if ($_GET['x'] == "uitloggen") {
-        session_destroy();
-        header('Location: index.php');
-    }
-}
-
+require("header_ondernemer.php");
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if (!isset($_GET['p']) && !isset($_GET['o'])) {
@@ -35,81 +23,44 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
     } else {
 
 
-        ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>Kaart aanpassen</title>
-            <link rel="stylesheet" href="style.css" type="text/css">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-
-            <?php
-            $error_message = "";
-            $success_message = "";
-            //na aanpassen kaart
-            if (isset($_POST['aanpassen'])) {
+        $error_message = "";
+        $success_message = "";
+        //na aanpassen kaart
+        if (isset($_POST['aanpassen'])) {
 
 
-                $aant_stemps = trim($_POST['stemps']);
-                $label = trim($_POST['label']);
-                $beschrijving = trim($_POST['beschrijving']);
+            $aant_stemps = trim($_POST['stemps']);
+            $label = trim($_POST['label']);
+            $beschrijving = trim($_POST['beschrijving']);
 
-                $klopt = true;
+            $klopt = true;
 
-                // Check of alle velden ingevuld zijn
-                if ($aant_stemps == '' || $label == '' || $beschrijving == '') {
-                    $klopt = false;
-                    $error_message = "De velden mogen niet leeg zijn!";
-                }
-
-                // Als alles ingevuld is, query uitvoeren om in de database te plaatsen.
-                if ($klopt) {
-                    $updateSQL = "UPDATE `stempelkaarten` SET `beloning_aantstemps`='" . $aant_stemps . "', `beloning_label`='" . $label . "', `beloning_beschrijving`='" . $beschrijving . "' WHERE `stempelkaart_id`='" . $_GET['p'] . "'";
-                    $stmt = $con->prepare($updateSQL);
-                    $stmt->execute();
-                    $stmt->close();
-
-                    $success_message = "Uw stempelkaart is aangepast!</br>";
-                }
+            // Check of alle velden ingevuld zijn
+            if ($aant_stemps == '' || $label == '' || $beschrijving == '') {
+                $klopt = false;
+                $error_message = "De velden mogen niet leeg zijn!";
             }
 
-            if (isset($_POST['delete'])) {
-                $deleteSQL = "DELETE FROM `stempelkaarten` WHERE `stempelkaarten`.`stempelkaart_id` ='" . $_GET['p'] . "'";
-                $stmt = $con->prepare($deleteSQL);
+            // Als alles ingevuld is, query uitvoeren om in de database te plaatsen.
+            if ($klopt) {
+                $updateSQL = "UPDATE `stempelkaarten` SET `beloning_aantstemps`='" . $aant_stemps . "', `beloning_label`='" . $label . "', `beloning_beschrijving`='" . $beschrijving . "' WHERE `stempelkaart_id`='" . $_GET['p'] . "'";
+                $stmt = $con->prepare($updateSQL);
                 $stmt->execute();
                 $stmt->close();
-                header('Location: ondernemer_kaartoverzicht.php?delete=1');
-            }
-            ?>
-        </head>
-        <body>
-        <nav class="navtop">
-            <?php
-            //check of gebruiker niet ingelogd is, dan weergeef je de registratie links en inlog link
-            if (!isset($_SESSION['gebruikersnaam'])) {
 
-                ?>
-
-                <div>
-                    <h1><a href="index.php">StempelkaartApp</a></h1>
-                    <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-                    <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
-                    <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
-                </div>
-                <?php
-                //wanneer gebruiker wel ingelogd is weergeef je de links naar profiel en uitlog knop
-            } else {
-                ?>
-                <div>
-                    <h1><a href="ondernemer_landing.php">StempelkaartApp</a></h1>
-                    <a href="ondernemer_gegevensbekijken.php"><i class="fas fa-user-circle"></i>Profiel</a>
-                    <a href="ondernemer_landing.php?x=uitloggen"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
-                </div>
-                <?php
+                $success_message = "Uw stempelkaart is aangepast!</br>";
             }
-            ?>
-        </nav>
+        }
+
+        if (isset($_POST['delete'])) {
+            $deleteSQL = "DELETE FROM `stempelkaarten` WHERE `stempelkaarten`.`stempelkaart_id` ='" . $_GET['p'] . "'";
+            $stmt = $con->prepare($deleteSQL);
+            $stmt->execute();
+            $stmt->close();
+            header('Location: ondernemer_kaartoverzicht.php?delete=1');
+        }
+        ?>
+
         <div class="wrapperStempelkaartOverzicht" style="overflow-x:auto;">
 
             <h1>Kaart aanpassen</h1>

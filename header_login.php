@@ -22,7 +22,6 @@ if (isset($_SESSION['gebruikersnaam'])) {
         <div>
             <h1><a href="index.php">StempelkaartApp</a></h1>
             <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-            <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
         </div>
         <?php
     } else {
