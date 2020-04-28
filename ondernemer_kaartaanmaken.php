@@ -1,41 +1,39 @@
 <?php
 include("config.php");
-require("header_ondernemer.php");
+include("functions.php");
+$title = "Kaart Aanmaken";
+include("header_ondernemer.php");
 
-    $error_message = "";
-    $success_message = "";
-    //na aanmaken kaart
-    if (isset($_POST['aanmaken'])) {
 
-        //query om ondernemers_id uit de database op te halen
-        $sql_id = "SELECT  `ondernemer_id` FROM `ondernemers` WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
-        $sql_query_id = mysqli_query($con, $sql_id);
-        $result_id = mysqli_fetch_object($sql_query_id);
+$message = "";
 
-        $aant_stemps = trim($_POST['stemps']);
-        $label = trim($_POST['label']);
-        $beschrijving = trim($_POST['beschrijving']);
+//na aanmaken kaart
+if (isset($_POST['aanmaken'])) {
 
-        $klopt = true;
+    //query om ondernemers_id uit de database op te halen
+    $result_id = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
 
-        // Check of alle velden ingevuld zijn
-        if ($aant_stemps == '' || $label == '' || $beschrijving == '') {
-            $klopt = false;
-            $error_message = "Het is verplicht om alle velden in te vullen!";
-        }
+    $aant_stemps = trim($_POST['stemps']);
+    $label = trim($_POST['label']);
+    $beschrijving = trim($_POST['beschrijving']);
 
-        // Als alles ingevuld is, query uitvoeren om in de database te plaatsen.
-        if ($klopt) {
-            $insertSQL = "INSERT INTO `stempelkaarten`(`ondernemer_id`, `beloning_aantstemps`, `beloning_label`, `beloning_beschrijving`) VALUES (?,?,?,?)";
-            $stmt = $con->prepare($insertSQL);
-            $stmt->bind_param("ssss", $result_id->ondernemer_id, $aant_stemps, $label, $beschrijving);
-            $stmt->execute();
-            $stmt->close();
+    $klopt = true;
 
-            $success_message = "Uw stempelkaart is aangemaakt!</br>";
-        }
+    // Check of alle velden ingevuld zijn
+    if ($aant_stemps == '' || $label == '' || $beschrijving == '') {
+        $klopt = false;
+        $message = "<br><br><strong>Fout! </strong>Het is verplicht om alle velden in te vullen!";
     }
-    ?>
+
+    // Als alles ingevuld is, query uitvoeren om in de database te plaatsen.
+    if ($klopt) {
+        Insert_kaart($result_id->ondernemer_id, $aant_stemps, $label, $beschrijving);
+
+        $message = " <br><br> <strong>Gelukt!</strong>Uw stempelkaart is aangemaakt!</br>";
+    }
+}
+
+?>
 
 <div class="wrapper">
     <h1>Kaart aanmaken</h1>
@@ -51,28 +49,11 @@ require("header_ondernemer.php");
 
 
             <?php
-            // Foutmelding
-            if (!empty($error_message)) {
-                ?>
-
-                <br><br><strong>Fout! </strong> <?= $error_message ?>
-
-
-                <?php
+            if (!empty($message)) {
+                echo $message;
             }
             ?>
 
-            <?php
-            // Aanmaken gelukt
-            if (!empty($success_message)) {
-                ?>
-
-                <br><br> <strong>Gelukt!</strong> <?= $success_message ?>
-
-
-                <?php
-            }
-            ?>
 
         </p>
 

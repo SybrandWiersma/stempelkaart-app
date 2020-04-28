@@ -1,6 +1,7 @@
 <?php
 include("config.php");
-require("header_ondernemer.php");
+$title = "Kaart aanpassen";
+include("functions.php");
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if (!isset($_GET['p']) && !isset($_GET['o'])) {
@@ -8,23 +9,20 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
 } else {
 
     //query om ondernemers_id uit de database op te halen
-    $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
-    $sql_query_id = mysqli_query($con, $sql_id);
-    $result_id = mysqli_fetch_object($sql_query_id);
+    $result_id = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
+
 
     //query om gegevens stempelkaart uit de database op te halen
-    $sql_stemp = "SELECT  * FROM `stempelkaarten` WHERE `stempelkaart_id`='" . $_GET['p'] . "'";
-    $sql_query_stemp = mysqli_query($con, $sql_stemp);
-    $result_stemp = mysqli_fetch_object($sql_query_stemp);
+    $result_stemp = Get_kaart_with_kaartID($_GET['p']);
 
     //als de meegegeven o niet overeenkomt met het ondernemers id van de ingelogde persoon kom je op 404
     if ($_GET['o'] != $result_id->ondernemer_id) {
         header('Location: 404.php');
     } else {
 
+        include("header_ondernemer.php");
 
-        $error_message = "";
-        $success_message = "";
+        $message = "";
         //na aanpassen kaart
         if (isset($_POST['aanpassen'])) {
 
@@ -38,25 +36,18 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
             // Check of alle velden ingevuld zijn
             if ($aant_stemps == '' || $label == '' || $beschrijving == '') {
                 $klopt = false;
-                $error_message = "De velden mogen niet leeg zijn!";
+                $message = "<br><br><strong>Fout! </strong>De velden mogen niet leeg zijn!";
             }
 
             // Als alles ingevuld is, query uitvoeren om in de database te plaatsen.
             if ($klopt) {
-                $updateSQL = "UPDATE `stempelkaarten` SET `beloning_aantstemps`='" . $aant_stemps . "', `beloning_label`='" . $label . "', `beloning_beschrijving`='" . $beschrijving . "' WHERE `stempelkaart_id`='" . $_GET['p'] . "'";
-                $stmt = $con->prepare($updateSQL);
-                $stmt->execute();
-                $stmt->close();
-
-                $success_message = "Uw stempelkaart is aangepast!</br>";
+                Update_kaart_aantstemp_label_besch_with_kaartID($aant_stemps, $label, $beschrijving, $_GET['p']);
+                $message = "<br><br> <strong>Gelukt!</strong>Uw stempelkaart is aangepast!</br>";
             }
         }
 
         if (isset($_POST['delete'])) {
-            $deleteSQL = "DELETE FROM `stempelkaarten` WHERE `stempelkaarten`.`stempelkaart_id` ='" . $_GET['p'] . "'";
-            $stmt = $con->prepare($deleteSQL);
-            $stmt->execute();
-            $stmt->close();
+            Delete_kaart_with_kaartID($_GET['p']);
             header('Location: ondernemer_kaartoverzicht.php?delete=1');
         }
         ?>
@@ -70,30 +61,9 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
                 <table class="noBorder" style="border-collapse: separate; border-spacing: 10px; margin-bottom: 1%">
                     <tr>
                         <?php
+                        showKaart_ond($result_stemp->beloning_aantstemps, $result_id->stemp_afb);
 
 
-                        for ($x = 1;
-                        $x <= $result_stemp->beloning_aantstemps;
-                        $x += 1){
-                        if ($x == 6 || $x == 12 || $x == 18 || $x == 24 || $x == 25){
-                        ?>
-                        <td width="15%" style="border-radius: 5px">
-                            <img src="<?php print $result_id->stemp_afb; ?>" width="50px" height="50px">
-                        </td>
-                    </tr>
-                    <tr>
-                        <?php
-                        } else {
-                            ?>
-
-                            <td width="15%" style="border-radius: 5px">
-                                <img src="<?php print $result_id->stemp_afb; ?>" width="50px" height="50px">
-                            </td>
-
-                            <?php
-
-                        }
-                        }
                         ?>
                     </tr>
 
@@ -115,28 +85,12 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
 
                     <?php
                     // Foutmelding
-                    if (!empty($error_message)) {
-                        ?>
-
-                        <br><br><strong>Fout! </strong> <?= $error_message ?>
-
-
-                        <?php
+                    if (!empty($message)) {
+                        echo $message;
                     }
                     ?>
 
-                    <?php
-                    // Aanmaken gelukt
-                    if (!empty($success_message)) {
-                        ?>
-
-                        <br><br> <strong>Gelukt!</strong> <?= $success_message ?>
-
-
-                        <?php
-                    }
-                    ?>
-
+                    
                 </p>
 
 
