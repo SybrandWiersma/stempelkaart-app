@@ -1,18 +1,6 @@
 <?php
 include("config.php");
-
-// Check of gebruiker ingelogd is of niet
-if (!isset($_SESSION['klant'])) {
-    header('Location: index.php');
-}
-// Uitloggen (eerste check of er een 'x' in de browser meegegeven wordt, zoja als dat uitloggen is word je uitgelogd)
-if (isset($_GET['x'])) {
-    if ($_GET['x'] == "uitloggen") {
-        session_destroy();
-        header('Location: index.php');
-    }
-}
-
+require("header_klant.php");
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if (!isset($_GET['p']) && !isset($_GET['o'])) {
@@ -46,41 +34,7 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
 
 
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>Kaart bekijken</title>
-            <link rel="stylesheet" href="style.css" type="text/css">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 
-        </head>
-        <body>
-        <nav class="navtop">
-            <?php
-            if (!isset($_SESSION['klant'])) {
-
-                ?>
-
-                <div>
-                    <h1><a href="index.php">StempelkaartApp</a></h1>
-                    <a href="ondernemer_registeren.php"><i class="fas fa-user-circle"></i>Registreren als ondernemer</a>
-                    <a href="klant_registratie.php"><i class="fas fa-user-circle"></i>Registreren als klant</a>
-                    <a href="loginpagina.php"><i class="fas fa-sign-out-alt"></i>Inloggen</a>
-                </div>
-                <?php
-            } else {
-                ?>
-                <div>
-                    <h1><a href="klant_stempelkaartoverzicht.php">StempelkaartApp</a></h1>
-                    <a href="klant_gegevens.php"><i class="fas fa-user-circle"></i>Profiel</a>
-                    <a href="klant_stempelkaartoverzicht.php?x=uitloggen"><i
-                                class="fas fa-sign-out-alt"></i>Uitloggen</a>
-                </div>
-                <?php
-            }
-            ?>
-        </nav>
         <div class="wrapper" style="overflow-x:auto;">
 
             <h1><?php echo $result_stemp->beloning_label; ?></h1>

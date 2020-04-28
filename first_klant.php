@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-
+require("header_klant.php");
 
 // Check of er fraude is in het bereiken van deze pagina
 if (!isset($_GET['x'])) {
@@ -94,23 +94,11 @@ if (!isset($_GET['x'])) {
 
             }
         }
-    }
-}
+
+
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>Wachtwoord aanpassen</title>
-            <link rel="stylesheet" href="style.css" type="text/css">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-
-        </head>
-        <body>
-        <nav class="navtop">
 
 
-        </nav>
         <div class="wrapper">
             <h1>Wachtwoord aanmaken</h1>
             <p><strong> De eerste keer dat u inlogt moet u een nieuw wachtwoord en gebruikersnaam aanmaken! </strong>
