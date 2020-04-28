@@ -14,11 +14,7 @@ if (isset($_GET['x'])) {
 }
 
 //query om klant gegevens uit de database op te halen
-$stmt = $con->prepare("SELECT  * FROM klanten WHERE gebr_naam = ?");
-$stmt->bind_param("s", $_SESSION['klant']);
-$stmt->execute();
-$result_id = $stmt->get_result()->fetch_array();
-$stmt->close();
+$klantdata = Get_klant_with_Gebrnaam($_SESSION['klant']);
 
 
 if (isset($_POST['ww'])) {
@@ -34,7 +30,7 @@ if (isset($_POST['ww'])) {
     }
 
     // Check of oude wachtwoord klopt
-    if ($test && ($wachtwoord_o != $result_id['wachtwoord'])) {
+    if ($test && ($wachtwoord_o != $klantdata->wachtwoord)) {
         $test = false;
         $error_message = "Uw oude wachtwoord klopt niet";
     }
@@ -59,10 +55,7 @@ if (isset($_POST['ww'])) {
 
     // Als alles klopt, query uitvoeren om in de database te plaatsen.
     if ($test) {
-        $stmt = $con->prepare("UPDATE klanten SET wachtwoord = ? WHERE gebr_naam = ?");
-        $stmt->bind_param("ss", $wachtwoord_n, $_SESSION['klant']);
-        $stmt->execute();
-        $stmt->close();
+        Update_klant_WW_with_Gebrnaam($wachtwoord_n, $_SESSION['klant']);
 
         $succes_message = "U heeft uw wachtwoord aangepast!";
     }
@@ -104,14 +97,7 @@ if (isset($_POST['aanpassen'])) {
 
 
     if ($klopt) {
-
-        // Check of telefoonnummer al voorkomt in de database
-        $stmt = $con->prepare("SELECT * FROM klanten WHERE tel_nr = ?");
-        $stmt->bind_param("s", $telefoonnummer);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        if ($telefoonnummer != $result_id['tel_nr'] && $result->num_rows > 0) {
+        if ($telefoonnummer != $klantdata->tel_nr && Get_klant_with_Telnr($telefoonnummer)!= null) {
             $klopt = false;
             $error_message = "Dit telefoonnummer is al bekend in ons systeem.";
         }
@@ -120,15 +106,8 @@ if (isset($_POST['aanpassen'])) {
 
 
     if ($klopt) {
-
         // Check of email al voorkomt in de database
-        $stmt = $con->prepare("SELECT * FROM klanten WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-
-        if ($email != $result_id['email'] && $result->num_rows > 0) {
+        if ($email != $klantdata->email && Get_klant_with_email($email)!= null) {
             $klopt = false;
             $error_message = "Dit email adres is al bekend in ons systeem.";
         }
@@ -143,7 +122,6 @@ if (isset($_POST['aanpassen'])) {
         $stmt->bind_param("sss", $emai, $telefoonnummer, $_SESSION['klant']);
         $stmt->execute();
         $stmt->close();
-
         $succes_message = "Uw account is aangepast!";
     }
 }
@@ -200,14 +178,14 @@ if(isset($succes_message)){
 
         <p><label for="gebruikersnaam">Gebruikersnaam:</label><br><input type="text" name="gebruikersnaam"
                                                                          id="gebruikersnaam"
-                                                                         value="<?php echo $result_id['gebr_naam'] ?>"
+                                                                         value="<?php echo $klantdata->gebr_naam ?>"
                                                                          > <br>
 
             <label for="email">E-mailadres:</label><br><input type="email" name="email" id="email"
-                                                              value="<?php echo $result_id['email']; ?>" required> <br>
+                                                              value="<?php echo $klantdata->email; ?>" required> <br>
             <label for="telefoonnummer">Telefoonnummer:</label><br><input type="text" name="telefoonnummer"
                                                                           id="telefoonnummer"
-                                                                          value="<?php print $result_id['tel_nr']; ?>"
+                                                                          value="<?php print $klantdata->tel_nr ?>"
                                                                           required> <br>
             <input type="submit" name="aanpassen" value="Aanpassen!"></p>
 

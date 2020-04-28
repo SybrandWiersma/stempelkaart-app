@@ -8,7 +8,6 @@ if (isset($_GET['x'])) {
         header('Location: index.php');
     }
 }
-echo print_r(Getklant_with_ID(13));
 
 ?>
 <!DOCTYPE html>
