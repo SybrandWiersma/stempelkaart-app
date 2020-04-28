@@ -2,9 +2,6 @@
 include("config.php");
 require("header_ondernemer.php");
 
-$error_message = "";
-$success_message = "";
-$ww_message = "";
 
 //query om ondernemers gegevens uit de database op te halen
 $sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
@@ -20,31 +17,31 @@ if (isset($_POST['ww'])) {
 
     if ($wachtwoord_o == '' || $wachtwoord_n == '' || $wachtwoord_h == '') {
         $test = false;
-        $ww_message = "Het is verplicht om alle velden in te vullen!";
+        $error_message = "Het is verplicht om alle velden in te vullen!";
     }
 
     // Check of oude wachtwoord klopt
     if ($test && ($wachtwoord_o != $result_id->wachtwoord)) {
         $test = false;
-        $ww_message = "Uw oude wachtwoord klopt niet";
+        $error_message = "Uw oude wachtwoord klopt niet";
     }
 
     // Check of oude wachtwoord klopt
     if ($test && ($wachtwoord_o == $wachtwoord_n)) {
         $test = false;
-        $ww_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
+        $error_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
     }
 
     // Check of de wachtwoorden exact hetzelfde zijn
     if ($test && ($wachtwoord_n != $wachtwoord_h)) {
         $test = false;
-        $ww_message = "Nieuwe wachtwoorden komen niet overeen";
+        $error_message = "Nieuwe wachtwoorden komen niet overeen";
     }
 
     // Check of wachtwoord te kort is
     if ($test && strlen($wachtwoord_n) < 5) {
         $test = false;
-        $ww_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
+        $error_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
     }
 
     // Als alles klopt, query uitvoeren om in de database te plaatsen.
@@ -54,7 +51,7 @@ if (isset($_POST['ww'])) {
         $stmt->execute();
         $stmt->close();
 
-        $wws_message = "U heeft uw wachtwoord aangepast!</br>";
+        $succes_message = "U heeft uw wachtwoord aangepast!";
     }
 }
 
@@ -97,15 +94,17 @@ if (isset($_POST['aanpassen'])) {
 
     if ($klopt) {
 
-        // Check of telefoonnummer al voorkomt in de database
-        $stmt = $con->prepare("SELECT * FROM ondernemers WHERE tel_nr = ?");
-        $stmt->bind_param("s", $telefoonnummer);
+        $stmt = $con->prepare("SELECT * FROM ondernemers WHERE tel_nr = ? OR kvk = ? OR email = ?");
+        $stmt->bind_param("sss", $telefoonnummer, $kvk, $email);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->get_result()->fetch_array();
         $stmt->close();
-        if ($telefoonnummer != $result_id->tel_nr && $result->num_rows > 0) {
+        echo "test".print_r($result);
+
+
+        if ($telefoonnummer != $result_id->tel_nr) {
             $klopt = false;
-            $error_message = "Dit telefoonnummer is al bekend in ons systeem.</br>";
+            $error_message = "Dit telefoonnummer is al bekend in ons systeem.";
         }
 
     }
@@ -120,7 +119,7 @@ if (isset($_POST['aanpassen'])) {
         $stmt->close();
         if ($kvk != $result_id->kvk && $result->num_rows > 0) {
             $klopt = false;
-            $error_message = "Dit KvK-nummer is al bekend in ons systeem.</br>";
+            $error_message = "Dit KvK-nummer is al bekend in ons systeem.";
         }
 
     }
@@ -135,7 +134,7 @@ if (isset($_POST['aanpassen'])) {
 
         if ($email != $result_id->email && $result->num_rows > 0) {
             $klopt = false;
-            $error_message = "Dit email adres is al bekend in ons systeem.</br>";
+            $error_message = "Dit email adres is al bekend in ons systeem.";
         }
 
     }
@@ -148,60 +147,22 @@ if (isset($_POST['aanpassen'])) {
         $stmt->execute();
         $stmt->close();
 
-        $success_message = "Uw account is aangepast!</br>";
+        $succes_message = "Uw account is aangepast!";
     }
 }
+if(isset($error_message)){
+    $message = "<strong>Fout! </strong>".$error_message."</br>";
+}
+if(isset($succes_message)){
+    $message = "<strong>Gelukt! </strong>".$succes_message."</br>";
+}
 ?>
+
 
 <div class="wrapper">
     <h1>Gegevens bekijken/aanpassen</h1>
     <form action="" method="post">
-        <?php
-        // Foutmelding
-        if (!empty($ww_message)) {
-            ?>
-
-            <strong>Fout! </strong> <?= $ww_message ?>
-
-
-            <?php
-        }
-        ?>
-
-        <?php
-        // Aanmaken gelukt
-        if (!empty($wws_message)) {
-            ?>
-
-            <strong>Gelukt!</strong> <?= $wws_message ?>
-
-
-            <?php
-        }
-        ?>
-        <?php
-        // Foutmelding
-        if (!empty($error_message)) {
-            ?>
-
-            <strong>Fout! </strong> <?= $error_message ?>
-
-
-            <?php
-        }
-        ?>
-
-        <?php
-        // Aanmaken gelukt
-        if (!empty($success_message)) {
-            ?>
-
-            <strong>Gelukt!</strong> <?= $success_message ?>
-
-
-            <?php
-        }
-        ?>
+        <?php if(isset($message)) echo $message ?>
         <p><label for="gebruikersnaam">Gebruikersnaam:</label><br><input type="text" name="gebruikersnaam"
                                                                          id="gebruikersnaam"
                                                                          placeholder="<?php print $result_id->gebr_naam; ?>"

@@ -18,7 +18,6 @@ if (!isset($_GET['x'])) {
 
     } else {
 
-
         $ww_message = "";
 
 
@@ -99,6 +98,7 @@ if (!isset($_GET['x'])) {
 
         ?>
 
+
         <div class="wrapper">
             <h1>Wachtwoord aanmaken</h1>
             <p><strong> De eerste keer dat u inlogt moet u een nieuw wachtwoord en gebruikersnaam aanmaken! </strong>
@@ -107,14 +107,8 @@ if (!isset($_GET['x'])) {
 
                 <?php
                 // Foutmelding
-                if (!empty($ww_message)) {
-                    ?>
-
-                    <strong>Fout! </strong> <?= $ww_message ?>
-
-
-                    <?php
-                }
+                if (!empty($ww_message))
+                    echo "<strong>Fout! </strong>".$ww_message."<br>";
                 ?>
 
 
@@ -141,7 +135,3 @@ if (!isset($_GET['x'])) {
 
         </body>
         </html>
-        <?php
-    }
-}
-?>

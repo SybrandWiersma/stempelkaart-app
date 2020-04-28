@@ -2,6 +2,7 @@
 include("config.php");
 require("header_index.php");
 
+
 ?>
 
 <div class="wrapper">
