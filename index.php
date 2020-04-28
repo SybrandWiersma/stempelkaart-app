@@ -8,6 +8,7 @@ if (isset($_GET['x'])) {
         header('Location: index.php');
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
