@@ -1,7 +1,9 @@
 <?php
-include ("config.php");
-require ("header_ondernemer.php");
+include("config.php");
+$title = "Ondernemerspagina";
+include("header_ondernemer.php");
 ?>
+
 <div class="wrapper">
     <h1>Ondernemerspagina</h1>
     <form action="">
@@ -16,5 +18,9 @@ require ("header_ondernemer.php");
         <h1></h1>
 </div>
 </form>
+
+
+</div>
+
 </body>
 </html>

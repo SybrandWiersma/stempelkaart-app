@@ -1,16 +1,14 @@
 <?php
 include("config.php");
-require("header_klant.php");
-
+$title = "Wachtwoord Aanpassen";
+include("functions.php");
 // Check of er fraude is in het bereiken van deze pagina
 if (!isset($_GET['x'])) {
     header('Location: 404.php');
 } else {
 
-    //query om gegevens klant uit de database op te halen
-    $sql_klant = "SELECT  * FROM `klanten` WHERE `klant_id`='" . $_GET['x'] . "'";
-    $sql_query_klant = mysqli_query($con, $sql_klant);
-    $result_klant = mysqli_fetch_object($sql_query_klant);
+    $result_klant = Get_klant_with_ID($_GET['x']);
+
 
     //indien klant al een ander wachtwoord aangemaakt heeft, wordt deze automatisch doorgestuurd naar login pagina voor klanten
     if ($result_klant->wachtwoord != 12345) {
@@ -18,85 +16,78 @@ if (!isset($_GET['x'])) {
 
     } else {
 
-        $ww_message = "";
-
 
         if (isset($_POST['ww'])) {
             $wachtwoord_o = 12345;
             $wachtwoord_n = trim($_POST['wachtwoord_n']);
             $wachtwoord_h = trim($_POST['wachtwoord_h']);
             $gebruikersnaam = trim($_POST['naam']);
+            $goedgekeurd = true;
+            $ww_message = "";
 
-            $test = true;
-
+            //check of velden niet leeg zijn
             if ($wachtwoord_n == '' || $wachtwoord_h == '') {
-                $test = false;
-                $ww_message = "Het is verplicht om alle velden in te vullen!";
+                $goedgekeurd = false;
+                $ww_message = "<strong>Fout! </strong> Het is verplicht om alle velden in te vullen!";
+
             }
 
 
             // Check of oude wachtwoord klopt
-            if ($test && ($wachtwoord_o == $wachtwoord_n)) {
-                $test = false;
-                $ww_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
+            if ($goedgekeurd && ($wachtwoord_o == $wachtwoord_n)) {
+                $goedgekeurd = false;
+                $ww_message = "<strong>Fout! </strong> Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
             }
 
             // Check of de wachtwoorden exact hetzelfde zijn
-            if ($test && ($wachtwoord_n != $wachtwoord_h)) {
-                $test = false;
-                $ww_message = "Nieuwe wachtwoorden komen niet overeen";
+            if ($goedgekeurd && ($wachtwoord_n != $wachtwoord_h)) {
+                $goedgekeurd = false;
+                $ww_message = "<strong>Fout! </strong> Nieuwe wachtwoorden komen niet overeen";
             }
 
             // Check of wachtwoord te kort is
-            if ($test && strlen($wachtwoord_n) < 5) {
-                $test = false;
-                $ww_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
+            if ($goedgekeurd && strlen($wachtwoord_n) < 5) {
+                $goedgekeurd = false;
+                $ww_message = "<strong>Fout! </strong> Het wachtwoord moet minimaal uit vijf tekens bestaan.";
             }
 
-            if ($test) {
-
-                // Check of gebruikersnaam al voorkomt in de database (ondernemers)
-                $stmt = $con->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ?");
-                $stmt->bind_param("s", $gebruikersnaam);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
-                if ($result->num_rows > 0) {
-                    $test = false;
-                    $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+            // Check of gebruikersnaam al voorkomt in de database (ondernemers)
+            if ($goedgekeurd) {
+                $result = Count_ondernemer_with_Gebrnaam($gebruikersnaam);
+                if ($result > 0) {
+                    $goedgekeurd = false;
+                    $ww_message = "<strong>Fout! </strong> Deze gebruikersnaam is al bekend in ons systeem.";
                 }
 
             }
-
-            if ($test) {
-
-                // Check of gebruikersnaam al voorkomt in de database (klanten)
-                $stmt = $con->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
-                $stmt->bind_param("s", $gebruikersnaam);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
-                if ($result->num_rows > 0) {
-                    $test = false;
-                    $ww_message = "Deze gebruikersnaam is al bekend in ons systeem.";
+            // Check of gebruikersnaam al voorkomt in de database (klanten)
+            if ($goedgekeurd) {
+                $result = Count_klant_with_Gebrnaam($gebruikersnaam);
+                if ($result > 0) {
+                    $goedgekeurd = false;
+                    $ww_message = "<strong>Fout! </strong> Deze gebruikersnaam is al bekend in ons systeem.";
                 }
 
             }
 
             // Als alles klopt, query uitvoeren om in de database te plaatsen.
-            if ($test) {
-                $insertSQL = "UPDATE `klanten` SET `wachtwoord`='" . $wachtwoord_n . "', `gebr_naam`='" . $gebruikersnaam . "' WHERE `klant_id`='" . $_GET['x'] . "'";
-                $stmt = $con->prepare($insertSQL);
-                $stmt->execute();
-                $stmt->close();
-
+            if ($goedgekeurd) {
+                Update_klant_WW_Gebrnaam_with_klantID($wachtwoord_n, $gebruikersnaam, $_GET['x']);
                 header('Location: loginpagina.php?p=gelukt&x=' . $_GET['x']);
 
             }
         }
 
-
         ?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>StempelkaartApp</title>
+            <link rel="stylesheet" href="style.css" type="text/css">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        </head>
+        <body>
 
 
         <div class="wrapper">
@@ -107,8 +98,9 @@ if (!isset($_GET['x'])) {
 
                 <?php
                 // Foutmelding
-                if (!empty($ww_message))
-                    echo "<strong>Fout! </strong>".$ww_message."<br>";
+                if (!empty($ww_message)) {
+                    echo $ww_message;
+                }
                 ?>
 
 
@@ -135,3 +127,7 @@ if (!isset($_GET['x'])) {
 
         </body>
         </html>
+        <?php
+    }
+}
+?>

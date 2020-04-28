@@ -1,32 +1,33 @@
 <?php
 include("config.php");
-require("header_ondernemer.php");
+include("functions.php");
+$title = "Klant koppelen";
+
 
 // require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
 // use Twilio\Rest\Client;
 
-//om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
+//om fraude te voorkomen eerst een check of er een k en een o meegegeven worden
 if (!isset($_GET['k']) && !isset($_GET['o'])) {
     header('Location: 404.php');
 } else {
 
     //query om ondernemers_id uit de database op te halen
-    $sql_id = "SELECT  `ondernemer_id` FROM `ondernemers` WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
-    $sql_query_id = mysqli_query($con, $sql_id);
-    $result_id = mysqli_fetch_object($sql_query_id);
+    $result_id = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
+
 
     //query om gegevens stempelkaart uit de database op te halen
-    $sql_stemp = "SELECT  * FROM `stempelkaarten` WHERE `stempelkaart_id`='" . $_GET['k'] . "'";
-    $sql_query_stemp = mysqli_query($con, $sql_stemp);
-    $result_stemp = mysqli_fetch_object($sql_query_stemp);
+    $result_stemp = Get_kaart_with_kaartID($_GET['k']);
+
 
     //als de meegegeven o niet overeenkomt met het ondernemers id van de ingelogde persoon kom je op 404
     if ($_GET['o'] != $result_id->ondernemer_id) {
         header('Location: 404.php');
     } else {
 
-
+        include("header_ondernemer.php");
         ?>
+
         <div class="wrapper" style="overflow-x:auto;">
 
             <h1>Klant koppelen</h1>
@@ -60,17 +61,12 @@ if (!isset($_GET['k']) && !isset($_GET['o'])) {
             <strong>Vul een geldig telefoonnummer in (bijvoorbeeld: 0612345678).</strong></button>";
                 }
 
-                $stmt = $con->prepare("SELECT * FROM klanten WHERE tel_nr = ?");
-                $stmt->bind_param("s", $telefoonnummer);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
-                if ($result->num_rows > 0) {
+                $result_tel = Count_klant_with_Telnr($telefoonnummer);
+
+                if ($result_tel > 0) {
 
                     //query om gegevens klant uit de database op te halen
-                    $sql_klant = "SELECT  * FROM `klanten` WHERE `tel_nr`='" . $telefoonnummer . "'";
-                    $sql_query_klant = mysqli_query($con, $sql_klant);
-                    $result_klant = mysqli_fetch_object($sql_query_klant);
+                    $result_klant = Get_klant_with_Telnr($telefoonnummer);
 
 
                     ?>
@@ -113,13 +109,14 @@ if (!isset($_GET['k']) && !isset($_GET['o'])) {
                             ):</label><br><input type="number" style="margin-top: 3.5%; margin-bottom: 7%;"
                                                  name="stemps" id="stemps" min="1"
                                                  max="<?php print $result_stemp->beloning_aantstemps; ?>" value="1"
-                                                 required><br>
+                                                 required>
                         <input type="submit" style="background-color: #5cb85c" name="koppelen1" value="Koppelen!">
                     </form>
 
                     <?php
                 }
             }
+
             if (isset($_POST['koppelen1'])) {
                 $telefoonnummer = trim($_POST['telefoonnummer']);
                 $naam = trim($_POST['naam']);
@@ -135,23 +132,13 @@ if (!isset($_GET['k']) && !isset($_GET['o'])) {
                 } else {
 
                     //acount aanmaken voor klant
-                    $insertSQL = "INSERT INTO `klanten`(`naam_klant`, `wachtwoord`, `email`, `tel_nr`) VALUES (?,?,?,?)";
-                    $stmt = $con->prepare($insertSQL);
-                    $stmt->bind_param("ssss", $naam, $wachtwoord, $email, $telefoonnummer);
-                    $stmt->execute();
-                    $stmt->close();
+                    Insert_klant($naam, $wachtwoord, $email, $telefoonnummer);
 
-                    $sql_klant = "SELECT  * FROM `klanten` WHERE `tel_nr`='" . $telefoonnummer . "'";
-                    $sql_query_klant = mysqli_query($con, $sql_klant);
-                    $result_klant = mysqli_fetch_object($sql_query_klant);
-
+                    $result_klant = Get_klant_with_Telnr($telefoonnummer);
 
                     //account gebonden kaart aanmaken voor klant
-                    $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`,`aant_stemps`) VALUES (?,?,?)";
-                    $stmtkaart = $con->prepare($insertSQLkaart);
-                    $stmtkaart->bind_param("sss", $result_klant->klant_id, $result_stemp->stempelkaart_id, $stemps);
-                    $stmtkaart->execute();
-                    $stmtkaart->close();
+                    Insert_Link($result_klant->klant_id, $result_stemp->stempelkaart_id, $stemps);
+
 
                     // Your Account SID and Auth Token from twilio.com/console
                     //$account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
@@ -194,26 +181,18 @@ if (!isset($_GET['k']) && !isset($_GET['o'])) {
                 $stemps = trim($_POST['stemps']);
                 $wachtwoord = "12345";
 
-                $sql_klant = "SELECT  * FROM `klanten` WHERE `tel_nr`='" . $telefoonnummer . "'";
-                $sql_query_klant = mysqli_query($con, $sql_klant);
-                $result_klant = mysqli_fetch_object($sql_query_klant);
+                $result_klant = Get_klant_with_Telnr($telefoonnummer);
 
-                $stmt = $con->prepare("SELECT * FROM stempelkaart_klant WHERE klant_id = ? AND stempelkaart_id = ?");
-                $stmt->bind_param("ss", $result_klant->klant_id, $result_stemp->stempelkaart_id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
-                if ($result->num_rows > 0) {
+                $result_count = Count_link_with_kaartID_klantID($result_klant->klant_id, $result_stemp->stempelkaart_id);
+
+                if ($result_count > 0) {
                     echo "<button style='padding: 20px;background-color: #f44336;color: white;cursor: help'>
             <strong>Deze stempelkaart heeft al een koppeling met de klant!</strong></button>";
                 } else {
 
                     //account gebonden kaart aanmaken voor klant
-                    $insertSQLkaart = "INSERT INTO `stempelkaart_klant`(`klant_id`, `stempelkaart_id`, `aant_stemps`) VALUES (?,?,?)";
-                    $stmtkaart = $con->prepare($insertSQLkaart);
-                    $stmtkaart->bind_param("sss", $result_klant->klant_id, $result_stemp->stempelkaart_id, $stemps);
-                    $stmtkaart->execute();
-                    $stmtkaart->close();
+                    Insert_Link($result_klant->klant_id, $result_stemp->stempelkaart_id, $stemps);
+
 
                     // Your Account SID and Auth Token from twilio.com/console
                     //$account_sid = 'AC130becb9d447719ce8a66fe05b69b396';
