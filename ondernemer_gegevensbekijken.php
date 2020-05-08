@@ -1,59 +1,18 @@
 <?php
 include("config.php");
+include("functions_gebruikergegevens.php");
 require("header_ondernemer.php");
 
 
 //query om ondernemers gegevens uit de database op te halen
-$sql_id = "SELECT  * FROM `ondernemers` WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
-$sql_query_id = mysqli_query($con, $sql_id);
-$result_id = mysqli_fetch_object($sql_query_id);
+$ondernemerdata = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
+
 
 if (isset($_POST['ww'])) {
-    $wachtwoord_o = trim($_POST['wachtwoord_o']);
-    $wachtwoord_n = trim($_POST['wachtwoord_n']);
-    $wachtwoord_h = trim($_POST['wachtwoord_h']);
-
-    $test = true;
-
-    if ($wachtwoord_o == '' || $wachtwoord_n == '' || $wachtwoord_h == '') {
-        $test = false;
-        $error_message = "Het is verplicht om alle velden in te vullen!";
-    }
-
-    // Check of oude wachtwoord klopt
-    if ($test && ($wachtwoord_o != $result_id->wachtwoord)) {
-        $test = false;
-        $error_message = "Uw oude wachtwoord klopt niet";
-    }
-
-    // Check of oude wachtwoord klopt
-    if ($test && ($wachtwoord_o == $wachtwoord_n)) {
-        $test = false;
-        $error_message = "Uw nieuwe wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord";
-    }
-
-    // Check of de wachtwoorden exact hetzelfde zijn
-    if ($test && ($wachtwoord_n != $wachtwoord_h)) {
-        $test = false;
-        $error_message = "Nieuwe wachtwoorden komen niet overeen";
-    }
-
-    // Check of wachtwoord te kort is
-    if ($test && strlen($wachtwoord_n) < 5) {
-        $test = false;
-        $error_message = "Het wachtwoord moet minimaal uit vijf tekens bestaan.";
-    }
-
-    // Als alles klopt, query uitvoeren om in de database te plaatsen.
-    if ($test) {
-        $insertSQL = "UPDATE `ondernemers` SET `wachtwoord`='" . $wachtwoord_n . "' WHERE `gebr_naam`='" . $_SESSION['gebruikersnaam'] . "'";
-        $stmt = $con->prepare($insertSQL);
-        $stmt->execute();
-        $stmt->close();
-
-        $succes_message = "U heeft uw wachtwoord aangepast!";
-    }
+    $message = UpdateWachtwoord($_POST['wachtwoord_o'], $_POST['wachtwoord_n'], $_POST['wachtwoord_h'], $ondernemerdata, 'ondernemer');
 }
+
+
 
 
 // Na registreren
@@ -150,12 +109,8 @@ if (isset($_POST['aanpassen'])) {
         $succes_message = "Uw account is aangepast!";
     }
 }
-if(isset($error_message)){
-    $message = "<strong>Fout! </strong>".$error_message."</br>";
-}
-if(isset($succes_message)){
-    $message = "<strong>Gelukt! </strong>".$succes_message."</br>";
-}
+$message = CreateMessage($message);
+
 ?>
 
 

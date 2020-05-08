@@ -27,6 +27,7 @@ function Get_klant_with_Telnr($telnr){
     return $stmt->get_result()->fetch_object();
 }
 
+
 function Get_klant_with_Gebrnaam($gebr_naam){
     $stmt = $GLOBALS['con']->prepare("SELECT * FROM klanten WHERE gebr_naam = ?");
     $stmt->bind_param("s", $gebr_naam);
@@ -41,9 +42,28 @@ function Get_klant_with_email($email){
     return $stmt->get_result()->fetch_object();
 }
 
+function Get_klant_with_Gebrnaam_ww($gebr_naam, $wachtwoord){
+    $stmt = $GLOBALS['con']->prepare("SELECT * FROM klanten WHERE gebr_naam = ? AND wachtwoord = ?");
+    $stmt->bind_param("ss", $gebr_naam, $wachtwoord);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_object();
+}
+
 function Insert_klant($naam_klant, $wachtwoord, $email, $tel_nr){
     $stmt = $GLOBALS['con']->prepare("INSERT INTO `klanten`(`naam_klant`, `wachtwoord`, `email`, `tel_nr`) VALUES (?,?,?,?)");
     $stmt->bind_param("ssss", $naam_klant, $wachtwoord, $email, $tel_nr);
+    $stmt->execute();
+}
+
+function Update_klant_telnr_with_Gebrnaam($tel_nr, $gebr_naam){
+    $stmt = $GLOBALS['con']->prepare("UPDATE klanten SET tel_nr = ? WHERE gebr_naam = ?");
+    $stmt->bind_param("ss", $tel_nr, $gebr_naam);
+    $stmt->execute();
+}
+
+function Update_klant_email_with_Gebrnaam($email, $gebr_naam){
+    $stmt = $GLOBALS['con']->prepare("UPDATE klanten SET email = ? WHERE gebr_naam = ?");
+    $stmt->bind_param("ss", $email, $gebr_naam);
     $stmt->execute();
 }
 
@@ -161,6 +181,13 @@ function Get_ondernemer_with_kvk($kvk){
     return $stmt->get_result()->fetch_object();
 }
 
+function Get_ondernemer_with_Gebrnaam_ww($gebr_naam, $wachtwoord){
+    $stmt = $GLOBALS['con']->prepare("SELECT * FROM ondernemers WHERE gebr_naam = ? AND wachtwoord = ?");
+    $stmt->bind_param("ss", $gebr_naam, $wachtwoord);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_object();
+}
+
 function Insert_ondernemer($bedrijfsnaam, $gebr_naam, $wachtwoord, $email, $telnr, $stempafb, $kvk){
     $stmt = $GLOBALS['con']->prepare("INSERT INTO `ondernemers`(`bedrijfsnaam_ond`, `gebr_naam`, `wachtwoord`, `email`, `tel_nr`,`stemp_afb`,`kvk`) VALUES (?,?,?,?,?,?,?)");
     $stmt->bind_param("sssssss", $bedrijfsnaam, $gebr_naam, $wachtwoord, $email, $telnr, $stempafb, $kvk);
@@ -170,6 +197,18 @@ function Insert_ondernemer($bedrijfsnaam, $gebr_naam, $wachtwoord, $email, $teln
 function Update_ondernemer_ww_with_Gebrnaam ($wachtwoord, $gebr_naam){
     $stmt = $GLOBALS['con']->prepare("UPDATE ondernemers SET wachtwoord = ? WHERE gebr_naam = ?");
     $stmt->bind_param("ss", $wachtwoord, $gebr_naam);
+    $stmt->execute();
+}
+
+function Update_ondernemer_telnr_with_Gebrnaam ($telnr, $gebr_naam){
+    $stmt = $GLOBALS['con']->prepare("UPDATE ondernemers SET tel_nr = ? WHERE gebr_naam = ?");
+    $stmt->bind_param("ss", $telnr, $gebr_naam);
+    $stmt->execute();
+}
+
+function Update_ondernemer_email_with_Gebrnaam ($email, $gebr_naam){
+    $stmt = $GLOBALS['con']->prepare("UPDATE ondernemers SET email = ? WHERE gebr_naam = ?");
+    $stmt->bind_param("ss", $email, $gebr_naam);
     $stmt->execute();
 }
 
@@ -250,17 +289,18 @@ function Insert_Link($klant_id, $stempelkaart_id, $aant_stemps){
     $stmt->execute();
 }
 
-function Update_aantstemps_with_kaartID_klantID($aantstemps, $kaartid, $klantid){
+function Update_link_aantstemps_with_kaartID_klantID($aantstemps, $kaartid, $klantid){
     $stmt = $GLOBALS['con']->prepare("UPDATE stempelkaart_klant SET aant_stemps = ? WHERE klant_id = ? AND stempelkaart_id = ?");
     $stmt->bind_param("sss", $aantstemps ,$klantid, $kaartid);
     $stmt->execute();
 }
 
-function Update_kaartID_aantstemps_with_klantID_kaartID($newkaartid, $aantstemps, $klantid, $kaartid){
+function Update_link_kaartID_aantstemps_with_klantID_kaartID($newkaartid, $aantstemps, $klantid, $kaartid){
     $stmt = $GLOBALS['con']->prepare("UPDATE stempelkaart_klant SET kaartid = ?, aant_stemps = ? WHERE klant_id = ? AND stempelkaart_id = ?");
     $stmt->bind_param("ssss", $newkaartid,$aantstemps ,$klantid, $kaartid);
     $stmt->execute();
 }
+
 
 function Count_link_with_kaartID_klantID($klantid, $kaartid){
     $stmt = $GLOBALS['con']->prepare("SELECT * FROM stempelkaart_klant WHERE klant_id = ? AND stempelkaart_id = ?");

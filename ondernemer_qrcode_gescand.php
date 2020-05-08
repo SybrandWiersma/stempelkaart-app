@@ -1,18 +1,16 @@
 <?php
 include("config.php");
-require("header_ondernemer.php");
-//  require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
-//  use Twilio\Rest\Client;
-
-// Haalt de ondernemer id uit de database met de gebruikersnaam uit de sessie
-$query_ondernemingID = "SELECT ondernemer_id FROM ondernemers WHERE gebr_naam = '" . $_SESSION['gebruikersnaam'] . "';";
-$result_ondernemingID = mysqli_query($con, $query_ondernemingID);
-$row_ondernemingID = mysqli_fetch_array($result_ondernemingID);
 
 // Haalt de klant id en kaart id op die mee gegeven zijn met de pagina
-$ondernemer_id = $row_ondernemingID['ondernemer_id'];
 $klant_id = $_GET['klantid'];
 $kaart_id = $_GET['kaartid'];
+
+// Haalt de ondernemer id uit de database met de gebruikersnaam uit de sessie
+$ondernemerdata = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
+$kaartdata = Get_kaart_with_kaartID_ondID($kaart_id,$ondernemerdata->ondernemer_id);
+$klantdata = Get_klant_with_klantID($klant_id);
+$linkdata = Get_link_with_kaartID_klantID($klant_id,$kaart_id);
+$ondernemerkaarten = Get_kaarten_with_ondID($ondernemerdata->ondernemer);
 
 // Als er niets is mee gegeven word de error pagina weergeven
 if (!isset($klant_id) && !isset($kaart_id)) {
@@ -20,44 +18,24 @@ if (!isset($klant_id) && !isset($kaart_id)) {
 }
 
 // Checkt of de klant een kaart heeft bij de ondernemer zodat een ondernemer niet bij klanten van andere ondernemers kan
-$query_check_koppeling = "SELECT * FROM stempelkaarten WHERE ondernemer_id ='" . $ondernemer_id . "' AND stempelkaart_id ='" . $kaart_id . "';";
-$result_check_koppeling = mysqli_query($con, $query_check_koppeling);
-if (mysqli_num_rows($result_check_koppeling) == 0) {
+if ($kaartdata == null) {
     header('Location: 404.php');
 }
-$row_kaartdata = mysqli_fetch_array($result_check_koppeling);
 
-// Haalt de klant data op met klant id
-$query_klantdata = "SELECT * FROM klanten WHERE klant_id ='" . $klant_id . "';";
-$result_klantdata = mysqli_query($con, $query_klantdata);
-$row_klantdata = mysqli_fetch_array($result_klantdata);
-
-// Haalt het aantal stempels op dat de klant heeft
-$query_aantstemps = "SELECT * FROM stempelkaart_klant WHERE klant_id ='" . $klant_id . "'AND stempelkaart_id = '" . $kaart_id . "';";
-$result_aantstemps = mysqli_query($con, $query_aantstemps);
-$row_aantstemps = mysqli_fetch_array($result_aantstemps);
 
 // checkt of de ondernemer een aanvraag heeft gedaan om stempels toe te voegen
 if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
 
     // Checkt of het aantal toe te voegen stempels niet groter is dan het aantal dat je kan toevoegen
-    if ($_POST['stempel_aantal'] > ($row_kaartdata['beloning_aantstemps'] - $row_aantstemps['aant_stemps']) || $_POST['stempel_aantal'] <= 0) {
+    if ($_POST['stempel_aantal'] > ($kaartdata->beloning_aantstemps - $linkdata->aant_stemps) || $_POST['stempel_aantal'] <= 0) {
         header('Location: 404.php');
     }
 
     // berekent het nieuwe stempel aantal
-    $aantal_toevoegen = $_POST['stempel_aantal'] + $row_aantstemps['aant_stemps'];
+    $linkdata->aant_stemps += $_POST['stempel_aantal'];
 
     // Update het stempelaantal in database
-    $stempels_toevoegen_query = "UPDATE stempelkaart_klant SET aant_stemps = ? WHERE klant_id = ? AND stempelkaart_id = ?";
-    $stmt = $con->prepare($stempels_toevoegen_query);
-    $stmt->bind_param('sss', $aantal_toevoegen, $klant_id, $kaart_id);
-    $stmt->execute();
-    $stmt->close();
-
-    // Update de stempel waarden zodat deze goed word weergeven op de pagina
-    $result_aantstemps = mysqli_query($con, $query_aantstemps);
-    $row_aantstemps = mysqli_fetch_array($result_aantstemps);
+    Update_link_aantstemps_with_kaartID_klantID($linkdata->aant_stemps, $klant_id, $kaart_id);
 
     // Zorgt er voor dat er een upate message word weergeven
     $stempeltoegevoegdmessage = "stempel(s) toegevoegd";
@@ -65,85 +43,73 @@ if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
 
 // Checkt of de ondernemer een kaart wil verzilveren
 if (isset($_POST['kaartverzilveren'])) {
+
     // Checkt of de kaart daadwerkelijk vol is
-    if (!($row_aantstemps['aant_stemps'] == $row_kaartdata['beloning_aantstemps'])) {
+    if (!($linkdata->aant_stemps == $kaartdata->beloning_aantstemps)) {
         header('Location: 404.php');
     }
-    // Verzilvert de kaart in de database dus zet stempelaantal op 0
-    $stempelkaart_verzilveren_query = "UPDATE stempelkaart_klant SET aant_stemps = 0 WHERE klant_id = ? AND stempelkaart_id = ?";
-    $stmt = $con->prepare($stempelkaart_verzilveren_query);
-    $stmt->bind_param('ss', $klant_id, $kaart_id);
-    $stmt->execute();
-    $stmt->close();
 
-    // Update de stempel waarden zodat deze goed word weergeven op de pagina
-    $result_aantstemps = mysqli_query($con, $query_aantstemps);
-    $row_aantstemps = mysqli_fetch_array($result_aantstemps);
+    // Verzilvert de kaart in de database dus zet stempelaantal op 0
+    Update_link_aantstemps_with_kaartID_klantID(0, $klant_id, $kaart_id);
+
+    // Zet aantal stempels lokaal ook op nul zodat dit gelijk weergeven wordt
+    $linkdata->aant_stemps = 0;
 
     // Zorgt er voor dat er een upate message word weergeven
     $stempelkaartverzilverdmessage = "stempelkaart verzilverd";
 }
 
-// Haalt alle kaarten op die de ondernemer heeft aangemaakt uit de database
-$query_allekaarten_ondernemer = "SELECT * FROM stempelkaarten WHERE ondernemer_id ='" . $ondernemer_id . "';";
-$result_allekaarten_ondernemer = mysqli_query($con, $query_allekaarten_ondernemer);
 
 // Checkt of de ondernemer een kaart wil wijzigen
 if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])) {
 
-    // checkt of de kaart die de ondernemer heeft geselecteerd van hem is
-    $query_check_geselecteerd = "SELECT * FROM stempelkaarten WHERE ondernemer_id ='" . $ondernemer_id . "' AND stempelkaart_id ='" . $_POST['geselecteerde_kaart'] . "';";
-    $result_check_geselecteerd = mysqli_query($con, $query_check_geselecteerd);
+    // Haalt gegevens op van geselecteerde kaart
+    $kaartdata_geselecteerd = Get_kaart_with_kaartID_ondID($_POST['geselecteerde_kaart'], $ondernemerdata->ondernemer_id);
 
-    if (mysqli_num_rows($result_check_geselecteerd) == 0) {
+    // checkt of de kaart die de ondernemer heeft geselecteerd van hem is
+    if ($kaartdata_geselecteerd == null) {
         header('Location: 404.php');
     }
 
-    // Haalt de gegevens op van de te veranderen kaart
-    $row_geselecteerde_kaart = mysqli_fetch_array($result_check_geselecteerd);
-
     // Checkt of het aantal stempels van de geselecteerde kaart kleiner is dan van de huidige kaart
-    if ($row_geselecteerde_kaart['beloning_aantstemps'] < $row_aantstemps['aant_stemps']) {
+    if ($kaartdata_geselecteerd->aant_stemps < $linkdata->aant_stemps) {
 
         // Wanneer kleiner wordt het maximale van de geselecteerde mee gegeven
-        $aantal_stempels = $row_geselecteerde_kaart['beloning_aantstemps'];
+        $aantal_stempels = $kaartdata_geselecteerd->aant_stemps;
     } else {
 
         // Bij groter, het aantal op de huidige
-        $aantal_stempels = $row_aantstemps['aant_stemps'];
+        $aantal_stempels = $linkdata->aant_stemps;
     }
 
-    // Update de koppeling in de database
-    $query_update_kaart = "UPDATE stempelkaart_klant SET stempelkaart_id = ?, aant_stemps = ? WHERE klant_id = ?";
-    $stmt = $con->prepare($query_update_kaart);
-    $stmt->bind_param('sss', $_POST['geselecteerde_kaart'], $aantal_stempels, $klant_id);
-    $stmt->execute();
-    $stmt->close();
+    Update_link_kaartID_aantstemps_with_klantID_kaartID($kaartdata_geselecteerd->kaart_id, $aantal_stempels, $klant_id, $kaart_id);
 
-    // Herlaad de pagina met de nieuwe kaart zodat de juiste gegevens worden weergeven
-    header('Location: ondernemer_qrcode_gescand.php?kaartid=' . $_POST["geselecteerde_kaart"] . '&klantid=' . $klant_id);
+    $linkdata->aant_stemps = $aantal_stempels;
+    $linkdata->kaart_id = $kaartdata_geselecteerd->kaart_id;
+
 }
 
+require("header_ondernemer.php");
 
 ?>
 <div class="wrapperQRinfo">
     <h1>QR-Code Informatie</h1>
 
     <h4>Naam</h4>
-    <p><?php echo $row_klantdata['naam_klant'] ?></p>
+    <p><?php echo $klantdata->naam_klant ?></p>
     <h4>Aantal stempels</h4>
-    <p><?php echo $row_aantstemps['aant_stemps'] . " / " . $row_kaartdata['beloning_aantstemps'] ?></p>
+    <p><?php echo $linkdata->aant_stemps . " / " . $kaartdata->beloning_aantstemps ?></p>
     <h4>Beloning</h4>
-    <p><?php echo $row_kaartdata['beloning_label'] ?></p>
+    <p><?php echo $kaartdata->beloning_label ?></p>
 
 
     <form action="ondernemer_qrcode_gescand.php?kaartid=<?php echo $kaart_id ?>&klantid=<?php echo $klant_id ?>"
           method="post">
         <h4>Stempels Toevoegen</h4> <input type="number" name="stempel_aantal" value="0" min="1"
-                                           max="<?php echo $row_kaartdata['beloning_aantstemps'] - $row_aantstemps['aant_stemps'] ?>">
+                                           max="<?php echo $kaartdata->beloning_aantstemps - $linkdata->aant_stemps ?>">
         <!--max moet resterend aantal stempels zijn!-->
         <div style="border-bottom: 1px solid #dee0e4"></div>
-        <button <?php if ($row_aantstemps['aant_stemps'] == $row_kaartdata['beloning_aantstemps']) echo "style =\"background-color:#4d5563; opacity:50%\" disabled" ?>
+        <button <?php if ($linkdata->aant_stemps == $kaartdata->beloning_aantstemps) echo "style =\"background-color:#4d5563; opacity:50%\" disabled" ?>
                 name="stempelzetten" type="submit">Stempel(s) Zetten
         </button>
         <?php if (isset($stempeltoegevoegdmessage)) echo "<br><br>" . $stempeltoegevoegdmessage . "<br>" ?>
@@ -152,7 +118,7 @@ if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])) {
 
     <form action="ondernemer_qrcode_gescand.php?kaartid=<?php echo $kaart_id ?>&klantid=<?php echo $klant_id ?>"
           method="post">
-        <button <?php if ($row_aantstemps['aant_stemps'] != $row_kaartdata['beloning_aantstemps']) echo "style =\"background-color:#4d5563; opacity:50%\" disabled"; ?>
+        <button <?php if ($linkdata->aant_stemps != $kaartdata->beloning_aantstemps) echo "style =\"background-color:#4d5563; opacity:50%\" disabled"; ?>
                 name="kaartverzilveren" type="submit">Kaart Verzilveren
         </button>
         <?php if (isset($stempelkaartverzilverdmessage)) echo "<br><br>" . $stempelkaartverzilverdmessage . "<br>" ?>
@@ -163,7 +129,7 @@ if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])) {
     <form action="ondernemer_qrcode_gescand.php?kaartid=<?php echo $kaart_id ?>&klantid=<?php echo $klant_id ?>"
           method="post">
         <br><select name="geselecteerde_kaart">
-            <?php while ($row = mysqli_fetch_array($result_allekaarten_ondernemer)) {
+            <?php while ($row = mysqli_fetch_array($ondernemerkaarten)) {
                 echo "<option value='" . $row['stempelkaart_id'] . "'>" . $row['beloning_label'] . "</option>";
             } ?>
         </select><br>
