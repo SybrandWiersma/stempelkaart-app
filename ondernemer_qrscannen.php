@@ -5,7 +5,7 @@ require("header_ondernemer.php");
 // Gebruikersnaam opslaan in variabele zodat js hem kan gebruiken
 $session_value = $_SESSION['gebruikersnaam'];
 ?>
-
+<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 <div class="wrapper">
     <h1>QR Scanner</h1>
     <div class="preview-container">
