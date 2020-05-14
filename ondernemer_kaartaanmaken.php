@@ -1,8 +1,8 @@
 <?php
 include("config.php");
-include("functions.php");
+include("functions/functions.php");
 $title = "Kaart Aanmaken";
-include("header_ondernemer.php");
+include("headers/header_ondernemer.php");
 
 
 $message = "";

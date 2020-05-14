@@ -1,8 +1,8 @@
 <?php
 include("config.php");
-include("functions.php");
+include("functions/functions.php");
 $title = "Huisstijl Aanpassen";
-include("header_ondernemer.php");
+include("headers/header_ondernemer.php");
 $result = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
 
 

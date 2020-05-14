@@ -9,8 +9,8 @@ $kaart_id = $_GET['kaartid'];
 $ondernemerdata = Get_ondernemer_with_Gebrnaam($_SESSION['gebruikersnaam']);
 $kaartdata = Get_kaart_with_kaartID_ondID($kaart_id,$ondernemerdata->ondernemer_id);
 $klantdata = Get_klant_with_klantID($klant_id);
-$linkdata = Get_link_with_kaartID_klantID($klant_id,$kaart_id);
-$ondernemerkaarten = Get_kaarten_with_ondID($ondernemerdata->ondernemer);
+$linkdata = Get_link_with_kaartID_klantID($kaart_id, $klant_id);
+$ondernemerkaarten = Get_kaarten_with_ondID($ondernemerdata->ondernemer_id);
 
 // Als er niets is mee gegeven word de error pagina weergeven
 if (!isset($klant_id) && !isset($kaart_id)) {
@@ -35,7 +35,7 @@ if (isset($_POST['stempelzetten']) && isset($_POST['stempel_aantal'])) {
     $linkdata->aant_stemps += $_POST['stempel_aantal'];
 
     // Update het stempelaantal in database
-    Update_link_aantstemps_with_kaartID_klantID($linkdata->aant_stemps, $klant_id, $kaart_id);
+    Update_link_aantstemps_with_kaartID_klantID($linkdata->aant_stemps, $kaart_id, $klant_id);
 
     // Zorgt er voor dat er een upate message word weergeven
     $stempeltoegevoegdmessage = "stempel(s) toegevoegd";
@@ -50,7 +50,7 @@ if (isset($_POST['kaartverzilveren'])) {
     }
 
     // Verzilvert de kaart in de database dus zet stempelaantal op 0
-    Update_link_aantstemps_with_kaartID_klantID(0, $klant_id, $kaart_id);
+    Update_link_aantstemps_with_kaartID_klantID(0, $kaart_id, $klant_id);
 
     // Zet aantal stempels lokaal ook op nul zodat dit gelijk weergeven wordt
     $linkdata->aant_stemps = 0;
@@ -72,24 +72,24 @@ if (isset($_POST['kaartwijzigen']) && isset($_POST['geselecteerde_kaart'])) {
     }
 
     // Checkt of het aantal stempels van de geselecteerde kaart kleiner is dan van de huidige kaart
-    if ($kaartdata_geselecteerd->aant_stemps < $linkdata->aant_stemps) {
+    if ($kaartdata_geselecteerd->beloning_aantstemps < $linkdata->aant_stemps) {
 
         // Wanneer kleiner wordt het maximale van de geselecteerde mee gegeven
-        $aantal_stempels = $kaartdata_geselecteerd->aant_stemps;
+        $aantal_stempels = $kaartdata_geselecteerd->beloning_aantstemps;
     } else {
 
         // Bij groter, het aantal op de huidige
         $aantal_stempels = $linkdata->aant_stemps;
     }
 
-    Update_link_kaartID_aantstemps_with_klantID_kaartID($kaartdata_geselecteerd->kaart_id, $aantal_stempels, $klant_id, $kaart_id);
+    Update_link_kaartID_aantstemps_with_klantID_kaartID($kaartdata_geselecteerd->stempelkaart_id, $aantal_stempels, $klant_id, $kaart_id);
 
     $linkdata->aant_stemps = $aantal_stempels;
-    $linkdata->kaart_id = $kaartdata_geselecteerd->kaart_id;
+    $linkdata->kaart_id = $kaartdata_geselecteerd->stempelkaart_id;
 
 }
 
-require("header_ondernemer.php");
+require("headers/header_ondernemer.php");
 
 ?>
 <div class="wrapperQRinfo">
@@ -137,13 +137,9 @@ require("header_ondernemer.php");
     </form>
     <div style="margin-top:4%; border-bottom: 1px solid #dee0e4"></div>
 
-    <button onclick="goBack()" style="width: 40%; margin-bottom: 5%"><i class="fas fa-chevron-left"></i> Terug</button>
-    <br>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+    <button onclick="location.href='ondernemer_landing.php';" style="width: 40%; margin-bottom: 5%" id="btn_under"><i class="fas fa-chevron-left"></i> Terug</button>
+    </br>
+
 </div>
 
 </body>

@@ -1,8 +1,8 @@
 <?php
 include("config.php");
 $title = "Stempelkaart Informatie";
-include("header_klant.php");
-include("functions.php");
+include("headers/header_klant.php");
+include("functions/functions.php");
 
 
 $result_klant = Get_klant_with_Gebrnaam($_SESSION['klant']);

@@ -1,8 +1,8 @@
 <?php
 include("config.php");
-include("functions.php");
+include("functions/functions.php");
 $title = "Kaart overzicht";
-include("header_ondernemer.php");
+include("headers/header_ondernemer.php");
 $bericht = "";
 if (isset($_GET['delete'])) {
     if ($_GET['delete'] == "1") {

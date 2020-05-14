@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-include("functions.php");
+include("functions/functions.php");
 $title = "Klant koppelen";
 
 
@@ -25,7 +25,7 @@ if (!isset($_GET['k']) && !isset($_GET['o'])) {
         header('Location: 404.php');
     } else {
 
-        include("header_ondernemer.php");
+        include("headers/header_ondernemer.php");
         ?>
 
         <div class="wrapper" style="overflow-x:auto;">

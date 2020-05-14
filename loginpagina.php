@@ -49,7 +49,7 @@ if (isset($_POST['send'])) {
 }
 
 
-require("header_index.php");
+require("headers/header_index.php");
 ?>
 
 <div class="wrapper">

@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-require("header_index.php");
+require("headers/header_index.php");
 
 
 ?>

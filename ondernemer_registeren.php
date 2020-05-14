@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-require("header_ondernemer_reg.php");
+require("headers/header_ondernemer_reg.php");
 
 $error_message = "";
 $success_message = "";

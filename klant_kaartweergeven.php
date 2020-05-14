@@ -9,7 +9,7 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
 $klantdata = Get_klant_with_Gebrnaam($_SESSION['klant']);
 $kaartdata = Get_kaart_with_kaartID($_GET['p']);
 $ondernemerdata = Get_ondernemer_with_ID($kaartdata->ondernemer_id);
-$linkdata = Get_link_with_kaartID_klantID($klantdata->klant_id, $_GET['p']);
+$linkdata = Get_link_with_kaartID_klantID($_GET['p'], $klantdata->klant_id);
 
 
 //als de meegegeven o niet overeenkomt met het klanten id van de ingelogde persoon kom je op 404
@@ -17,8 +17,8 @@ if ($_GET['o'] != $klantdata->klant_id) {
     header('Location: 404.php');
 }
 
-include("header_klant.php");
-include("functions.php");
+include("headers/header_klant.php");
+include("functions/functions.php");
 
 ?>
 

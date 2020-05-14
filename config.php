@@ -276,7 +276,7 @@ function Get_link_with_klantID($klant_id){
     return $stmt->get_result();
 }
 
-function Get_link_with_kaartID_klantID($klantid, $kaartid){
+function Get_link_with_kaartID_klantID($kaartid, $klantid){
     $stmt = $GLOBALS['con']->prepare("SELECT * FROM stempelkaart_klant WHERE klant_id = ? AND stempelkaart_id = ?");
     $stmt->bind_param("ss", $klantid, $kaartid);
     $stmt->execute();
@@ -296,8 +296,8 @@ function Update_link_aantstemps_with_kaartID_klantID($aantstemps, $kaartid, $kla
 }
 
 function Update_link_kaartID_aantstemps_with_klantID_kaartID($newkaartid, $aantstemps, $klantid, $kaartid){
-    $stmt = $GLOBALS['con']->prepare("UPDATE stempelkaart_klant SET kaartid = ?, aant_stemps = ? WHERE klant_id = ? AND stempelkaart_id = ?");
-    $stmt->bind_param("ssss", $newkaartid,$aantstemps ,$klantid, $kaartid);
+    $stmt = $GLOBALS['con']->prepare("UPDATE stempelkaart_klant SET stempelkaart_id = ?, aant_stemps = ? WHERE klant_id = ? AND stempelkaart_id = ?");
+    $stmt->bind_param("iiii", $newkaartid,$aantstemps ,$klantid, $kaartid);
     $stmt->execute();
 }
 

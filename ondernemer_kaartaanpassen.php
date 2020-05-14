@@ -1,7 +1,7 @@
 <?php
 include("config.php");
 $title = "Kaart aanpassen";
-include("functions.php");
+include("functions/functions.php");
 
 //om fraude te voorkomen eerst een check of er een p en een o meegegeven worden
 if (!isset($_GET['p']) && !isset($_GET['o'])) {
@@ -20,7 +20,7 @@ if (!isset($_GET['p']) && !isset($_GET['o'])) {
         header('Location: 404.php');
     } else {
 
-        include("header_ondernemer.php");
+        include("headers/header_ondernemer.php");
 
         $message = "";
         //na aanpassen kaart

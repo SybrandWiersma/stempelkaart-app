@@ -1,7 +1,7 @@
 <?php
 include("config.php");
 $title = "Wachtwoord Aanpassen";
-include("functions.php");
+include("functions/functions.php");
 // Check of er fraude is in het bereiken van deze pagina
 if (!isset($_GET['x'])) {
     header('Location: 404.php');

@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-require("header_ondernemer.php");
+require("headers/header_ondernemer.php");
 
 // Gebruikersnaam opslaan in variabele zodat js hem kan gebruiken
 $session_value = $_SESSION['gebruikersnaam'];
@@ -18,8 +18,7 @@ $session_value = $_SESSION['gebruikersnaam'];
     </div>
 
     <br/>
-    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i> Terug
-    </button>
+    <button onclick="location.href='ondernemer_landing.php';" id="btn_under"><i class="fas fa-chevron-left"></i>Terug</button>
     <h1></h1>
 
 

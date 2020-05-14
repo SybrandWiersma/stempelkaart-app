@@ -1,7 +1,7 @@
 <?php
 include("config.php");
 $title = "Ondernemerspagina";
-include("header_ondernemer.php");
+include("headers/header_ondernemer.php");
 ?>
 
 <div class="wrapper">
